@@ -5,11 +5,12 @@ Vue.use(VueRouter)
 import Record from '@/views/Record.vue'
 import Labels from '@/views/Labels.vue'
 import Statistics from '@/views/Statistics.vue'
+import NotFound from '@/views/NotFound.vue'
 
 const routes = [
   {
     path: '/',
-    redirect: './record'
+    redirect: './statistics'
   },
   {
     path: '/record',
@@ -22,6 +23,10 @@ const routes = [
   {
     path: '/statistics',
     component: Statistics
+  },
+  {
+    path: '*',
+    component: NotFound
   }
 ]
 
