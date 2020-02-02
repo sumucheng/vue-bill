@@ -34,6 +34,10 @@ nav {
   display: flex;
   font-size: $font-size-s;
   background: #fff;
+  position: absolute;
+  bottom: 0;
+  z-index: 5;
+  width: 100%;
   > .routerLink {
     width: 33.33333%;
     display: flex;
