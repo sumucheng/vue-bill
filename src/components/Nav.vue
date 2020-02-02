@@ -1,30 +1,38 @@
 <template>
   <nav>
-    <router-link to="/statistics" class="routerLink">
-      <Icon name="statistics" />
+    <router-link to="/statistics" class="routerLink" active-class="selected">
+      <Icon v-if="$route.path.match('statistics')" name="statistics-selected" />
+      <Icon v-else name="statistics" />
       <p>统计</p>
     </router-link>
-    <router-link to="/record" class="routerLink">
-      <Icon name="record" />
+    <router-link to="/record" class="routerLink" active-class="selected">
+      <Icon v-if="$route.path.match('record')" name="record-selected" />
+      <Icon v-else name="record" />
       <p>记一笔</p>
     </router-link>
-    <router-link to="/labels" class="routerLink">
-      <Icon name="labels" />
+    <router-link to="/labels" class="routerLink" active-class="selected">
+      <Icon v-if="$route.path.match('labels')" name="labels-selected" />
+      <Icon v-else name="labels" />
       <p>标签</p>
     </router-link>
   </nav>
 </template>
 
 <script lang="ts">
-export default {};
+export default {
+  data() {
+    return {};
+  }
+};
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/style/normal.scss";
 nav {
   padding-top: 8px;
   padding-bottom: 21px;
   display: flex;
-  font-size: 12px;
+  font-size: $font-size-s;
   background: #fff;
   > .routerLink {
     width: 33.33333%;
@@ -38,11 +46,13 @@ nav {
       margin-bottom: 3px;
     }
     > p {
-      opacity: 0.5;
-      font-family: PingFangSC-Regular;
-      color: #292b55;
+      font-family: $font-family;
+      color: $grey;
       margin: 0;
     }
+  }
+  .routerLink.selected > p {
+    color: $blue;
   }
 }
 </style>
