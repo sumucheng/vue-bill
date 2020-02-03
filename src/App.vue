@@ -27,6 +27,9 @@ html {
 a {
   text-decoration: none;
 }
+button {
+  border-style: none;
+}
 
 #app {
   font-family: "PingFangSC-Medium", "Avenir", Helvetica, Arial, sans-serif;

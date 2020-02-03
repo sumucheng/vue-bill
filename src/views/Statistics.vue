@@ -1,13 +1,16 @@
 <template>
   <div>
     <Layout>
-      <p>statistics</p>
+      <Header />
     </Layout>
   </div>
 </template>
 
 <script lang="ts">
-export default {};
+import Header from "@/components/Header.vue";
+export default {
+  components: { Header }
+};
 </script>
 
 <style lang="scss" scoped>

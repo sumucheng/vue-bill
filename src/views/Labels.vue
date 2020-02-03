@@ -1,13 +1,17 @@
 <template>
   <div>
     <Layout>
-      <p>label</p>
+      <Button text="新建标签" type="primary" />
+      <Button text="新建标签" type="normal" />
     </Layout>
   </div>
 </template>
 
 <script lang="ts">
-export default {};
+import Button from "@/components/Button.vue";
+export default {
+  components: { Button }
+};
 </script>
 
 <style lang="scss" scoped>

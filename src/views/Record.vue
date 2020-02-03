@@ -1,21 +1,15 @@
 <template>
   <div>
     <Layout>
-      <div>
-        <img src="../assets/background.png" class="background" />
-        <div class="type">
-          <a>支出</a>
-          <a>收入</a>
-        </div>
-      </div>
+      <Header />
       <div class="panel">
         <div>
           <div class="labels">
-            <button>衣</button>
-            <button>食</button>
-            <button>住</button>
-            <button>行</button>
-            <button>+ 添加标签</button>
+            <Tag isSelected="true">衣</Tag>
+            <Tag>食</Tag>
+            <Tag>住</Tag>
+            <Tag>行</Tag>
+            <Tag>+ 添加标签</Tag>
           </div>
           <div class="note">
             <input type="text" />
@@ -55,31 +49,16 @@
 </template>
 
 <script lang="ts">
-export default {};
+import Header from "@/components/Header.vue";
+import Tag from "@/components/Tag.vue";
+export default {
+  components: { Header, Tag }
+};
 </script>
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
-.background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-}
-.type {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  width: 100%;
-  height: 50px;
-  margin-top: 44px;
-  margin-bottom: 20px;
-  > a {
-    font-size: $font-size-l;
-    color: white;
-  }
-}
+
 .panel {
   position: fixed;
   z-index: 2;
@@ -92,13 +71,6 @@ export default {};
     margin-bottom: 0px;
     display: flex;
     flex-wrap: wrap;
-    > button {
-      font-size: $font-size-l;
-      padding-left: 15px;
-      padding-right: 15px;
-      margin-right: 20px;
-      margin-bottom: 20px;
-    }
   }
   .note {
     height: 120px;
