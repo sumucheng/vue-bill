@@ -21,7 +21,6 @@ html {
 body,
 html {
   height: 100%;
-  background: #f5f8fa;
 }
 
 a {
