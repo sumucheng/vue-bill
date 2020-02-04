@@ -12,8 +12,8 @@
 
 <script lang="ts">
 import Header from "@/components/Header.vue";
-import Tabs from "@/components/Tabs.vue";
-import Bill from "@/components/Bill.vue";
+import Tabs from "@/components/statistics/Tabs.vue";
+import Bill from "@/components/statistics/Bill.vue";
 export default {
   components: { Header, Bill, Tabs },
   data() {

@@ -12,8 +12,8 @@
 </template>
 
 <script lang="ts">
-import Button from "@/components/Button.vue";
-import Label from "@/components/Label.vue";
+import Button from "@/components/labels/Button.vue";
+import Label from "@/components/labels/Label.vue";
 export default {
   components: { Button, Label },
   data() {

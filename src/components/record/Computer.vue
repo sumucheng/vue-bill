@@ -1,31 +1,32 @@
 <template>
   <div class="computer">
-    <div class="display">123</div>
+    <div class="display">{{next || total || "0"}}</div>
     <div class="board">
       <div class="board-row">
-        <button>1</button>
-        <button>2</button>
-        <button>3</button>
-        <button>
+        <button @click="clickCalc('1')">1</button>
+        <button @click="clickCalc('2')">2</button>
+        <button @click="clickCalc('3')">3</button>
+        <button @click="clickCalc('delete')">
           <Icon name="delete" />
         </button>
       </div>
       <div class="board-row">
-        <button>4</button>
-        <button>5</button>
-        <button>6</button>
-        <button>+</button>
+        <button @click="clickCalc('4')">4</button>
+        <button @click="clickCalc('5')">5</button>
+        <button @click="clickCalc('6')">6</button>
+        <button @click="clickCalc('+')">+</button>
       </div>
       <div class="board-row">
-        <button>7</button>
-        <button>8</button>
-        <button>9</button>
-        <button>-</button>
+        <button @click="clickCalc('7')">7</button>
+        <button @click="clickCalc('8')">8</button>
+        <button @click="clickCalc('9')">9</button>
+        <button @click="clickCalc('-')">-</button>
       </div>
       <div class="board-row">
-        <button>.</button>
-        <button>0</button>
-        <button class="wide">OK</button>
+        <button @click="clickCalc('.')">.</button>
+        <button @click="clickCalc('0')">0</button>
+        <button v-if="finish" class="wide" @click="submit">OK</button>
+        <button v-else class="wide" @click="clickCalc('=')">=</button>
       </div>
     </div>
   </div>
@@ -33,8 +34,41 @@
 
 <script lang="ts">
 import Vue from "vue";
+import calc from "./calc.js";
 export default Vue.extend({
-  props: ["text", "type"]
+  props: ["text", "type"],
+  data() {
+    return {
+      total: null,
+      next: null,
+      operation: null,
+      finish: true
+    };
+  },
+  methods: {
+    submit() {
+      this.total = null;
+      this.next = null;
+      this.operation = null;
+    },
+    clickCalc(buttonName: string) {
+      if (buttonName === "+" || buttonName === "-") {
+        this.finish = false;
+      }
+      if (buttonName === "=") this.finish = true;
+      const newState = calc(
+        {
+          total: this.total,
+          next: this.next,
+          operation: this.operation
+        },
+        buttonName
+      );
+      if (newState.total !== undefined) this.total = newState.total;
+      if (newState.next !== undefined) this.next = newState.next;
+      if (newState.operation !== undefined) this.operation = newState.operation;
+    }
+  }
 });
 </script>
 

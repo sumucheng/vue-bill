@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import Button from "@/components/Button.vue";
+import Button from "@/components/labels/Button.vue";
 export default {
   components: { Button },
   data() {
