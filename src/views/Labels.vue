@@ -1,12 +1,14 @@
 <template>
-  <div class="labels-wrapper">
-    <Layout>
+  <Layout>
+    <div class="labels-wrapper">
       <div class="labels">
         <Label v-for="label in labels" :key="label">{{label}}</Label>
       </div>
-      <Button text="新建标签" type="primary" />
-    </Layout>
-  </div>
+      <Button text="新建标签" type="primary">
+        <router-link to="/addLabels"></router-link>
+      </Button>
+    </div>
+  </Layout>
 </template>
 
 <script lang="ts">
@@ -23,6 +25,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/style/normal.scss";
+
 .labels-wrapper {
   margin-top: 64px;
   margin-left: 20px;

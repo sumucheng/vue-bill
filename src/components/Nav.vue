@@ -46,7 +46,6 @@ nav {
       margin-bottom: 3px;
     }
     > p {
-      font-family: $font-family;
       color: $grey;
       margin: 0;
     }

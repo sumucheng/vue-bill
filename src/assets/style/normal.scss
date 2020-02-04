@@ -7,14 +7,28 @@ $black: #333333;
 $light-grey:#F5F8FA;
 $grey:#999;
 $dark-grey:#666;
+
 $border-radius-s: 5px;
 $border-radius-m: 12px;
 $border-radius-l: 24px;
+
 $font-size-s:12px;
 $font-size-m:15px;
 $font-size-l:18px;
 $font-size-xl:24px;
 $font-size-xxl:40px;
-$font-family: "PingFangSC-Regular";
-$font-family-m:"PingFangSC-Medium";
-$font-family-l:"DINAlternate-Bold";
+
+$font-hei: -apple-system, "Noto Sans", "Helvetica Neue", Helvetica, "Nimbus Sans L", Arial, "Liberation Sans", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Source Han Sans SC", "Source Han Sans CN", "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti", SimHei, "WenQuanYi Zen Hei Sharp", sans-serif;
+$font-song:Georgia, "Nimbus Roman No9 L", "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", "Source Han Serif CN", STSong, "AR PL New Sung", "AR PL SungtiL GB", NSimSun, SimSun, "TW\-Sung", "WenQuanYi Bitmap Song", "AR PL UMing CN", "AR PL UMing HK", "AR PL UMing TW", "AR PL UMing TW MBE", PMingLiU, MingLiU, serif;
+$font-number:Consolas, monospace;
+
+%clearfix{
+    &::after{
+        content: "";
+        clear: both;
+        display: block;
+    }
+}
+%shadow{
+    box-shadow: 0 4px 8px 0 rgba(9, 17, 71, 0.05);
+}

@@ -1,7 +1,10 @@
 <template>
   <div class="bill">
-    <div>{{bill.label}}</div>
-    <div>{{bill.type==='expend'?'-':'+'+bill.count}}</div>
+    <div class="left">
+      <div class="label">{{bill.label}}</div>
+      <div class="note">{{bill.note}}</div>
+    </div>
+    <div class="count">{{(bill.type==='expend'?'-':'+')+bill.count}}</div>
   </div>
 </template>
 
@@ -14,24 +17,34 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
-.label {
-  background-color: $light-grey;
-  font-size: $font-size-m;
-  height: 70px;
-  margin-bottom: 10px;
-  font-size: $font-size-m;
-  font-family: $font-family-m;
+.bill {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   padding-left: 25px;
   padding-right: 20px;
+  height: 70px;
+  background-color: $light-grey;
+  margin-bottom: 10px;
   border-radius: $border-radius-m;
-  .right {
-    color: $blue;
-    .icon {
-      height: 12px;
+  align-items: center;
+  .left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    .label {
+      font-size: $font-size-m;
+      line-height: 1.5em;
     }
+    .note {
+      color: $grey;
+      font-size: $font-size-s;
+    }
+  }
+  .count {
+    font-family: $font-number;
+    font-size: $font-size-l;
+    text-align: right;
+    font-weight: bold;
   }
 }
 </style>

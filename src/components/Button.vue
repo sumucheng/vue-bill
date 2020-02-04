@@ -15,7 +15,6 @@ button {
   border-radius: $border-radius-m;
   height: 45px;
   width: 100%;
-  font-family: $font-family-m;
   font-size: $font-size-l;
   &.primary {
     background-image: linear-gradient(141deg, #ff8700 0%, #ffce4c 100%);

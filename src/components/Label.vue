@@ -20,7 +20,7 @@ export default Vue.extend({});
   height: 70px;
   margin-bottom: 10px;
   font-size: $font-size-m;
-  font-family: $font-family-m;
+
   display: flex;
   justify-content: space-between;
   align-items: center;

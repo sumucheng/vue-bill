@@ -1,6 +1,6 @@
 <template>
   <div class="computer">
-    <div class="display"></div>
+    <div class="display">123</div>
     <div class="board">
       <div class="board-row">
         <button>1</button>
@@ -40,13 +40,17 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
+
 .computer {
+  font-family: $font-number;
   background-color: $light-grey;
   padding: 15px;
   position: fixed;
   bottom: 80px;
   width: 100%;
   > .display {
+    @extend %shadow;
+    text-align: right;
     height: 70px;
     font-size: $font-size-xxl;
     border-radius: $border-radius-m;
@@ -61,19 +65,41 @@ export default Vue.extend({
       justify-content: space-between;
       margin-top: 10px;
       > button {
+        @extend %shadow;
         font-size: $font-size-xl;
-        font-family: "DINAlternate-Bold";
         color: $black;
         background-color: white;
         height: 50px;
         width: 22%;
         border-radius: $border-radius-m;
-        box-shadow: 0 4px 8px 0 rgba(9, 17, 71, 0.05);
         &.wide {
           width: 48%;
           color: white;
           background-color: $orange;
         }
+      }
+    }
+  }
+}
+@media (max-height: 735px) {
+  .computer {
+    > .display {
+      height: 60px;
+    }
+    > .board > .board-row > button {
+      height: 40px;
+    }
+  }
+}
+@media (min-width: 500px) {
+  .computer {
+    > .display {
+      height: 120px;
+    }
+    > .board > .board-row {
+      margin-top: 20px;
+      > button {
+        height: 80px;
       }
     }
   }
