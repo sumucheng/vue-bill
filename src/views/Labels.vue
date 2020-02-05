@@ -1,12 +1,12 @@
 <template>
-  <Layout>
+  <Layout :handleExpend="displayExpend" :handleIncome="displayIncome">
     <div class="labels-wrapper">
       <div class="labels">
-        <Label v-for="label in labels" :key="label">{{label}}</Label>
+        <Label v-for="label in displayLabels" :key="label.name">{{label.name}}</Label>
       </div>
-      <Button text="新建标签" type="primary">
-        <router-link to="/addLabels"></router-link>
-      </Button>
+      <router-link to="/addLabel">
+        <Button text="新建标签" type="primary" class="add"></Button>
+      </router-link>
     </div>
   </Layout>
 </template>
@@ -18,8 +18,29 @@ export default {
   components: { Button, Label },
   data() {
     return {
-      labels: ["餐饮", "娱乐", "服饰", "交通"]
+      labels: [
+        { type: "expend", name: "餐饮" },
+        { type: "expend", name: "娱乐" },
+        { type: "expend", name: "服饰" },
+        { type: "expend", name: "交通" },
+        { type: "income", name: "工资" },
+        { type: "income", name: "理财" },
+        { type: "income", name: "其他" }
+      ],
+      displayLabels: [{}]
     };
+  },
+
+  methods: {
+    displayExpend() {
+      this.displayLabels = this.labels.filter(el => el.type === "expend");
+    },
+    displayIncome() {
+      this.displayLabels = this.labels.filter(el => el.type === "income");
+    }
+  },
+  created: function() {
+    this.displayExpend();
   }
 };
 </script>
@@ -28,11 +49,15 @@ export default {
 @import "~@/assets/style/normal.scss";
 
 .labels-wrapper {
-  margin-top: 64px;
+  margin-top: 20px;
   margin-left: 20px;
   margin-right: 20px;
   .labels {
-    margin-bottom: 40px;
+    overflow: auto;
+    max-height: 500px;
+  }
+  .add {
+    margin-top: 20px;
   }
 }
 </style>

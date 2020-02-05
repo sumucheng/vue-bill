@@ -25,6 +25,7 @@ export default {};
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
 nav {
+  border-top: 1px solid $light-grey;
   padding-top: 8px;
   padding-bottom: 21px;
   display: flex;

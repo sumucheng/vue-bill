@@ -1,15 +1,19 @@
 <template>
   <div>
-    <div class="return">
-      <router-link to="/labels" class="link">返回</router-link>
-    </div>
-
+    <router-link to="/labels" class="link">
+      <Icon name="left" />
+      <p>返回</p>
+    </router-link>
     <div class="name">
       <input v-model="name" placeholder="不超过4个字" />
     </div>
     <div class="buttons">
-      <Button text="确认" type="primary" />
-      <Button text="删除标签" type="normal" />
+      <router-link to="/labels">
+        <Button text="确 认" type="primary" @click="addLabel" />
+      </router-link>
+      <router-link to="/labels">
+        <Button text="删除标签" type="normal" @click="deleteLabel" />
+      </router-link>
     </div>
   </div>
 </template>
@@ -22,22 +26,32 @@ export default {
     return {
       name: ""
     };
+  },
+  methods: {
+    addLabel() {},
+    deleteLabel() {}
   }
 };
 </script>
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
-.return {
-  margin-top: 44px;
-  height: 44px;
-  display: flex;
+
+.link {
+  margin-top: 24px;
   margin-left: 20px;
-  .link {
-    font-size: $font-size-m;
-    color: $black;
+  font-size: $font-size-m;
+  height: 44px;
+  color: $black;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  .icon {
+    margin-right: 4px;
+    height: 12px;
   }
 }
+
 .name {
   margin: 20px;
   > input {
@@ -52,6 +66,7 @@ export default {
 }
 .buttons {
   margin: 20px;
+  margin-top: 40px;
   button {
     margin-bottom: 10px;
   }

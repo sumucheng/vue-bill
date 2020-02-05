@@ -28,7 +28,7 @@ export default Vue.extend({
   &.isSelected {
     color: white;
     background-color: $orange;
-    border: none;
+    border-color: $orange;
   }
 }
 </style>

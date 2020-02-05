@@ -1,12 +1,12 @@
 <template>
   <div>
-    <img src="../assets/background.png" class="background" />
+    <img src="@/assets/background.png" class="background" />
     <div class="type">
-      <div class="wrapper" :class="{active:isExpend}" @click="isExpend=true">
+      <div class="wrapper" :class="{active:isExpend}" @click="expend">
         <a>支出</a>
         <div class="dot"></div>
       </div>
-      <div class="wrapper" :class="{active:!isExpend}" @click="isExpend=false">
+      <div class="wrapper" :class="{active:!isExpend}" @click="income">
         <a>收入</a>
         <div class="dot"></div>
       </div>
@@ -22,6 +22,17 @@ export default Vue.extend({
     return {
       isExpend: true
     };
+  },
+  props: ["handleExpend", "handleIncome"],
+  methods: {
+    expend() {
+      this.isExpend = true;
+      this.handleExpend();
+    },
+    income() {
+      this.isExpend = false;
+      this.handleIncome();
+    }
   }
 });
 </script>

@@ -22,6 +22,7 @@ export default Vue.extend({
   justify-content: space-between;
   padding-left: 25px;
   padding-right: 20px;
+  margin: 0 20px;
   height: 70px;
   background-color: $light-grey;
   margin-bottom: 10px;

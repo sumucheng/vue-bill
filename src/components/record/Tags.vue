@@ -1,6 +1,9 @@
 <template>
   <div class="tags">
-    <Tag v-for="tag in tags" :key="tag">{{tag}}</Tag>
+    <Tag v-for="tag in tags" :key="tag" :isSelected="selectedTag===tag">
+      <div @click="handleSelect">{{tag}}</div>
+    </Tag>
+
     <Tag @click="addTag">
       <Icon name="add" />添加标签
     </Tag>
@@ -11,7 +14,7 @@
 import Tag from "@/components/record/Tag.vue";
 export default {
   components: { Tag },
-  props: ["tags"],
+  props: ["tags", "selectedTag", "handleSelect"],
   methods: {
     addTag() {}
   }
