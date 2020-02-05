@@ -3,9 +3,9 @@
     <div class="panel">
       <div class="tagsAndNotes">
         <Tags :tags="tags" :selectedTag="selectedTag" :handleSelect="handleSelect" />
-        <Notes />
+        <Notes v-model="note" />
       </div>
-      <Computer />
+      <Computer :submit="submit" />
     </div>
   </Layout>
 </template>
@@ -19,12 +19,17 @@ export default {
   data() {
     return {
       tags: ["餐饮", "娱乐", "服饰", "交通", "旅行", "社交", "学习", "通讯"],
-      selectedTag: ""
+      selectedTag: "",
+      note: "",
+      count: 0
     };
   },
   methods: {
     handleSelect(e: Event) {
       this.selectedTag = (e.target as HTMLInputElement).innerText;
+    },
+    submit() {
+      console.log(this.selectedTag, this.note, this.count);
     }
   }
 };

@@ -47,6 +47,7 @@ export default Vue.extend({
   },
   methods: {
     submit() {
+      this.$emit("update:count", this.total || "0");
       this.total = null;
       this.next = null;
       this.operation = null;

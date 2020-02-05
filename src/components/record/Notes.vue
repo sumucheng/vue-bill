@@ -1,11 +1,13 @@
 <template>
   <div class="note">
-    <input type="text" placeholder="添加备注" />
+    <input :value="value" @input="$emit('input', $event.target.value)" placeholder="添加备注" />
   </div>
 </template>
 
 <script lang="ts">
-export default {};
+export default {
+  props: ["value"]
+};
 </script>
 
 <style lang="scss" scoped>
@@ -23,7 +25,7 @@ export default {};
     border-radius: $border-radius-m;
     border-style: none;
     font-size: $font-size-m;
-    color: $light-grey;
+    color: $grey;
   }
 }
 </style>
