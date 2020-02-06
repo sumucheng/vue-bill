@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <Header :handleExpend="handleExpend" :handleIncome="handleIncome" />
+    <Header :type.sync="tempType" />
     <div class="main">
       <slot />
     </div>
@@ -11,10 +11,19 @@
 <script lang="ts">
 import Header from "@/components/layout/Header.vue";
 import Nav from "@/components/layout/Nav.vue";
-export default {
-  components: { Header, Nav },
-  props: ["handleExpend", "handleIncome"]
-};
+import Vue from "vue";
+import { Component, Prop, Watch } from "vue-property-decorator";
+@Component({
+  components: { Header, Nav }
+})
+export default class Layout extends Vue {
+  @Prop(String) type: string | undefined;
+  tempType = this.type;
+  @Watch("tempType")
+  onTempTypeChanged(value: string) {
+    this.$emit("update:type", value);
+  }
+}
 </script>
 
 <style lang="scss" scoped>

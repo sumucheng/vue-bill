@@ -2,11 +2,11 @@
   <div>
     <img src="@/assets/background.png" class="background" />
     <div class="type">
-      <div class="wrapper" :class="{active:isExpend}" @click="expend">
+      <div class="wrapper" :class="{active:type==='expend'}" @click="$emit('update:type','expend')">
         <a>支出</a>
         <div class="dot"></div>
       </div>
-      <div class="wrapper" :class="{active:!isExpend}" @click="income">
+      <div class="wrapper" :class="{active:type==='income'}" @click="$emit('update:type','income')">
         <a>收入</a>
         <div class="dot"></div>
       </div>
@@ -20,18 +20,7 @@ import { Component, Prop } from "vue-property-decorator";
 
 @Component
 export default class Header extends Vue {
-  isExpend = true;
-  @Prop(Function) handleExpend: Function | undefined;
-  @Prop(Function) handleIncome: Function | undefined;
-  expend() {
-    this.isExpend = true;
-    this.handleExpend && this.handleExpend();
-  }
-
-  income() {
-    this.isExpend = false;
-    this.handleIncome && this.handleIncome();
-  }
+  @Prop(String) type: string | undefined;
 }
 </script>
 

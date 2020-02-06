@@ -1,5 +1,5 @@
 <template>
-  <Layout :handleExpend="displayExpend" :handleIncome="displayIncome">
+  <Layout :type.sync="type">
     <div class="labels-wrapper">
       <div class="labels">
         <Label v-for="label in displayLabels" :key="label.name">{{label.name}}</Label>
@@ -12,28 +12,26 @@
 </template>
 
 <script lang="ts">
+
 import Button from "@/components/labels/Button.vue";
 import Label from "@/components/labels/Label.vue";
-export default {
-  components: { Button, Label },
-  data() {
-    return {
-      displayLabels: this.$store.getters.expendLabels
-    };
-  },
-
-  methods: {
-    displayExpend() {
-      this.displayLabels = this.$store.getters.expendLabels;
-    },
-    displayIncome() {
-      this.displayLabels = this.$store.getters.incomeLabels;
-    }
-  },
-  created: function() {
-    this.displayExpend();
+import Vue from "vue";
+import { Component, Prop, Watch } from "vue-property-decorator";
+@Component({
+  components: { Button, Label }
+})
+export default class Labels extends Vue {
+  displayLabels = this.$store.getters.expendLabels;
+  type = "expend";
+  @Watch("type")
+  onTypeChanged(value: string) {
+    this.type = value;
+    this.displayLabels =
+      this.type === "expend"
+        ? this.$store.getters.expendLabels
+        : this.$store.getters.incomeLabels;
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

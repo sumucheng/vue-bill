@@ -1,7 +1,7 @@
 <template>
   <ul class="tags">
-    <li v-for="tag in tags" :key="tag" class="tag" :class="{isSelected:selectedTag===tag}">
-      <div @click="handleSelect">{{tag}}</div>
+    <li v-for="item in tags" :key="item" class="tag" :class="{isSelected:tag===item}">
+      <div @click="handleSelect">{{item}}</div>
     </li>
     <li @click="addTag" class="tag">
       <Icon name="add" />添加标签
@@ -15,9 +15,10 @@ import { Component, Prop } from "vue-property-decorator";
 @Component
 export default class Tags extends Vue {
   @Prop(Array) tags: string[] | undefined;
-  @Prop(String) selectedTag: string | undefined;
-  @Prop(Function) handleSelect: Function | undefined;
-
+  @Prop(String) tag: string | undefined;
+  handleSelect(e: Event) {
+    this.$emit("update:tag", (e.target as HTMLInputElement).innerText);
+  }
   addTag() {
     const name = window.prompt("请输入标签名称（不超过四个字）");
     if (name && name != "") {

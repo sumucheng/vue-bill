@@ -45,7 +45,9 @@ export default class Computer extends Vue {
   @Prop(Function) handleSubmit: Function | undefined;
 
   submit() {
-    this.$emit("update:count", this.next || this.total || "0");
+    const count = this.next || this.total || "0";
+    if (Number(count) < 0) return;
+    this.$emit("update:count", count);
     this.handleSubmit && this.handleSubmit();
     this.total = "";
     this.next = "";

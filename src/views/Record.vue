@@ -1,45 +1,44 @@
 <template>
-  <Layout :handleExpend="handleExpend" :handleIncome="handleIncome">
+  <Layout :type.sync="type">
     <div class="panel">
       <div class="tagsAndNotes">
-        <Tags :tags.sync="tags" :selectedTag.sync="selectedTag" :handleSelect="handleSelect" />
+        <Tags :tags.sync="tags" :tag.sync="tag" />
         <Notes v-model="note" />
       </div>
-      <Computer :handleSubmit="handleSubmit" v-bind:count.sync="count" />
+      <Computer :handleSubmit="handleSubmit" :count.sync="count" />
     </div>
   </Layout>
 </template>
 
 <script lang="ts">
+import Vue from "vue";
+import { Component, Prop } from "vue-property-decorator";
+
 import Tags from "@/components/record/Tags.vue";
 import Notes from "@/components/record/Notes.vue";
 import Computer from "@/components/record/Computer.vue";
-export default {
-  components: { Tags, Notes, Computer },
-  data() {
-    return {
-      tags: ["一般", "餐饮", "娱乐", "服饰"],
-      type: "expend",
-      selectedTag: "一般",
-      note: "",
-      count: 0
+@Component({
+  components: { Tags, Notes, Computer }
+})
+export default class Record extends Vue {
+  tags = ["一般", "餐饮", "娱乐", "服饰"];
+  type = "expend";
+  tag = "一般";
+  note = "";
+  count = 0;
+
+  handleSubmit() {
+    const newBill = {
+      type: this.type,
+      tag: this.tag,
+      note: this.note,
+      count: this.count,
+      time: Date.now()
     };
-  },
-  methods: {
-    handleExpend() {
-      this.type = "expend";
-    },
-    handleIncome() {
-      this.type = "income";
-    },
-    handleSelect(e: Event) {
-      this.selectedTag = (e.target as HTMLInputElement).innerText;
-    },
-    handleSubmit() {
-      console.log(this.type, this.selectedTag, this.note, this.count);
-    }
+
+    console.log(newBill);
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
