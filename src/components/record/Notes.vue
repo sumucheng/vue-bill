@@ -5,9 +5,12 @@
 </template>
 
 <script lang="ts">
-export default {
-  props: ["value"]
-};
+import Vue from "vue";
+import { Component, Prop } from "vue-property-decorator";
+@Component
+export default class Notes extends Vue {
+  @Prop(String) value: string | undefined;
+}
 </script>
 
 <style lang="scss" scoped>
