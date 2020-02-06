@@ -1,7 +1,7 @@
 <template>
   <ul class="tags">
-    <li v-for="item in tags" :key="item" class="tag" :class="{isSelected:tag===item}">
-      <div @click="handleSelect">{{item}}</div>
+    <li v-for="item in tags" :key="item.name" class="tag" :class="{isSelected:tag===item.name}">
+      <div @click="handleSelect">{{item.name}}</div>
     </li>
     <li @click="addTag" class="tag">
       <Icon name="add" />添加标签
@@ -22,7 +22,7 @@ export default class Tags extends Vue {
   addTag() {
     const name = window.prompt("请输入标签名称（不超过四个字）");
     if (name && name != "") {
-      this.$emit("update:tags", [...this.tags!, name.substr(0, 4)]);
+      this.$emit("newTag", name.substr(0, 4));
       this.$emit("update:tag", name.substr(0, 4));
     }
   }

@@ -2,7 +2,7 @@
   <Layout :type.sync="newBill.type">
     <div class="panel">
       <div class="tagsAndNotes">
-        <Tags :tags.sync="tags" :tag.sync="newBill.tag" />
+        <Tags :tags.sync="displayTags" :tag.sync="newBill.tag" @newTag="addTag" />
         <Notes v-model="newBill.note" />
       </div>
       <Computer :count.sync="newBill.count" :handleSubmit="handleSubmit" />
@@ -24,12 +24,35 @@ type Bill = {
   count: string;
   time: number;
 };
+type Tag = {
+  type: string;
+  name: string;
+};
 @Component({
   components: { Tags, Notes, Computer }
 })
 export default class Record extends Vue {
-  billList: Bill[] = JSON.parse(window.localStorage.getItem("billList") || "");
-  tags = ["一般", "餐饮", "娱乐", "服饰"];
+  billList: Bill[] = JSON.parse(
+    window.localStorage.getItem("billList") || "[]"
+  );
+  tags: Tag[] = JSON.parse(window.localStorage.getItem("tags") || "[]");
+  mounted() {
+    if (this.tags.length === 0) {
+      this.tags = [
+        { type: "expend", name: "一般" },
+        { type: "expend", name: "餐饮" },
+        { type: "expend", name: "娱乐" },
+        { type: "expend", name: "服饰" },
+        { type: "expend", name: "交通" },
+        { type: "expend", name: "通讯" },
+        { type: "income", name: "工资" },
+        { type: "income", name: "理财" },
+        { type: "income", name: "礼金" },
+        { type: "income", name: "其他" }
+      ];
+    }
+  }
+
   newBill: Bill = {
     type: "expend",
     tag: "一般",
@@ -37,15 +60,31 @@ export default class Record extends Vue {
     count: "",
     time: 0
   };
-
+  displayTags: Tag[] = this.tags.filter(tag => tag.type === this.newBill.type);
+  addTag(tagName: string) {
+    if (this.tags.find(tag => tag.name === tagName)) return;
+    this.tags.push({ type: this.newBill.type, name: tagName });
+  }
   handleSubmit() {
     this.newBill.time = Date.now();
     const temp = JSON.parse(JSON.stringify(this.newBill));
     this.billList.push(temp);
+    this.newBill.note = "";
+    this.newBill.tag = this.newBill.type === "expend" ? "一般" : "工资";
   }
   @Watch("billList")
   onBillListChange() {
     window.localStorage.setItem("billList", JSON.stringify(this.billList));
+  }
+  @Watch("tags")
+  onTagsChange() {
+    window.localStorage.setItem("tags", JSON.stringify(this.tags));
+    this.displayTags = this.tags.filter(tag => tag.type === this.newBill.type);
+  }
+  @Watch("newBill.type")
+  onTypeChange() {
+    this.displayTags = this.tags.filter(tag => tag.type === this.newBill.type);
+    this.newBill.tag = this.newBill.type === "expend" ? "一般" : "工资";
   }
 }
 </script>

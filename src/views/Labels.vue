@@ -12,24 +12,29 @@
 </template>
 
 <script lang="ts">
-
 import Button from "@/components/labels/Button.vue";
 import Label from "@/components/labels/Label.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
+import Tags from "../components/record/Tags.vue";
+type Tag = {
+  type: string;
+  name: string;
+};
 @Component({
   components: { Button, Label }
 })
 export default class Labels extends Vue {
-  displayLabels = this.$store.getters.expendLabels;
+  tags: Tag[] = JSON.parse(window.localStorage.getItem("tags") || "[]");
+  expendLabels = this.tags.filter(tag => tag.type === "expend");
+  incomeLabels = this.tags.filter(tag => tag.type === "income");
+  displayLabels = this.expendLabels;
   type = "expend";
   @Watch("type")
   onTypeChanged(value: string) {
-    this.type = value;
+    console.log(123);
     this.displayLabels =
-      this.type === "expend"
-        ? this.$store.getters.expendLabels
-        : this.$store.getters.incomeLabels;
+      this.type === "expend" ? this.expendLabels : this.incomeLabels;
   }
 }
 </script>

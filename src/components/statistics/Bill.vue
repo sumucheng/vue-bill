@@ -1,7 +1,7 @@
 <template>
   <div class="bill">
     <div class="left">
-      <div class="label">{{bill.label}}</div>
+      <div class="label">{{bill.tag}}</div>
       <div class="note">{{bill.note}}</div>
     </div>
     <div class="count">{{(bill.type==='expend'?'-':'+')+bill.count}}</div>

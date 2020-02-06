@@ -10,17 +10,26 @@ import Tabs from "@/components/statistics/Tabs.vue";
 import Bill from "@/components/statistics/Bill.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
+type Bill = {
+  type: string;
+  tag: string;
+  note: string;
+  count: string;
+  time: number;
+};
 @Component({
   components: { Tabs, Bill }
 })
 export default class Statistics extends Vue {
-  expendBills = this.$store.getters.expendBills;
-  incomeBills = this.$store.getters.incomeBills;
+  billList: Bill[] = JSON.parse(
+    window.localStorage.getItem("billList") || "[]"
+  );
+  expendBills = this.billList.filter(bill => bill.type === "expend");
+  incomeBills = this.billList.filter(bill => bill.type === "income");
   displayBills = this.expendBills;
   type = "expend";
   @Watch("type")
-  onTypeChanged(value: string) {
-    this.type = value;
+  onTypeChanged() {
     this.displayBills =
       this.type === "expend" ? this.expendBills : this.incomeBills;
   }

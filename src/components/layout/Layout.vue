@@ -18,7 +18,7 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 })
 export default class Layout extends Vue {
   @Prop(String) type: string | undefined;
-  tempType = this.type;
+  tempType: string = this.type || "expend";
   @Watch("tempType")
   onTempTypeChanged(value: string) {
     this.$emit("update:type", value);
