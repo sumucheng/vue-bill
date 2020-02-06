@@ -10,12 +10,22 @@
 </template>
 
 <script lang="ts">
-export default {
-  props: ["tags", "selectedTag", "handleSelect"],
-  methods: {
-    addTag() {}
+import Vue from "vue";
+import { Component, Prop } from "vue-property-decorator";
+@Component
+export default class Tags extends Vue {
+  @Prop(Array) tags: string[] | undefined;
+  @Prop(String) selectedTag: string | undefined;
+  @Prop(Function) handleSelect: Function | undefined;
+
+  addTag() {
+    const name = window.prompt("请输入标签名称（不超过四个字）");
+    if (name && name != "") {
+      this.$emit("update:tags", [...this.tags!, name.substr(0, 4)]);
+      this.$emit("update:selectedTag", name.substr(0, 4));
+    }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -28,18 +38,16 @@ export default {
   overflow: auto;
   flex-grow: 1;
   .tag {
-    margin-bottom: 15px;
+    height: 34px;
+    margin: 7.5px 10px;
+    padding: 0 15px;
     color: $light-orange;
     background-color: $light-yellow;
     border: 1px solid $light-orange;
-    font-size: $font-size-l;
     border-radius: $border-radius-s;
-    height: 34px;
+    font-size: $font-size-l;
     display: flex;
     align-items: center;
-    padding-left: 15px;
-    padding-right: 15px;
-    margin-right: 20px;
     &.isSelected {
       color: white;
       background-color: $orange;

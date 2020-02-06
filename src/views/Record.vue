@@ -2,7 +2,7 @@
   <Layout :handleExpend="handleExpend" :handleIncome="handleIncome">
     <div class="panel">
       <div class="tagsAndNotes">
-        <Tags :tags="tags" :selectedTag="selectedTag" :handleSelect="handleSelect" />
+        <Tags :tags.sync="tags" :selectedTag.sync="selectedTag" :handleSelect="handleSelect" />
         <Notes v-model="note" />
       </div>
       <Computer :handleSubmit="handleSubmit" v-bind:count.sync="count" />
@@ -18,9 +18,9 @@ export default {
   components: { Tags, Notes, Computer },
   data() {
     return {
-      tags: ["餐饮", "娱乐", "服饰", "交通", "旅行", "社交", "学习", "通讯"],
+      tags: ["一般", "餐饮", "娱乐", "服饰"],
       type: "expend",
-      selectedTag: "",
+      selectedTag: "一般",
       note: "",
       count: 0
     };
@@ -63,6 +63,12 @@ export default {
   .panel {
     top: 114px;
     bottom: 370px;
+  }
+}
+@media (min-width: 500px) {
+  .panel {
+    top: 114px;
+    bottom: 630px;
   }
 }
 </style>
