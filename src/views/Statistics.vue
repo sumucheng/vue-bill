@@ -12,24 +12,16 @@ export default {
   components: { Bill, Tabs },
   data() {
     return {
-      bills: [
-        { type: "expend", count: 100, time: "", label: "餐饮" },
-        { type: "income", count: 3000, time: "", label: "工资" },
-        { type: "expend", count: 10, time: "", label: "交通", note: "地铁" }
-      ],
-      displayBills: [{}]
+      displayBills: this.$store.getters.expendBills
     };
   },
   methods: {
     handleExpend() {
-      this.displayBills = this.bills.filter(el => el.type === "expend");
+      this.displayBills = this.$store.getters.expendBills;
     },
     handleIncome() {
-      this.displayBills = this.bills.filter(el => el.type === "income");
+      this.displayBills = this.$store.getters.incomeBills;
     }
-  },
-  created: function() {
-    this.handleExpend();
   }
 };
 </script>

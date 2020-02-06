@@ -16,25 +16,23 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { Component, Prop } from "vue-property-decorator";
 
-export default Vue.extend({
-  data() {
-    return {
-      isExpend: true
-    };
-  },
-  props: ["handleExpend", "handleIncome"],
-  methods: {
-    expend() {
-      this.isExpend = true;
-      this.handleExpend();
-    },
-    income() {
-      this.isExpend = false;
-      this.handleIncome();
-    }
+@Component
+export default class Header extends Vue {
+  isExpend = true;
+  @Prop(Function) handleExpend: Function | undefined;
+  @Prop(Function) handleIncome: Function | undefined;
+  expend() {
+    this.isExpend = true;
+    this.handleExpend && this.handleExpend();
   }
-});
+
+  income() {
+    this.isExpend = false;
+    this.handleIncome && this.handleIncome();
+  }
+}
 </script>
 
 <style lang="scss" scoped>

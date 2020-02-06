@@ -17,23 +17,29 @@ function operate(numberOne, numberTwo, operation) {
 }
 
 export default function calculate(obj, buttonName) {
-
     if (isNumber(buttonName)) {
         if (buttonName === "0" && obj.next === "0") {
             return {};
         }
         if (obj.operation) {
             if (obj.next) {
-                return { next: obj.next + buttonName };
+                return obj.next.length < 9 ? { next: obj.next + buttonName } : { next: obj.next };
             }
             return { next: buttonName };
         }
-        if (obj.next) {
-            const next = obj.next === "0" ? buttonName : obj.next + buttonName;
-            return {
-                next,
+        if (obj.next && obj.next) {
+            if (obj.next.length < 9) {
+                const next = obj.next === "0" ? buttonName : obj.next + buttonName;
+                return {
+                    next,
+                    total: null
+                };
+            }
+            else return {
+                next: obj.next,
                 total: null
-            };
+            }
+
         }
         return {
             next: buttonName,

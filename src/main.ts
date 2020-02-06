@@ -9,6 +9,8 @@ import Icon from '@/components/Icon.vue'
 Vue.config.productionTip = false
 Vue.component('Layout', Layout)
 Vue.component('Icon', Icon)
+
+
 new Vue({
   router,
   store,

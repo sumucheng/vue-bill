@@ -34,43 +34,42 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { Component, Prop } from "vue-property-decorator";
 import calc from "./calc.js";
-export default Vue.extend({
-  props: ["text", "type"],
-  data() {
-    return {
-      total: null,
-      next: null,
-      operation: null,
-      finish: true
-    };
-  },
-  methods: {
-    submit() {
-      this.$emit("update:count", this.total || "0");
-      this.total = null;
-      this.next = null;
-      this.operation = null;
-    },
-    clickCalc(buttonName: string) {
-      if (buttonName === "+" || buttonName === "-") {
-        this.finish = false;
-      }
-      if (buttonName === "=") this.finish = true;
-      const newState = calc(
-        {
-          total: this.total,
-          next: this.next,
-          operation: this.operation
-        },
-        buttonName
-      );
-      if (newState.total !== undefined) this.total = newState.total;
-      if (newState.next !== undefined) this.next = newState.next;
-      if (newState.operation !== undefined) this.operation = newState.operation;
-    }
+@Component
+export default class Computer extends Vue {
+  total = "";
+  next = "";
+  operation = "";
+  finish = true;
+  @Prop(Function) handleSubmit: Function | undefined;
+
+  submit() {
+    this.$emit("update:count", this.next || this.total || "0");
+    this.handleSubmit && this.handleSubmit();
+    this.total = "";
+    this.next = "";
+    this.operation = "";
   }
-});
+  clickCalc(buttonName: string) {
+    if (buttonName === "+" || buttonName === "-") {
+      this.finish = false;
+    }
+    if (buttonName === "=") this.finish = true;
+
+    const newState = calc(
+      {
+        total: this.total,
+        next: this.next,
+        operation: this.operation
+      },
+      buttonName
+    );
+    if (newState.total !== undefined) this.total = newState.total;
+    if (newState.next !== undefined) this.next = newState.next;
+    if (newState.operation !== undefined) this.operation = newState.operation;
+  }
+}
 </script>
 
 <style lang="scss" scoped>

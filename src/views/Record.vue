@@ -1,11 +1,11 @@
 <template>
-  <Layout>
+  <Layout :handleExpend="handleExpend" :handleIncome="handleIncome">
     <div class="panel">
       <div class="tagsAndNotes">
         <Tags :tags="tags" :selectedTag="selectedTag" :handleSelect="handleSelect" />
         <Notes v-model="note" />
       </div>
-      <Computer :submit="submit" />
+      <Computer :handleSubmit="handleSubmit" v-bind:count.sync="count" />
     </div>
   </Layout>
 </template>
@@ -19,17 +19,24 @@ export default {
   data() {
     return {
       tags: ["餐饮", "娱乐", "服饰", "交通", "旅行", "社交", "学习", "通讯"],
+      type: "expend",
       selectedTag: "",
       note: "",
       count: 0
     };
   },
   methods: {
+    handleExpend() {
+      this.type = "expend";
+    },
+    handleIncome() {
+      this.type = "income";
+    },
     handleSelect(e: Event) {
       this.selectedTag = (e.target as HTMLInputElement).innerText;
     },
-    submit() {
-      console.log(this.selectedTag, this.note, this.count);
+    handleSubmit() {
+      console.log(this.type, this.selectedTag, this.note, this.count);
     }
   }
 };

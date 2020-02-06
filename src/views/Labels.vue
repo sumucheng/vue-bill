@@ -18,25 +18,16 @@ export default {
   components: { Button, Label },
   data() {
     return {
-      labels: [
-        { type: "expend", name: "餐饮" },
-        { type: "expend", name: "娱乐" },
-        { type: "expend", name: "服饰" },
-        { type: "expend", name: "交通" },
-        { type: "income", name: "工资" },
-        { type: "income", name: "理财" },
-        { type: "income", name: "其他" }
-      ],
-      displayLabels: [{}]
+      displayLabels: this.$store.getters.expendLabels
     };
   },
 
   methods: {
     displayExpend() {
-      this.displayLabels = this.labels.filter(el => el.type === "expend");
+      this.displayLabels = this.$store.getters.expendLabels;
     },
     displayIncome() {
-      this.displayLabels = this.labels.filter(el => el.type === "income");
+      this.displayLabels = this.$store.getters.incomeLabels;
     }
   },
   created: function() {
