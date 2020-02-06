@@ -1,11 +1,11 @@
 <template>
-  <Layout :type.sync="type">
+  <Layout :type.sync="newBill.type">
     <div class="panel">
       <div class="tagsAndNotes">
-        <Tags :tags.sync="tags" :tag.sync="tag" />
-        <Notes v-model="note" />
+        <Tags :tags.sync="tags" :tag.sync="newBill.tag" />
+        <Notes v-model="newBill.note" />
       </div>
-      <Computer :handleSubmit="handleSubmit" :count.sync="count" />
+      <Computer :count.sync="newBill.count" :handleSubmit="handleSubmit" />
     </div>
   </Layout>
 </template>
@@ -17,26 +17,28 @@ import { Component, Prop } from "vue-property-decorator";
 import Tags from "@/components/record/Tags.vue";
 import Notes from "@/components/record/Notes.vue";
 import Computer from "@/components/record/Computer.vue";
+type Bill = {
+  type: string;
+  tag: string;
+  note: string;
+  count: string;
+  time: number;
+};
 @Component({
   components: { Tags, Notes, Computer }
 })
 export default class Record extends Vue {
   tags = ["一般", "餐饮", "娱乐", "服饰"];
-  type = "expend";
-  tag = "一般";
-  note = "";
-  count = 0;
+  newBill: Bill = {
+    type: "expend",
+    tag: "一般",
+    note: "",
+    count: "",
+    time: 0
+  };
 
   handleSubmit() {
-    const newBill = {
-      type: this.type,
-      tag: this.tag,
-      note: this.note,
-      count: this.count,
-      time: Date.now()
-    };
-
-    console.log(newBill);
+    this.newBill.time = Date.now();
   }
 }
 </script>

@@ -23,7 +23,7 @@ export default class Tags extends Vue {
     const name = window.prompt("请输入标签名称（不超过四个字）");
     if (name && name != "") {
       this.$emit("update:tags", [...this.tags!, name.substr(0, 4)]);
-      this.$emit("update:selectedTag", name.substr(0, 4));
+      this.$emit("update:tag", name.substr(0, 4));
     }
   }
 }

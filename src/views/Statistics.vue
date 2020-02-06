@@ -14,15 +14,15 @@ import { Component, Prop, Watch } from "vue-property-decorator";
   components: { Tabs, Bill }
 })
 export default class Statistics extends Vue {
-  displayBills = this.$store.getters.expendBills;
+  expendBills = this.$store.getters.expendBills;
+  incomeBills = this.$store.getters.incomeBills;
+  displayBills = this.expendBills;
   type = "expend";
   @Watch("type")
   onTypeChanged(value: string) {
     this.type = value;
     this.displayBills =
-      this.type === "expend"
-        ? this.$store.getters.expendBills
-        : this.$store.getters.incomeBills;
+      this.type === "expend" ? this.expendBills : this.incomeBills;
   }
 }
 </script>

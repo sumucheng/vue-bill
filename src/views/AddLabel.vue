@@ -20,18 +20,15 @@
 
 <script lang="ts">
 import Button from "@/components/labels/Button.vue";
-export default {
-  components: { Button },
-  data() {
-    return {
-      name: ""
-    };
-  },
-  methods: {
-    addLabel() {},
-    deleteLabel() {}
-  }
-};
+import Vue from "vue";
+import { Component, Prop, Watch } from "vue-property-decorator";
+@Component({
+  components: { Button }
+})
+export default class AddLabel extends Vue {
+  addLabel() {}
+  deleteLabel() {}
+}
 </script>
 
 <style lang="scss" scoped>
