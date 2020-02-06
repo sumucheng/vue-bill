@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
+import { Component, Prop, Watch } from "vue-property-decorator";
 
 import Tags from "@/components/record/Tags.vue";
 import Notes from "@/components/record/Notes.vue";
@@ -28,6 +28,7 @@ type Bill = {
   components: { Tags, Notes, Computer }
 })
 export default class Record extends Vue {
+  billList: Bill[] = JSON.parse(window.localStorage.getItem("billList") || "");
   tags = ["一般", "餐饮", "娱乐", "服饰"];
   newBill: Bill = {
     type: "expend",
@@ -39,6 +40,12 @@ export default class Record extends Vue {
 
   handleSubmit() {
     this.newBill.time = Date.now();
+    const temp = JSON.parse(JSON.stringify(this.newBill));
+    this.billList.push(temp);
+  }
+  @Watch("billList")
+  onBillListChange() {
+    window.localStorage.setItem("billList", JSON.stringify(this.billList));
   }
 }
 </script>
