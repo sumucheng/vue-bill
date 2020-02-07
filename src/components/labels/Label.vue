@@ -17,10 +17,9 @@ export default Vue.extend({});
 .label {
   background-color: $light-grey;
   font-size: $font-size-m;
-  height: 70px;
+  height: 60px;
   margin-bottom: 10px;
   font-size: $font-size-m;
-
   display: flex;
   justify-content: space-between;
   align-items: center;

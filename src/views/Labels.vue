@@ -16,23 +16,19 @@ import Button from "@/components/labels/Button.vue";
 import Label from "@/components/labels/Label.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
-import Tags from "../components/record/Tags.vue";
-type Tag = {
-  type: string;
-  name: string;
-};
+import model from "@/model.ts";
+
 @Component({
   components: { Button, Label }
 })
 export default class Labels extends Vue {
-  tags: Tag[] = JSON.parse(window.localStorage.getItem("tags") || "[]");
+  tags = model.state.tags();
   expendLabels = this.tags.filter(tag => tag.type === "expend");
   incomeLabels = this.tags.filter(tag => tag.type === "income");
   displayLabels = this.expendLabels;
   type = "expend";
   @Watch("type")
   onTypeChanged(value: string) {
-    console.log(123);
     this.displayLabels =
       this.type === "expend" ? this.expendLabels : this.incomeLabels;
   }

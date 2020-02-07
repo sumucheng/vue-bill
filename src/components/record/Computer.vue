@@ -35,7 +35,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
-import calc from "./calc.js";
+const calc = require("./calc.js").default;
 @Component
 export default class Computer extends Vue {
   total = "";

@@ -13,6 +13,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
+import model from "@/model.ts";
 
 import Tags from "@/components/record/Tags.vue";
 import Notes from "@/components/record/Notes.vue";
@@ -32,10 +33,8 @@ type Tag = {
   components: { Tags, Notes, Computer }
 })
 export default class Record extends Vue {
-  billList: Bill[] = JSON.parse(
-    window.localStorage.getItem("billList") || "[]"
-  );
-  tags: Tag[] = JSON.parse(window.localStorage.getItem("tags") || "[]");
+  billList = model.state.billList();
+  tags = model.state.tags();
   mounted() {
     if (this.tags.length === 0) {
       this.tags = [
@@ -74,11 +73,11 @@ export default class Record extends Vue {
   }
   @Watch("billList")
   onBillListChange() {
-    window.localStorage.setItem("billList", JSON.stringify(this.billList));
+    model.save.billList(this.billList);
   }
   @Watch("tags")
   onTagsChange() {
-    window.localStorage.setItem("tags", JSON.stringify(this.tags));
+    model.save.tags(this.tags);
     this.displayTags = this.tags.filter(tag => tag.type === this.newBill.type);
   }
   @Watch("newBill.type")
@@ -87,7 +86,7 @@ export default class Record extends Vue {
     this.newBill.tag = this.newBill.type === "expend" ? "一般" : "工资";
   }
 }
-</script>
+</script>  
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
