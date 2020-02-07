@@ -1,7 +1,9 @@
 <template>
   <Layout :type.sync="type">
     <Tabs />
-    <Bill v-for="bill in displayBills" :key="bill.count" :bill="bill" />
+    <div class="billList">
+      <Bill v-for="bill in displayBills" :key="bill.count" :bill="bill" />
+    </div>
   </Layout>
 </template>
 
@@ -38,4 +40,8 @@ export default class Statistics extends Vue {
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
+.billList {
+  max-height: 90%;
+  overflow: auto;
+}
 </style>

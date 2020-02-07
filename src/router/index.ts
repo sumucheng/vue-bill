@@ -6,7 +6,7 @@ import Record from '@/views/Record.vue'
 import Labels from '@/views/Labels.vue'
 import Statistics from '@/views/Statistics.vue'
 import NotFound from '@/views/NotFound.vue'
-import AddLabel from '@/views/AddLabel.vue'
+import EditLabel from '@/views/EditLabel.vue'
 
 const routes = [
   {
@@ -22,8 +22,8 @@ const routes = [
     component: Labels
   },
   {
-    path: '/addLabel',
-    component: AddLabel
+    path: '/labels/edit/:id',
+    component: EditLabel
   },
   {
     path: '/statistics',

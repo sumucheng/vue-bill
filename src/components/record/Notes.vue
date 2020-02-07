@@ -16,10 +16,7 @@ export default class Notes extends Vue {
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
 .note {
-  margin-top: 0px;
-  margin-left: 15px;
-  margin-right: 15px;
-  margin-bottom: 15px;
+  margin: 15px;
   > input {
     width: 100%;
     height: 50px;

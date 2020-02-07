@@ -46,7 +46,7 @@ export default class Tags extends Vue {
     background-color: $light-yellow;
     border: 1px solid $light-orange;
     border-radius: $border-radius-s;
-    font-size: $font-size-l;
+    font-size: $font-size-m;
     display: flex;
     align-items: center;
     &.isSelected {

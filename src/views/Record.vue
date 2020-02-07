@@ -22,7 +22,7 @@ type Bill = {
   type: string;
   tag: string;
   note: string;
-  count: string;
+  count: number;
   time: number;
 };
 type Tag = {
@@ -56,7 +56,7 @@ export default class Record extends Vue {
     type: "expend",
     tag: "一般",
     note: "",
-    count: "",
+    count: 0,
     time: 0
   };
   displayTags: Tag[] = this.tags.filter(tag => tag.type === this.newBill.type);
