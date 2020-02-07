@@ -25,28 +25,33 @@ import model from "../model";
 })
 export default class EditLabel extends Vue {
   tags = model.state.tags();
-  tag: { type: string; name: string } | undefined;
+  tagIndex = -1;
   tagName = "";
-  id = "";
+  route = "";
   created() {
-    this.id = this.$route.params.id;
-    this.tag = this.tags.find(tag => tag.name === this.id);
-    if (this.tag) {
-      this.tagName = this.tag.name;
+    this.route = this.$route.params.id;
+    this.tagIndex = this.tags.findIndex(tag => tag.name === this.route);
+    if (this.tagIndex > -1) {
+      this.tagName = this.tags[this.tagIndex].name;
     } else {
       this.$router.replace("/404");
     }
   }
   editLabel() {
-    if (this.tagName && this.tagName !== "") {
-      this.tag!.name = this.tagName;
-      model.save.tags(this.tags);
-      this.$router.replace("/labels");
+    if (
+      this.tagName &&
+      this.tagName !== "" &&
+      !this.tags.find(tag => tag.name === this.tagName)
+    ) {
+      this.tags[this.tagIndex].name = this.tagName;
+      this.end();
     }
   }
   deleteLabel() {
-    const index = this.tags.findIndex(tag => tag.name === this.id);
-    this.tags.splice(index, 1);
+    this.tags.splice(this.tagIndex, 1);
+    this.end();
+  }
+  end() {
     model.save.tags(this.tags);
     this.$router.replace("/labels");
   }
