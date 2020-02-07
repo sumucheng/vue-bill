@@ -2,7 +2,7 @@
   <Layout :type.sync="type">
     <div class="labels-wrapper">
       <div class="labels">
-        <Label v-for="label in displayLabels" :key="label.name">{{label.name}}</Label>
+        <Label v-for="label in displayLabels" :key="label.name" :tagName="label.name"></Label>
       </div>
       <Button text="新建标签" type="primary" class="add" :handleClick="addLabel"></Button>
     </div>

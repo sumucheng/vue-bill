@@ -5,15 +5,11 @@
       <p>返回</p>
     </router-link>
     <div class="name">
-      <input v-model="tagName" placeholder="不超过4个字" />
+      <input v-model="tagName" placeholder="不超过4个字" required maxlength="4" />
     </div>
     <div class="buttons">
-      <router-link to="/labels">
-        <Button text="确 认" type="primary" :handleClick="editLabel" />
-      </router-link>
-      <router-link to="/labels">
-        <Button text="删除标签" type="normal" :handleClick="deleteLabel" />
-      </router-link>
+      <Button text="确 认" type="primary" :handleClick="editLabel" />
+      <Button text="删除标签" type="normal" :handleClick="deleteLabel" />
     </div>
   </div>
 </template>
@@ -28,18 +24,32 @@ import model from "../model";
   components: { Button }
 })
 export default class EditLabel extends Vue {
+  tags = model.state.tags();
+  tag: { type: string; name: string } | undefined;
   tagName = "";
+  id = "";
   created() {
-    const id = this.$route.params.id;
-    const tags = model.state.tags();
-    const tag = tags.filter(tag => tag.name === id)[0];
-    if (tag) {
+    this.id = this.$route.params.id;
+    this.tag = this.tags.find(tag => tag.name === this.id);
+    if (this.tag) {
+      this.tagName = this.tag.name;
     } else {
       this.$router.replace("/404");
     }
   }
-  editLabel() {}
-  deleteLabel() {}
+  editLabel() {
+    if (this.tagName && this.tagName !== "") {
+      this.tag!.name = this.tagName;
+      model.save.tags(this.tags);
+      this.$router.replace("/labels");
+    }
+  }
+  deleteLabel() {
+    const index = this.tags.findIndex(tag => tag.name === this.id);
+    this.tags.splice(index, 1);
+    model.save.tags(this.tags);
+    this.$router.replace("/labels");
+  }
 }
 </script>
 
@@ -71,6 +81,7 @@ export default class EditLabel extends Vue {
       border-radius: $border-radius-m;
       border-style: none;
       font-size: $font-size-m;
+      color: $dark-grey;
     }
   }
   .buttons {

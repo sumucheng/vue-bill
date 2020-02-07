@@ -1,15 +1,17 @@
 <template>
-  <div class="label">
-    <slot />
-    <div class="right">
-      <Icon name="right" />
-    </div>
-  </div>
+  <router-link class="label" :to="`/labels/edit/${tagName}`">
+    {{tagName}}
+    <Icon name="right" class="right" />
+  </router-link>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-export default Vue.extend({});
+import { Component, Prop } from "vue-property-decorator";
+@Component
+export default class Label extends Vue {
+  @Prop(String) tagName: string | undefined;
+}
 </script>
 
 <style lang="scss" scoped>
