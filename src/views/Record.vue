@@ -61,7 +61,7 @@ export default class Record extends Vue {
     count: 0,
     time: 0
   };
-  displayTags: Tag[] = this.tags.filter(tag => tag.type === this.newBill.type);
+  displayTags: Tag[] = tagsModel.display(this.newBill.type);
   addTag(tagName: string) {
     tagsModel.add({ type: this.newBill.type, name: tagName });
   }
@@ -78,12 +78,12 @@ export default class Record extends Vue {
   }
   @Watch("tags")
   onTagsChange() {
-    model.save.tags(this.tags);
-    this.displayTags = this.tags.filter(tag => tag.type === this.newBill.type);
+    tagsModel.save();
+    this.displayTags = tagsModel.display(this.newBill.type);
   }
   @Watch("newBill.type")
   onTypeChange() {
-    this.displayTags = this.tags.filter(tag => tag.type === this.newBill.type);
+    this.displayTags = tagsModel.display(this.newBill.type);
     this.newBill.tag = this.newBill.type === "expend" ? "一般" : "工资";
   }
 }

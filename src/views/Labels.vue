@@ -22,21 +22,18 @@ tagsModel.fetch();
 })
 export default class Labels extends Vue {
   tags = tagsModel.data;
-  expendLabels = this.tags.filter(tag => tag.type === "expend");
-  incomeLabels = this.tags.filter(tag => tag.type === "income");
-  displayLabels = this.expendLabels;
+  displayLabels = tagsModel.display("expend");
   type = "expend";
   @Watch("type")
   onTypeChanged(value: string) {
-    this.displayLabels =
-      this.type === "expend" ? this.expendLabels : this.incomeLabels;
+    this.displayLabels = tagsModel.display(this.type);
   }
   addLabel() {
     const name = window.prompt("请输入标签名称（不超过四个字）");
     if (name && name != "") {
       const result = tagsModel.add({ type: this.type, name: name });
       if (result !== "success") window.alert(result);
-      this.displayLabels = this.tags.filter(tag => tag.type === this.type);
+      this.displayLabels = tagsModel.display(this.type);
     }
   }
 }

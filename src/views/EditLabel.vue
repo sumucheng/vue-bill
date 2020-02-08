@@ -36,7 +36,6 @@ export default class EditLabel extends Vue {
   route = "";
   created() {
     this.route = this.$route.params.id;
-    // this.tagIndex = this.tags.findIndex(tag => tag.name === this.route);
     if (this.tags.find(tag => tag.name === this.route)) {
       this.tagName = this.route;
     } else {

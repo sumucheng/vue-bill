@@ -5,6 +5,7 @@ type Tag = {
 type TagsModel = {
     data: Tag[]
     fetch: () => Tag[]
+    display: (type: string) => Tag[]
     add: (tag: Tag) => 'success' | '该标签已存在'
     update: (oldName: string, newName: string) => 'success' | '标签名重复'
     delete: (name: string) => void
@@ -15,6 +16,9 @@ const tagsModel: TagsModel = {
     fetch() {
         this.data = JSON.parse(window.localStorage.getItem("tags") || "[]")
         return this.data
+    },
+    display(type) {
+        return this.data.filter(tag => tag.type === type);
     },
     add(tag) {
         tag.name = tag.name.substr(0, 4);
