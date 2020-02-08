@@ -1,22 +1,53 @@
 <template>
-  <div class="bill">
-    <div class="left">
-      <div class="label">{{bill.tag}}</div>
-      <div class="note">{{bill.note}}</div>
+  <div>
+    <div class="date">{{displayText}}</div>
+    <div class="bill">
+      <div class="left">
+        <div class="label">{{bill.tag}}</div>
+        <div class="note">{{bill.note}}</div>
+      </div>
+      <div class="count">{{(bill.type==='expend'?'-':'+')+bill.count}}</div>
     </div>
-    <div class="count">{{(bill.type==='expend'?'-':'+')+bill.count}}</div>
   </div>
 </template>
 
 <script lang="ts">
+type Bill = {
+  type: string;
+  tag: string;
+  note: string;
+  count: string;
+  time: number;
+};
 import Vue from "vue";
-export default Vue.extend({
-  props: ["bill"]
-});
+import { Component, Prop } from "vue-property-decorator";
+@Component
+export default class BillList extends Vue {
+  @Prop() bill: Bill | undefined;
+  date = new Date(this.bill!.time);
+  oneWeek = ["日", "一", "二", "三", "四", "五", "六"];
+  dateText =
+    this.date.getDate() < 10
+      ? "0" + this.date.getDate().toString()
+      : this.date.getDate();
+  monthText =
+    this.date.getMonth() + 1 < 10
+      ? "0" + (this.date.getMonth() + 1).toString()
+      : this.date.getMonth() + 1;
+  weekText = this.oneWeek[this.date.getDay()];
+  displayText = `${this.monthText}月${this.dateText}日 - 星期${this.weekText}`;
+}
 </script>
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
+.date {
+  margin: 5px 20px;
+  display: flex;
+  align-items: center;
+  color: $grey;
+  font-size: $font-size-m;
+}
 .bill {
   display: flex;
   justify-content: space-between;
