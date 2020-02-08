@@ -11,6 +11,7 @@ import { Component, Prop } from "vue-property-decorator";
 @Component
 export default class Label extends Vue {
   @Prop(String) tagName: string | undefined;
+  @Prop(String) type: string | undefined;
 }
 </script>
 

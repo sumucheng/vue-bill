@@ -15,12 +15,13 @@ import Label from "@/components/labels/Label.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import model from "@/model.ts";
-
+import tagsModel from "@/model/tagsModel";
+tagsModel.fetch();
 @Component({
   components: { Button, Label }
 })
 export default class Labels extends Vue {
-  tags = model.state.tags();
+  tags = tagsModel.data;
   expendLabels = this.tags.filter(tag => tag.type === "expend");
   incomeLabels = this.tags.filter(tag => tag.type === "income");
   displayLabels = this.expendLabels;
@@ -33,12 +34,8 @@ export default class Labels extends Vue {
   addLabel() {
     const name = window.prompt("请输入标签名称（不超过四个字）");
     if (name && name != "") {
-      if (this.tags.find(tag => tag.name === name)) {
-        window.alert("该标签已存在");
-        return;
-      }
-      this.tags.push({ type: this.type, name: name });
-      model.save.tags(this.tags);
+      const result = tagsModel.add({ type: this.type, name: name });
+      if (result !== "success") window.alert(result);
       this.displayLabels = this.tags.filter(tag => tag.type === this.type);
     }
   }

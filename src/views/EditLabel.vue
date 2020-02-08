@@ -1,9 +1,9 @@
 <template>
   <div class="editLabel">
     <div class="title">
-      <router-link to="/labels" class="link">
+      <div class="link" @click="back">
         <Icon name="left" />返回
-      </router-link>
+      </div>
       <div class="titleText">编辑标签</div>
     </div>
     <div class="line"></div>
@@ -24,41 +24,38 @@ import Button from "@/components/labels/Button.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import model from "../model";
+import tagsModel from "@/model/tagsModel";
+tagsModel.fetch();
 
 @Component({
   components: { Button }
 })
 export default class EditLabel extends Vue {
-  tags = model.state.tags();
-  tagIndex = -1;
+  tags = tagsModel.data;
   tagName = "";
   route = "";
   created() {
     this.route = this.$route.params.id;
-    this.tagIndex = this.tags.findIndex(tag => tag.name === this.route);
-    if (this.tagIndex > -1) {
-      this.tagName = this.tags[this.tagIndex].name;
+    // this.tagIndex = this.tags.findIndex(tag => tag.name === this.route);
+    if (this.tags.find(tag => tag.name === this.route)) {
+      this.tagName = this.route;
     } else {
       this.$router.replace("/404");
     }
   }
   editLabel() {
     if (this.tagName && this.tagName !== "") {
-      if (this.tags.find(tag => tag.name === this.tagName)) {
-        window.alert("标签名重复");
-      } else {
-        this.tags[this.tagIndex].name = this.tagName;
-        this.end();
-      }
+      const result = tagsModel.update(this.route, this.tagName);
+      if (result === "success") this.$router.back();
+      else window.alert(result);
     }
   }
   deleteLabel() {
-    this.tags.splice(this.tagIndex, 1);
-    this.end();
+    tagsModel.delete(this.route);
+    this.$router.back();
   }
-  end() {
-    model.save.tags(this.tags);
-    this.$router.replace("/labels");
+  back() {
+    this.$router.back();
   }
 }
 </script>

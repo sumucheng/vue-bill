@@ -18,6 +18,8 @@ import model from "@/model.ts";
 import Tags from "@/components/record/Tags.vue";
 import Notes from "@/components/record/Notes.vue";
 import Computer from "@/components/record/Computer.vue";
+import tagsModel from "@/model/tagsModel";
+tagsModel.fetch();
 type Bill = {
   type: string;
   tag: string;
@@ -34,7 +36,7 @@ type Tag = {
 })
 export default class Record extends Vue {
   billList = model.state.billList();
-  tags = model.state.tags();
+  tags = tagsModel.data;
   mounted() {
     if (this.tags.length === 0) {
       this.tags = [
@@ -61,8 +63,7 @@ export default class Record extends Vue {
   };
   displayTags: Tag[] = this.tags.filter(tag => tag.type === this.newBill.type);
   addTag(tagName: string) {
-    if (this.tags.find(tag => tag.name === tagName)) return;
-    this.tags.push({ type: this.newBill.type, name: tagName });
+    tagsModel.add({ type: this.newBill.type, name: tagName });
   }
   handleSubmit() {
     this.newBill.time = Date.now();
