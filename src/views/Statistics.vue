@@ -1,13 +1,17 @@
 <template>
   <Layout :type.sync="type">
     <div class="billList">
-      <BillItem v-for="bill in displayBills" :key="bill.count" :bill="bill" />
+      <div v-for="bills in displayBills" :key="bills.data[0].time">
+        <Time :time="bills.date" />
+        <BillItem v-for="bill in bills.data" :key="bill.time" :bill="bill" />
+      </div>
     </div>
   </Layout>
 </template>
 
 <script lang="ts">
 import BillItem from "@/components/statistics/Bill.vue";
+import Time from "@/components/statistics/Time.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import billsModel from "@/model/billsModel.ts";
@@ -20,21 +24,21 @@ type Bill = {
   time: number;
 };
 @Component({
-  components: { BillItem }
+  components: { BillItem, Time }
 })
 export default class Statistics extends Vue {
   billList = billsModel.data;
-  displayBills = billsModel.display("expend", "day");
+  displayBills = billsModel.display("expend");
   type = "expend";
-  period = "day";
+
   @Watch("type")
   onTypeChanged() {
-    this.displayBills = billsModel.display(this.type, this.period);
+    this.displayBills = billsModel.display(this.type);
   }
-  @Watch("period")
-  onPeriodChanged() {
-    this.displayBills = billsModel.display(this.type, this.period);
-  }
+  // @Watch("period")
+  // onPeriodChanged() {
+  //   this.displayBills = billsModel.display(this.type, this.period);
+  // }
 }
 </script>
 

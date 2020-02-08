@@ -23,7 +23,6 @@
 import Button from "@/components/labels/Button.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
-import model from "../model";
 import tagsModel from "@/model/tagsModel";
 tagsModel.fetch();
 

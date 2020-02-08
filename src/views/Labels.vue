@@ -14,7 +14,6 @@ import Button from "@/components/labels/Button.vue";
 import Label from "@/components/labels/Label.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
-import model from "@/model.ts";
 import tagsModel from "@/model/tagsModel";
 tagsModel.fetch();
 @Component({

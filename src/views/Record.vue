@@ -13,8 +13,6 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
-import model from "@/model.ts";
-
 import Tags from "@/components/record/Tags.vue";
 import Notes from "@/components/record/Notes.vue";
 import Computer from "@/components/record/Computer.vue";
