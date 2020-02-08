@@ -22,7 +22,7 @@ const billsModel: BillsModel = {
         return this.data.filter(bill => bill.type === type);
     },
     add(bill) {
-        this.data.push(bill);
+        this.data.unshift(bill);
         this.save();
     },
     save() {

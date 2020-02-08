@@ -1,14 +1,14 @@
 <template>
   <div class="tabs">
-    <div class="item" :class="{active:active==='day'}" @click="active='day'">
+    <div class="item" :class="{active:period==='day'}" @click="$emit('update:period','day')">
       <div class="text">按天</div>
       <div class="line"></div>
     </div>
-    <div class="item" :class="{active:active==='week'}" @click="active='week'">
+    <div class="item" :class="{active:period==='week'}" @click="$emit('update:period','week')">
       <div class="text">按周</div>
       <div class="line"></div>
     </div>
-    <div class="item" :class="{active:active==='month'}" @click="active='month'">
+    <div class="item" :class="{active:period==='month'}" @click="$emit('update:period','month')">
       <div class="text">按月</div>
       <div class="line"></div>
     </div>
@@ -17,14 +17,11 @@
 
 <script lang="ts">
 import Vue from "vue";
-
-export default Vue.extend({
-  data() {
-    return {
-      active: "day"
-    };
-  }
-});
+import { Component, Prop } from "vue-property-decorator";
+@Component
+export default class Tabs extends Vue {
+  @Prop({ default: "day" }) period!: string;
+}
 </script>
 
 <style lang="scss" scoped>

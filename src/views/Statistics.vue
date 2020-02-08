@@ -1,6 +1,6 @@
 <template>
   <Layout :type.sync="type">
-    <Tabs />
+    <Tabs :period.sync="period" />
     <div class="billList">
       <Bill v-for="bill in displayBills" :key="bill.count" :bill="bill" />
     </div>
@@ -28,9 +28,14 @@ export default class Statistics extends Vue {
   billList = billsModel.data;
   displayBills = billsModel.display("expend");
   type = "expend";
+  period = "day";
   @Watch("type")
   onTypeChanged() {
     this.displayBills = billsModel.display(this.type);
+  }
+  @Watch("period")
+  onPeriodChanged() {
+    console.log(this.period);
   }
 }
 </script>
