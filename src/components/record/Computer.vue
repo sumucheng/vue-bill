@@ -46,12 +46,13 @@ export default class Computer extends Vue {
 
   submit() {
     const count = Number(this.next || this.total || "0");
-    if (count < 0) return;
-    this.$emit("update:count", count);
-    this.handleSubmit && this.handleSubmit();
-    this.total = "";
-    this.next = "";
-    this.operation = "";
+    if (count > 0) {
+      this.$emit("update:count", count);
+      this.handleSubmit && this.handleSubmit();
+      this.total = "";
+      this.next = "";
+      this.operation = "";
+    }
   }
   clickCalc(buttonName: string) {
     if (buttonName === "+" || buttonName === "-") {

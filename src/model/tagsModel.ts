@@ -10,11 +10,13 @@ type TagsModel = {
     update: (oldName: string, newName: string) => 'success' | '标签名重复'
     delete: (name: string) => void
     save: () => void
+    init: () => Tag[]
 }
 const tagsModel: TagsModel = {
     data: [],
     fetch() {
         this.data = JSON.parse(window.localStorage.getItem("tags") || "[]")
+        if (this.data.length === 0) this.data = this.init()
         return this.data
     },
     display(type) {
@@ -45,6 +47,20 @@ const tagsModel: TagsModel = {
     },
     save() {
         window.localStorage.setItem("tags", JSON.stringify(this.data));
+    },
+    init() {
+        return [
+            { type: "expend", name: "一般" },
+            { type: "expend", name: "餐饮" },
+            { type: "expend", name: "娱乐" },
+            { type: "expend", name: "服饰" },
+            { type: "expend", name: "交通" },
+            { type: "expend", name: "通讯" },
+            { type: "income", name: "工资" },
+            { type: "income", name: "理财" },
+            { type: "income", name: "礼金" },
+            { type: "income", name: "其他" }
+        ];
     }
 }
 export default tagsModel

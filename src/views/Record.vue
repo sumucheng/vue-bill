@@ -18,8 +18,10 @@ import model from "@/model.ts";
 import Tags from "@/components/record/Tags.vue";
 import Notes from "@/components/record/Notes.vue";
 import Computer from "@/components/record/Computer.vue";
-import tagsModel from "@/model/tagsModel";
+import tagsModel from "@/model/tagsModel.ts";
 tagsModel.fetch();
+import billsModel from "@/model/billsModel.ts";
+billsModel.fetch();
 type Bill = {
   type: string;
   tag: string;
@@ -35,25 +37,8 @@ type Tag = {
   components: { Tags, Notes, Computer }
 })
 export default class Record extends Vue {
-  billList = model.state.billList();
+  billList = billsModel.data;
   tags = tagsModel.data;
-  mounted() {
-    if (this.tags.length === 0) {
-      this.tags = [
-        { type: "expend", name: "一般" },
-        { type: "expend", name: "餐饮" },
-        { type: "expend", name: "娱乐" },
-        { type: "expend", name: "服饰" },
-        { type: "expend", name: "交通" },
-        { type: "expend", name: "通讯" },
-        { type: "income", name: "工资" },
-        { type: "income", name: "理财" },
-        { type: "income", name: "礼金" },
-        { type: "income", name: "其他" }
-      ];
-    }
-  }
-
   newBill: Bill = {
     type: "expend",
     tag: "一般",
@@ -67,14 +52,13 @@ export default class Record extends Vue {
   }
   handleSubmit() {
     this.newBill.time = Date.now();
-    const temp = JSON.parse(JSON.stringify(this.newBill));
-    this.billList.push(temp);
+    billsModel.add(JSON.parse(JSON.stringify(this.newBill)));
     this.newBill.note = "";
     this.newBill.tag = this.newBill.type === "expend" ? "一般" : "工资";
   }
   @Watch("billList")
   onBillListChange() {
-    model.save.billList(this.billList);
+    billsModel.save();
   }
   @Watch("tags")
   onTagsChange() {
