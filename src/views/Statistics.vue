@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <Title :now="now" :expendAndIncome="expendAndIncome" />
+    <Title :now.sync="now" :expendAndIncome="expendAndIncome" />
     <div class="panel">
       <div v-if="displayBills.length===0" class="noData">暂无数据</div>
       <div v-else class="billList">
@@ -47,14 +47,15 @@ export default class Statistics extends Vue {
   }
 
   sum(now: Date) {
-    console.log(this.monthSum);
     for (let i of this.monthSum) {
       if (i.year === now.getFullYear() && i.month === now.getMonth()) {
         return { expend: i.expend, income: i.income };
         break;
       }
     }
+    return { expend: 0, income: 0 };
   }
+
   @Watch("now")
   onNowChanged() {
     this.expendAndIncome = this.sum(this.now)!;

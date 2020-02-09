@@ -4,7 +4,11 @@
     <div class="title">
       <div class="wrapper yearAndMonth">
         <div class="year text">{{year}}年</div>
-        <div class="month">{{monthText}}月</div>
+        <div class="month">
+          <Icon name="left" class="left" @click.native="lastMonth" />
+          {{monthText}}月
+          <Icon name="right" class="right" @click.native="nextMonth" />
+        </div>
       </div>
       <div class="dotLine"></div>
       <div class="wrapper">
@@ -27,7 +31,7 @@ type MonthSum = {
   income: number;
 };
 import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
+import { Component, Prop, Watch } from "vue-property-decorator";
 
 @Component
 export default class Header extends Vue {
@@ -36,6 +40,18 @@ export default class Header extends Vue {
   year = this.now.getFullYear();
   month = this.now.getMonth();
   monthText = this.month < 9 ? "0" + (this.month + 1) : this.month + 1;
+  lastMonth() {
+    this.$emit("update:now", new Date(this.now.setMonth(this.month - 1)));
+  }
+  nextMonth() {
+    this.$emit("update:now", new Date(this.now.setMonth(this.month + 1)));
+  }
+  @Watch("now")
+  onNowChanged() {
+    this.year = this.now.getFullYear();
+    this.month = this.now.getMonth();
+    this.monthText = this.month < 9 ? "0" + (this.month + 1) : this.month + 1;
+  }
 }
 </script>
 
@@ -64,7 +80,7 @@ export default class Header extends Vue {
     .text {
       font-size: $font-size-s;
       opacity: 0.7;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
     .sum,
     .month {
@@ -72,6 +88,22 @@ export default class Header extends Vue {
       height: 26px;
       display: flex;
       align-items: flex-end;
+    }
+    .month {
+      position: relative;
+      .icon {
+        height: 12px;
+        width: 12px;
+        position: absolute;
+        &.left {
+          left: -15px;
+          bottom: 4px;
+        }
+        &.right {
+          right: -15px;
+          bottom: 4px;
+        }
+      }
     }
   }
   .yearAndMonth {
