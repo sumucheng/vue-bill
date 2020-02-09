@@ -1,5 +1,8 @@
 <template>
-  <div class="date">{{displayText}}</div>
+  <div class="date">
+    <div class="monthAndDay">{{displayText}}</div>
+    <div class="week">{{weekText}}</div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -19,11 +22,24 @@ export default class BillList extends Vue {
   dateText = this.time.day < 10 ? "0" + this.time.day : this.time.day;
   monthText =
     this.time.month < 9 ? "0" + (this.time.month + 1) : this.time.month + 1;
-  weekText = this.oneWeek[this.time.week];
-  displayText = `${this.monthText}月${this.dateText}日 - 星期${this.weekText}`;
+  weekText = `星期${this.oneWeek[this.time.week]}`;
+  displayText = `${this.monthText}/${this.dateText}`;
 }
 </script>
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
+
+.date {
+  display: flex;
+  align-items: flex-end;
+  > .monthAndDay {
+    font-size: $font-size-xl;
+    margin-right: 5px;
+    color: $black;
+  }
+  > .week {
+    line-height: 1.8em;
+  }
+}
 </style>

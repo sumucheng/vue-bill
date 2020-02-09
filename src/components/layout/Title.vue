@@ -6,6 +6,7 @@
         <div class="year text">{{year}}年</div>
         <div class="month">{{monthText}}月</div>
       </div>
+      <div class="dotLine"></div>
       <div class="wrapper">
         <div class="text">支出</div>
         <div class="sum">{{expendAndIncome.expend}}</div>
@@ -68,10 +69,18 @@ export default class Header extends Vue {
     .sum,
     .month {
       font-size: $font-size-l;
+      height: 26px;
+      display: flex;
+      align-items: flex-end;
     }
   }
   .yearAndMonth {
     width: 25%;
+  }
+  .dotLine {
+    margin-top: 4px;
+    height: 45px;
+    border-right: 1px dotted rgba($color: white, $alpha: 0.6);
   }
 }
 </style>

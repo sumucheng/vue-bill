@@ -14,4 +14,7 @@ export default class BillList extends Vue {
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
+.sum {
+  line-height: 1.8em;
+}
 </style>

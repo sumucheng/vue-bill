@@ -2,8 +2,9 @@
   <Layout>
     <Title :now="now" :expendAndIncome="expendAndIncome" />
     <div class="panel">
-      <div class="billList" v-if="displayBills===true">
-        <div v-for="bills in displayBills" :key="bills.data[0].time">
+      <div v-if="displayBills.length===0" class="noData">暂无数据</div>
+      <div v-else class="billList">
+        <div v-for="bills in displayBills" :key="bills.data[0].time" class="oneDay">
           <div class="timeAndSum">
             <Time :time="bills.date" />
             <Sum :sum="bills.sum" />
@@ -11,7 +12,6 @@
           <BillItem v-for="bill in bills.data" :key="bill.time" :bill="bill" />
         </div>
       </div>
-      <div v-else class="noData">暂无数据</div>
     </div>
   </Layout>
 </template>
@@ -84,13 +84,16 @@ export default class Statistics extends Vue {
   .billList {
     max-height: 100%;
     overflow: auto;
-    .timeAndSum {
-      margin: 5px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: $grey;
-      font-size: $font-size-s;
+    .oneDay {
+      margin-top: 20px;
+      .timeAndSum {
+        margin: 5px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        color: $grey;
+        font-size: $font-size-s;
+      }
     }
   }
 }
