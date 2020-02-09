@@ -1,6 +1,11 @@
 <template>
   <div class="note">
-    <input :value="value" @input="$emit('input', $event.target.value)" placeholder="添加备注" />
+    <input
+      :value="value"
+      @input="$emit('input', $event.target.value)"
+      maxlength="15"
+      placeholder="添加备注"
+    />
   </div>
 </template>
 

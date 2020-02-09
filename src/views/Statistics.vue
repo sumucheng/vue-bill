@@ -40,9 +40,9 @@ export default class Statistics extends Vue {
   monthSum = billsModel.monthSum;
   displayBills = billsModel.display();
   now = new Date();
-  expendAndIncome = { expend: 0, income: 0 };
+  expendAndIncome: { expend: number; income: number } | undefined;
   created() {
-    this.expendAndIncome = this.sum(this.now)!;
+    this.expendAndIncome = this.sum(this.now) || { expend: 0, income: 0 };
   }
 
   sum(now: Date) {
