@@ -29,11 +29,4 @@ export default class BillList extends Vue {
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
-.date {
-  margin: 5px 20px;
-  display: flex;
-  align-items: center;
-  color: $grey;
-  font-size: $font-size-m;
-}
 </style>

@@ -2,7 +2,10 @@
   <Layout :type.sync="type">
     <div class="billList">
       <div v-for="bills in displayBills" :key="bills.data[0].time">
-        <Time :time="bills.date" />
+        <div class="timeAndSum">
+          <Time :time="bills.date" />
+          <Sum :sum="bills.sum" :type="type" />
+        </div>
         <BillItem v-for="bill in bills.data" :key="bill.time" :bill="bill" />
       </div>
     </div>
@@ -12,6 +15,7 @@
 <script lang="ts">
 import BillItem from "@/components/statistics/Bill.vue";
 import Time from "@/components/statistics/Time.vue";
+import Sum from "@/components/statistics/Sum.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import billsModel from "@/model/billsModel.ts";
@@ -24,7 +28,7 @@ type Bill = {
   time: number;
 };
 @Component({
-  components: { BillItem, Time }
+  components: { BillItem, Time, Sum }
 })
 export default class Statistics extends Vue {
   billList = billsModel.data;
@@ -43,5 +47,13 @@ export default class Statistics extends Vue {
 .billList {
   max-height: 90%;
   overflow: auto;
+  .timeAndSum {
+    margin: 5px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: $grey;
+    font-size: $font-size-m;
+  }
 }
 </style>

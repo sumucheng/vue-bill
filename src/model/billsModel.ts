@@ -7,6 +7,7 @@ type Bill = {
 };
 type displayBills = {
     date: { day: number, week: number, month: number, year: number },
+    sum: { expend: number, income: number }
     data: Bill[]
 }
 type BillsModel = {
@@ -32,9 +33,12 @@ const billsModel: BillsModel = {
             const temp = { day: t.getDate(), week: t.getDay(), month: t.getMonth(), year: t.getFullYear() }
             if (temp.day === nowTime.day && temp.month === nowTime.month && temp.year === nowTime.year) {
                 result[count].data.push(bill)
+                if (bill.type === 'expend') result[count].sum['expend'] += Number(bill.count)
+                else result[count].sum['income'] += Number(bill.count)
             }
             else {
-                result.push({ date: temp, data: [bill] })
+                const sum = bill.type === 'expend' ? { expend: Number(bill.count), income: 0 } : { expend: 0, income: Number(bill.count) }
+                result.push({ date: temp, data: [bill], sum: sum })
                 nowTime = { day: temp.day, month: temp.month, year: temp.year }
                 count += 1
             }
