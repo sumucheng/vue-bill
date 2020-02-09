@@ -5,30 +5,38 @@ type Bill = {
     count: string;
     time: number;
 };
+type MonthSum = {
+    year: number;
+    month: number;
+    expend: number;
+    income: number;
+}
 type displayBills = {
     date: { day: number, week: number, month: number, year: number },
     sum: { expend: number, income: number }
     data: Bill[]
 }
 type BillsModel = {
-    data: Bill[]
+    data: Bill[],
+    monthSum: MonthSum[],
     fetch: () => Bill[]
-    display: (type: string) => displayBills[]
+    display: () => displayBills[]
     add: (bill: Bill) => void
     save: () => void
 }
 const billsModel: BillsModel = {
     data: [],
+    monthSum: [],
     fetch() {
         this.data = JSON.parse(window.localStorage.getItem("billList") || "[]")
+        this.monthSum = JSON.parse(window.localStorage.getItem("monthSum") || "[]")
         return this.data
     },
-    display(type) {
-        const displayData = this.data.filter(bill => bill.type === type);
+    display() {
         const result = []
         let nowTime = { day: 0, month: 0, year: 0 }
         let count = -1
-        for (let bill of displayData) {
+        for (let bill of this.data) {
             const t = new Date(bill.time)
             const temp = { day: t.getDate(), week: t.getDay(), month: t.getMonth(), year: t.getFullYear() }
             if (temp.day === nowTime.day && temp.month === nowTime.month && temp.year === nowTime.year) {
@@ -47,10 +55,25 @@ const billsModel: BillsModel = {
     },
     add(bill) {
         this.data.unshift(bill);
+        const yy = new Date(bill.time).getFullYear()
+        const mm = new Date(bill.time).getMonth()
+        const last = this.monthSum[this.monthSum.length - 1]
+        if (last && last.year === yy && last.month === mm) {
+            if (bill.type === 'expend') last.expend += Number(bill.count)
+            else last.income += Number(bill.count)
+        }
+        else {
+            const newSum: MonthSum = bill.type === 'expend' ?
+                ({ year: yy, month: mm, expend: Number(bill.count), income: 0 }) :
+                ({ year: yy, month: mm, income: Number(bill.count), expend: 0 })
+            this.monthSum.push(newSum)
+        }
+        console.log(this.monthSum)
         this.save();
     },
     save() {
         window.localStorage.setItem("billList", JSON.stringify(this.data));
+        window.localStorage.setItem("monthSum", JSON.stringify(this.monthSum));
     }
 }
 export default billsModel

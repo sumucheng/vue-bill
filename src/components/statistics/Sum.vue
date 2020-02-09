@@ -7,11 +7,8 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 @Component
 export default class BillList extends Vue {
-  @Prop(String) type: string | undefined;
   @Prop() sum!: { expend: number; income: number };
-  displayType = this.type === "expend" ? "支出" : "收入";
-  result = this.type === "expend" ? this.sum.expend : this.sum.income;
-  displayText = `${this.displayType}：${this.result}`;
+  displayText = `支出：${this.sum.expend} 收入:${this.sum.income}`;
 }
 </script>
 

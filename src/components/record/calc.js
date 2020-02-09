@@ -8,10 +8,10 @@ function operate(numberOne, numberTwo, operation) {
     const one = Big(numberOne || "0");
     const two = Big(numberTwo || "0");
     if (operation === "+") {
-        return one.plus(two).toString();
+        return one.plus(two).toFixed(2).toString();
     }
     if (operation === "-") {
-        return one.minus(two).toString();
+        return one.minus(two).toFixed(2).toString();
     }
     throw Error(`Unknown operation '${operation}'`);
 }

@@ -1,13 +1,15 @@
 <template>
   <Layout>
-    <Title :type.sync="type" />
-    <div class="billList">
-      <div v-for="bills in displayBills" :key="bills.data[0].time">
-        <div class="timeAndSum">
-          <Time :time="bills.date" />
-          <Sum :sum="bills.sum" :type="type" />
+    <Title :now="now" :expendAndIncome="expendAndIncome" />
+    <div class="panel">
+      <div class="billList">
+        <div v-for="bills in displayBills" :key="bills.data[0].time">
+          <div class="timeAndSum">
+            <Time :time="bills.date" />
+            <Sum :sum="bills.sum" />
+          </div>
+          <BillItem v-for="bill in bills.data" :key="bill.time" :bill="bill" />
         </div>
-        <BillItem v-for="bill in bills.data" :key="bill.time" :bill="bill" />
       </div>
     </div>
   </Layout>
@@ -22,6 +24,7 @@ import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import billsModel from "@/model/billsModel.ts";
 billsModel.fetch();
+
 type Bill = {
   type: string;
   tag: string;
@@ -34,20 +37,43 @@ type Bill = {
 })
 export default class Statistics extends Vue {
   billList = billsModel.data;
-  displayBills = billsModel.display("expend");
-  type = "expend";
+  monthSum = billsModel.monthSum;
+  displayBills = billsModel.display();
+  now = new Date();
+  expendAndIncome = { expend: 0, income: 0 };
+  created() {
+    this.expendAndIncome = this.sum(this.now)!;
+  }
 
-  @Watch("type")
-  onTypeChanged() {
-    this.displayBills = billsModel.display(this.type);
+  sum(now: Date) {
+    console.log(this.monthSum);
+    for (let i of this.monthSum) {
+      if (i.year === now.getFullYear() && i.month === now.getMonth()) {
+        return { expend: i.expend, income: i.income };
+        break;
+      }
+    }
+  }
+  @Watch("now")
+  onNowChanged() {
+    this.expendAndIncome = this.sum(this.now)!;
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
+.panel {
+  position: fixed;
+  z-index: 2;
+  top: 114px;
+  bottom: 80px;
+  background-color: white;
+  width: 100%;
+  border-radius: $border-radius-l;
+}
 .billList {
-  max-height: 90%;
+  max-height: 100%;
   overflow: auto;
   .timeAndSum {
     margin: 5px 20px;
@@ -55,7 +81,7 @@ export default class Statistics extends Vue {
     justify-content: space-between;
     align-items: center;
     color: $grey;
-    font-size: $font-size-m;
+    font-size: $font-size-s;
   }
 }
 </style>
