@@ -1,5 +1,6 @@
 <template>
-  <Layout :type.sync="newBill.type">
+  <Layout>
+    <Header :type.sync="newBill.type" />
     <div class="panel">
       <div class="tagsAndNotes">
         <Tags :tags.sync="displayTags" :tag.sync="newBill.tag" @newTag="addTag" />
@@ -16,6 +17,7 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 import Tags from "@/components/record/Tags.vue";
 import Notes from "@/components/record/Notes.vue";
 import Computer from "@/components/record/Computer.vue";
+import Header from "@/components/layout/Header.vue";
 import tagsModel from "@/model/tagsModel.ts";
 tagsModel.fetch();
 import billsModel from "@/model/billsModel.ts";
@@ -32,7 +34,7 @@ type Tag = {
   name: string;
 };
 @Component({
-  components: { Tags, Notes, Computer }
+  components: { Tags, Notes, Computer, Header }
 })
 export default class Record extends Vue {
   billList = billsModel.data;

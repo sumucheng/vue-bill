@@ -1,10 +1,13 @@
 <template>
-  <Layout :type.sync="type">
-    <div class="labels-wrapper">
+  <Layout>
+    <Header :type.sync="type" />
+    <div class="panel">
       <div class="labels">
         <Label v-for="label in displayLabels" :key="label.name" :tagName="label.name"></Label>
       </div>
-      <Button text="新建标签" type="primary" class="add" :handleClick="addLabel"></Button>
+      <div class="add">
+        <Button text="新建标签" type="primary" :handleClick="addLabel"></Button>
+      </div>
     </div>
   </Layout>
 </template>
@@ -12,12 +15,13 @@
 <script lang="ts">
 import Button from "@/components/labels/Button.vue";
 import Label from "@/components/labels/Label.vue";
+import Header from "@/components/layout/Header.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import tagsModel from "@/model/tagsModel";
 tagsModel.fetch();
 @Component({
-  components: { Button, Label }
+  components: { Button, Label, Header }
 })
 export default class Labels extends Vue {
   tags = tagsModel.data;
@@ -41,14 +45,22 @@ export default class Labels extends Vue {
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
 
-.labels-wrapper {
-  margin: 20px;
+.panel {
+  position: fixed;
+  z-index: 2;
+  top: 114px;
+  bottom: 420px;
+  background-color: white;
+  width: 100%;
+  border-radius: $border-radius-l;
   .labels {
+    margin: 20px;
     overflow: auto;
     max-height: 500px;
   }
   .add {
     margin-top: 20px;
+    margin: 20px;
   }
 }
 @media (max-height: 800px) {

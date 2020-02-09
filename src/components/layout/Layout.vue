@@ -1,6 +1,5 @@
 <template>
   <div class="wrapper">
-    <Header :type.sync="tempType" />
     <div class="main">
       <slot />
     </div>
@@ -10,19 +9,21 @@
 
 <script lang="ts">
 import Header from "@/components/layout/Header.vue";
+import Title from "@/components/layout/Title.vue";
 import Nav from "@/components/layout/Nav.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 @Component({
-  components: { Header, Nav }
+  components: { Header, Nav, Title }
 })
 export default class Layout extends Vue {
-  @Prop(String) type: string | undefined;
-  tempType: string = this.type || "expend";
-  @Watch("tempType")
-  onTempTypeChanged(value: string) {
-    this.$emit("update:type", value);
-  }
+  // @Prop(String) type: string | undefined;
+  // @Prop(String) view: string | undefined;
+  // tempType: string = this.type || "expend";
+  // @Watch("tempType")
+  // onTempTypeChanged(value: string) {
+  //   this.$emit("update:type", value);
+  // }
 }
 </script>
 
@@ -36,7 +37,7 @@ export default class Layout extends Vue {
   .main {
     position: fixed;
     z-index: 2;
-    top: 114px;
+    top: 0;
     bottom: 81px;
     background-color: white;
     width: 100%;
