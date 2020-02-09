@@ -49,8 +49,11 @@ export default class EditLabel extends Vue {
     }
   }
   deleteLabel() {
-    tagsModel.delete(this.route);
-    this.$router.back();
+    const result = tagsModel.delete(this.route);
+    if (result === "success") this.$router.back();
+    else {
+      window.alert(result);
+    }
   }
   back() {
     this.$router.back();

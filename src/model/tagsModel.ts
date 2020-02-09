@@ -8,7 +8,7 @@ type TagsModel = {
     display: (type: string) => Tag[]
     add: (tag: Tag) => 'success' | '该标签已存在'
     update: (oldName: string, newName: string) => 'success' | '标签名重复'
-    delete: (name: string) => void
+    delete: (name: string) => 'success' | '该标签不可删除'
     save: () => void
     init: () => Tag[]
 }
@@ -32,6 +32,7 @@ const tagsModel: TagsModel = {
         return 'success'
     },
     update(oldName, newName) {
+        if (oldName === newName) return 'success'
         const tag = this.data.find(tag => tag.name === oldName)
         if (this.data.find(tag => tag.name === newName)) {
             return "标签名重复"
@@ -41,9 +42,11 @@ const tagsModel: TagsModel = {
         return "success"
     },
     delete(name) {
+        if (name === '一般' || name === '工资') return '该标签不可删除'
         const index = this.data.findIndex(tag => tag.name === name);
         this.data.splice(index, 1);
         this.save()
+        return "success"
     },
     save() {
         window.localStorage.setItem("tags", JSON.stringify(this.data));

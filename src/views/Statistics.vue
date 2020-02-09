@@ -35,10 +35,6 @@ export default class Statistics extends Vue {
   onTypeChanged() {
     this.displayBills = billsModel.display(this.type);
   }
-  // @Watch("period")
-  // onPeriodChanged() {
-  //   this.displayBills = billsModel.display(this.type, this.period);
-  // }
 }
 </script>
 
