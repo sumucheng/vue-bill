@@ -8,10 +8,10 @@ function operate(numberOne, numberTwo, operation) {
     const one = Big(numberOne || "0");
     const two = Big(numberTwo || "0");
     if (operation === "+") {
-        return one.plus(two).toString();
+        return (one.plus(two)).toString();
     }
     if (operation === "-") {
-        return one.minus(two).toString();
+        return (one.minus(two)).toString();
     }
     throw Error(`Unknown operation '${operation}'`);
 }
@@ -23,12 +23,13 @@ export default function calculate(obj, buttonName) {
         }
         if (obj.operation) {
             if (obj.next) {
-                return obj.next.length < 9 ? { next: obj.next + buttonName } : { next: obj.next };
+                return (obj.next.length < 9 && (obj.next.indexOf('.') === -1 || obj.next.length - obj.next.indexOf('.') < 3)) ?
+                    { next: obj.next + buttonName } : { next: obj.next };
             }
             return { next: buttonName };
         }
         if (obj.next && obj.next) {
-            if (obj.next.length < 9) {
+            if (obj.next.length < 9 && (obj.next.indexOf('.') === -1 || obj.next.length - obj.next.indexOf('.') < 3)) {
                 const next = obj.next === "0" ? buttonName : obj.next + buttonName;
                 return {
                     next,

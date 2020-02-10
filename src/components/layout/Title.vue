@@ -97,11 +97,11 @@ export default class Header extends Vue {
         position: absolute;
         &.left {
           left: -15px;
-          bottom: 4px;
+          bottom: 5px;
         }
         &.right {
           right: -15px;
-          bottom: 4px;
+          bottom: 5px;
         }
       }
     }

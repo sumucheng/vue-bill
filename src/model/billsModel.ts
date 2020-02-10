@@ -72,7 +72,6 @@ const billsModel: BillsModel = {
                 ({ year: yy, month: mm, income: Number(bill.count), expend: 0 })
             this.monthSum.push(newSum)
         }
-        console.log(this.monthSum)
         this.save();
     },
     save() {
