@@ -2,31 +2,25 @@
   <Layout>
     <Title :now.sync="now" :expendAndIncome="expendAndIncome" />
     <div class="panel">
-      <NoData v-if="displayBills.length===0" />
-      <div v-else class="billList">
-        <div v-for="bills in displayBills" :key="bills.data[0].time" class="oneDay">
-          <div class="timeAndSum">
-            <Time :time="bills.date" />
-            <Sum :sum="bills.sum" />
+      <Tabs :titles="titles" :selected.sync="selectedTitle" />
+      <div v-if="selectedTitle==='流水'">
+        <NoData v-if="displayBills.length===0" />
+        <div v-else class="billList">
+          <div v-for="bills in displayBills" :key="bills.data[0].time" class="oneDay">
+            <div class="timeAndSum">
+              <Time :time="bills.date" />
+              <Sum :sum="bills.sum" />
+            </div>
+            <BillItem v-for="bill in bills.data" :key="bill.time" :bill="bill" />
           </div>
-          <BillItem v-for="bill in bills.data" :key="bill.time" :bill="bill" />
         </div>
       </div>
+      <div v-else>123</div>
     </div>
   </Layout>
 </template>
  
 <script lang="ts">
-import BillItem from "@/components/statistics/Bill.vue";
-import Time from "@/components/statistics/Time.vue";
-import Sum from "@/components/statistics/Sum.vue";
-import Title from "@/components/layout/Title.vue";
-import NoData from "@/components/statistics/NoData.vue";
-import Vue from "vue";
-import { Component, Prop, Watch } from "vue-property-decorator";
-import billsModel from "@/model/billsModel.ts";
-billsModel.fetch();
-
 type Bill = {
   type: string;
   tag: string;
@@ -34,8 +28,19 @@ type Bill = {
   count: string;
   time: number;
 };
+import BillItem from "@/components/statistics/Bill.vue";
+import Time from "@/components/statistics/Time.vue";
+import Sum from "@/components/statistics/Sum.vue";
+import Title from "@/components/layout/Title.vue";
+import NoData from "@/components/statistics/NoData.vue";
+import Tabs from "@/components/statistics/Tabs.vue";
+
+import billsModel from "@/model/billsModel.ts";
+billsModel.fetch();
+import Vue from "vue";
+import { Component, Prop, Watch } from "vue-property-decorator";
 @Component({
-  components: { BillItem, Time, Sum, Title, NoData }
+  components: { BillItem, Time, Sum, Title, NoData, Tabs }
 })
 export default class Statistics extends Vue {
   billList = billsModel.data;
@@ -43,6 +48,8 @@ export default class Statistics extends Vue {
   now = new Date();
   displayBills = billsModel.display(this.now);
   expendAndIncome: { expend: number; income: number } | undefined;
+  titles = ["流水", "分类"];
+  selectedTitle = "流水";
   created() {
     this.expendAndIncome = this.sum(this.now) || { expend: 0, income: 0 };
   }
@@ -75,20 +82,11 @@ export default class Statistics extends Vue {
   background-color: white;
   width: 100%;
   border-radius: $border-radius-l;
-  .noData {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: $font-size-m;
-    color: $grey;
-  }
   .billList {
     max-height: 100%;
     overflow: auto;
     .oneDay {
-      margin-top: 20px;
+      margin-top: 10px;
       .timeAndSum {
         margin: 5px 20px;
         display: flex;

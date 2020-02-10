@@ -73,7 +73,7 @@ export default class Header extends Vue {
   color: white;
   .wrapper {
     width: 33%;
-    padding-left: 20px;
+    padding-left: 15px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -107,7 +107,8 @@ export default class Header extends Vue {
     }
   }
   .yearAndMonth {
-    width: 25%;
+    width: 28%;
+    padding-left: 30px;
   }
   .dotLine {
     margin-top: 4px;

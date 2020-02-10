@@ -15,8 +15,11 @@ export default class BillList extends Vue {}
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
 .noData {
+  height: 50vh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   .icon {
     width: 193px;
     height: 133px;

@@ -1,15 +1,13 @@
 <template>
   <div class="tabs">
-    <div class="item" :class="{active:period==='day'}" @click="$emit('update:period','day')">
-      <div class="text">按天</div>
-      <div class="line"></div>
-    </div>
-    <div class="item" :class="{active:period==='week'}" @click="$emit('update:period','week')">
-      <div class="text">按周</div>
-      <div class="line"></div>
-    </div>
-    <div class="item" :class="{active:period==='month'}" @click="$emit('update:period','month')">
-      <div class="text">按月</div>
+    <div
+      class="item"
+      v-for="title in titles"
+      :key="title"
+      :class="{active:selected===title}"
+      @click="$emit('update:selected',title)"
+    >
+      <div class="text">{{title}}</div>
       <div class="line"></div>
     </div>
   </div>
@@ -20,7 +18,8 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 @Component
 export default class Tabs extends Vue {
-  @Prop({ default: "day" }) period!: string;
+  @Prop() titles!: string[];
+  @Prop() selected!: string;
 }
 </script>
 
@@ -28,7 +27,6 @@ export default class Tabs extends Vue {
 @import "~@/assets/style/normal.scss";
 .tabs {
   padding-top: 12px;
-  margin-bottom: 20px;
   display: flex;
   justify-content: space-around;
   border-bottom: 1px solid $light-grey;
