@@ -5,9 +5,9 @@
       <div class="wrapper yearAndMonth">
         <div class="year text">{{year}}年</div>
         <div class="month">
-          <Icon name="left" class="left" @click.native="lastMonth" />
+          <Icon name="solid-left" class="left" @click.native="lastMonth" />
           {{monthText}}月
-          <Icon name="right" class="right" @click.native="nextMonth" />
+          <Icon name="solid-right" class="right" @click.native="nextMonth" />
         </div>
       </div>
       <div class="dotLine"></div>

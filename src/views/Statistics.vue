@@ -39,8 +39,8 @@ type Bill = {
 export default class Statistics extends Vue {
   billList = billsModel.data;
   monthSum = billsModel.monthSum;
-  displayBills = billsModel.display();
   now = new Date();
+  displayBills = billsModel.display(this.now);
   expendAndIncome: { expend: number; income: number } | undefined;
   created() {
     this.expendAndIncome = this.sum(this.now) || { expend: 0, income: 0 };
@@ -59,6 +59,7 @@ export default class Statistics extends Vue {
   @Watch("now")
   onNowChanged() {
     this.expendAndIncome = this.sum(this.now)!;
+    this.displayBills = billsModel.display(this.now);
   }
 }
 </script>

@@ -20,7 +20,7 @@ type BillsModel = {
     data: Bill[],
     monthSum: MonthSum[],
     fetch: () => Bill[]
-    display: () => displayBills[]
+    display: (now: Date) => displayBills[]
     add: (bill: Bill) => void
     save: () => void
 }
@@ -32,11 +32,15 @@ const billsModel: BillsModel = {
         this.monthSum = JSON.parse(window.localStorage.getItem("monthSum") || "[]")
         return this.data
     },
-    display() {
+    display(now) {
         const result = []
+        const displayBill = this.data.filter(bill => {
+            const time = new Date(bill.time)
+            return time.getMonth() === now.getMonth() && time.getFullYear() === now.getFullYear()
+        })
         let nowTime = { day: 0, month: 0, year: 0 }
         let count = -1
-        for (let bill of this.data) {
+        for (let bill of displayBill) {
             const t = new Date(bill.time)
             const temp = { day: t.getDate(), week: t.getDay(), month: t.getMonth(), year: t.getFullYear() }
             if (temp.day === nowTime.day && temp.month === nowTime.month && temp.year === nowTime.year) {
