@@ -15,7 +15,7 @@
           </div>
         </div>
       </div>
-      <Category v-else :sortedBills="sortedBills" />
+      <Category v-else :sortedBills="sortedBills" :expendAndIncome="expendAndIncome" />
     </div>
   </Layout>
 </template>

@@ -17,6 +17,7 @@ interface DisplayBills {
     data: Bill[]
 }
 interface SortedBills {
+    type: string,
     label: string,
     sum: number,
     data: Bill[]
@@ -64,19 +65,19 @@ const billsModel: BillsModel = {
     },
     classify(now) {
         const result: SortedBills[] = []
-        const displayBill = this.oneMonth(now).sort((a, b) => a.tag === b.tag ? 1 : -1)
-        let tag = ''
-        let count = -1
+        const displayBill = this.oneMonth(now)
         for (let bill of displayBill) {
-            if (bill.tag === tag) {
-                result[count].data.push(bill)
-                result[count].sum = this.fix(result[count].sum + Number(bill.count))
+            let exist = false
+            for (let item of result) {
+                if (item.label === bill.tag) {
+                    item.data.push(bill)
+                    item.sum = this.fix(item.sum + Number(bill.count))
+                    exist = true
+                    break;
+                }
             }
-            else {
-                result.push({ label: bill.tag, sum: 0, data: [bill] })
-                tag = bill.tag
-                count += 1
-            }
+            if (!exist)
+                result.push({ type: bill.type, label: bill.tag, sum: this.fix(Number(bill.count)), data: [bill] })
         }
         return result
     },
