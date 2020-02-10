@@ -16,6 +16,11 @@ interface DisplayBills {
     sum: { expend: number, income: number }
     data: Bill[]
 }
+interface SortedBills {
+    label: string,
+    sum: number,
+    data: Bill[]
+}
 interface BillsModel {
     data: Bill[]
     monthSum: MonthSum[]
@@ -23,7 +28,7 @@ interface BillsModel {
     add: (bill: Bill) => void
     save: () => void
     display: (now: Date) => DisplayBills[]
-    classify: (now: Date) => void
+    classify: (now: Date) => SortedBills[]
     oneMonth: (now: Date) => Bill[]
     fix: (n: number) => number
 }
@@ -58,14 +63,19 @@ const billsModel: BillsModel = {
         return result;
     },
     classify(now) {
-        const displayBill = this.oneMonth(now)
-        let result: { [propName: string]: number } = {}
+        const result: SortedBills[] = []
+        const displayBill = this.oneMonth(now).sort((a, b) => a.tag === b.tag ? 1 : -1)
+        let tag = ''
+        let count = -1
         for (let bill of displayBill) {
-            if (result[bill.tag]) {
-                result[bill.tag] = this.fix(result[bill.tag] + Number(bill.count))
+            if (bill.tag === tag) {
+                result[count].data.push(bill)
+                result[count].sum = this.fix(result[count].sum + Number(bill.count))
             }
             else {
-                result[bill.tag] = this.fix(Number(bill.count))
+                result.push({ label: bill.tag, sum: 0, data: [bill] })
+                tag = bill.tag
+                count += 1
             }
         }
         return result
