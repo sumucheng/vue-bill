@@ -3,9 +3,9 @@
     <Title :now.sync="now" :expendAndIncome="expendAndIncome" />
     <div class="panel">
       <Tabs :titles="titles" :selected.sync="selectedTitle" />
-      <div v-if="selectedTitle==='流水'">
+      <div v-if="selectedTitle==='流水'" class="billList">
         <NoData v-if="displayBills.length===0" />
-        <div v-else class="billList">
+        <div v-else>
           <div v-for="bills in displayBills" :key="bills.data[0].time" class="oneDay">
             <div class="timeAndSum">
               <Time :time="bills.date" />
@@ -15,7 +15,7 @@
           </div>
         </div>
       </div>
-      <div v-else>123</div>
+      <Category v-else :sortedBills="sortedBills" />
     </div>
   </Layout>
 </template>
@@ -34,18 +34,21 @@ import Sum from "@/components/statistics/Sum.vue";
 import Title from "@/components/layout/Title.vue";
 import NoData from "@/components/statistics/NoData.vue";
 import Tabs from "@/components/statistics/Tabs.vue";
+import Category from "@/components/statistics/Category.vue";
 
 import billsModel from "@/model/billsModel.ts";
 billsModel.fetch();
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 @Component({
-  components: { BillItem, Time, Sum, Title, NoData, Tabs }
+  components: { BillItem, Time, Sum, Title, NoData, Tabs, Category }
 })
 export default class Statistics extends Vue {
   billList = billsModel.data;
   monthSum = billsModel.monthSum;
+
   now = new Date();
+  sortedBills = billsModel.classify(this.now);
   displayBills = billsModel.display(this.now);
   expendAndIncome: { expend: number; income: number } | undefined;
   titles = ["流水", "分类"];
@@ -66,8 +69,9 @@ export default class Statistics extends Vue {
 
   @Watch("now")
   onNowChanged() {
-    this.expendAndIncome = this.sum(this.now)!;
+    this.expendAndIncome = this.sum(this.now);
     this.displayBills = billsModel.display(this.now);
+    this.sortedBills = billsModel.classify(this.now);
   }
 }
 </script>
@@ -87,6 +91,9 @@ export default class Statistics extends Vue {
     overflow: auto;
     .oneDay {
       margin-top: 10px;
+      &:last-child {
+        padding-bottom: 40px;
+      }
       .timeAndSum {
         margin: 5px 20px;
         display: flex;
