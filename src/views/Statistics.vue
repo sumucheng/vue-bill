@@ -2,7 +2,7 @@
   <Layout>
     <Title :now.sync="now" :expendAndIncome="expendAndIncome" />
     <div class="panel">
-      <div v-if="displayBills.length===0" class="noData">暂无数据</div>
+      <NoData v-if="displayBills.length===0" />
       <div v-else class="billList">
         <div v-for="bills in displayBills" :key="bills.data[0].time" class="oneDay">
           <div class="timeAndSum">
@@ -21,6 +21,7 @@ import BillItem from "@/components/statistics/Bill.vue";
 import Time from "@/components/statistics/Time.vue";
 import Sum from "@/components/statistics/Sum.vue";
 import Title from "@/components/layout/Title.vue";
+import NoData from "@/components/statistics/NoData.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import billsModel from "@/model/billsModel.ts";
@@ -34,7 +35,7 @@ type Bill = {
   time: number;
 };
 @Component({
-  components: { BillItem, Time, Sum, Title }
+  components: { BillItem, Time, Sum, Title, NoData }
 })
 export default class Statistics extends Vue {
   billList = billsModel.data;
