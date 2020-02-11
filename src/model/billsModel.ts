@@ -79,6 +79,7 @@ const billsModel: BillsModel = {
             if (!exist)
                 result.push({ type: bill.type, label: bill.tag, sum: this.fix(Number(bill.count)), data: [bill] })
         }
+        result.sort((a, b) => b.sum - a.sum)
         return result
     },
     oneMonth(now) {
