@@ -4,11 +4,14 @@
     <div class="labels">
       <div class="list">支出排行榜</div>
       <div class="oneLabel" v-for="item in displayBills" :key="item.label+item.sum">
-        <div class="left">
-          <div class="label">{{item.label}}</div>
-          <div class="percent">{{percent(item.sum)+'%'}}</div>
+        <div class="top">
+          <div class="left">
+            <div class="label">{{item.label}}</div>
+            <div class="percent">{{percent(item.sum)+'%'}}</div>
+          </div>
+          <div class="number">{{item.sum}}</div>
         </div>
-        <div class="right">{{item.sum}}</div>
+        <div class="line" :style="`width: ${percentLine(item.sum)}`"></div>
       </div>
     </div>
   </div>
@@ -72,6 +75,10 @@ export default class BillList extends Vue {
         ? this.expendAndIncome.expend
         : this.expendAndIncome.income;
     return ((100 * n) / x).toFixed(2);
+  }
+  percentLine(n: number) {
+    const max = this.displayBills[0].sum;
+    return ((100 * n) / max).toFixed(2) + "%";
   }
 
   mounted() {
@@ -167,38 +174,44 @@ export default class BillList extends Vue {
     overflow: auto;
     .list {
       padding-left: 20px;
-      margin-bottom: 10px;
       display: flex;
       justify-content: flex-start;
     }
     .oneLabel {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 20px;
       margin: 0 20px;
       height: 60px;
-      background-color: $light-grey;
-      margin-bottom: 10px;
-      border-radius: $border-radius-m;
-      .left {
+      border-bottom: 1px solid $light-grey;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .top {
         display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        .label {
-          font-size: $font-size-m;
-          line-height: 1.5em;
+        justify-content: space-between;
+        .left {
+          display: flex;
+          align-items: center;
+          .label {
+            font-size: $font-size-m;
+            line-height: 1.5em;
+            margin-right: 5px;
+          }
+          .percent {
+            color: $grey;
+            font-size: $font-size-s;
+          }
         }
-        .percent {
-          color: $grey;
-          font-size: $font-size-s;
+        .number {
+          font-family: $font-number;
+          font-size: $font-size-l;
+          text-align: right;
+          font-weight: bold;
         }
       }
-      .right {
-        font-family: $font-number;
-        font-size: $font-size-l;
-        text-align: right;
-        font-weight: bold;
+
+      .line {
+        background-color: $light-orange;
+        height: 4px;
+        border-radius: 20px;
       }
     }
   }
