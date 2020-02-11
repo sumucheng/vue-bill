@@ -15,12 +15,15 @@
           </div>
         </div>
       </div>
-      <Chart
-        v-else
-        :sortedBills="sortedBills"
-        :oneDayBills="displayBills"
-        :expendAndIncome="expendAndIncome"
-      />
+      <div v-else class="category">
+        <Chart
+          :sortedBills="sortedBills"
+          :oneDayBills="displayBills"
+          :expendAndIncome="expendAndIncome"
+          :type="type"
+        />
+        <List :sortedBills="sortedBills" :expendAndIncome="expendAndIncome" :type="type" />
+      </div>
     </div>
   </Layout>
 </template>
@@ -40,18 +43,19 @@ import Title from "@/components/layout/Title.vue";
 import NoData from "@/components/statistics/NoData.vue";
 import Tabs from "@/components/statistics/Tabs.vue";
 import Chart from "@/components/statistics/Chart.vue";
+import List from "@/components/statistics/List.vue";
 
 import billsModel from "@/model/billsModel.ts";
 billsModel.fetch();
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 @Component({
-  components: { BillItem, Time, Sum, Title, NoData, Tabs, Chart }
+  components: { BillItem, Time, Sum, Title, NoData, Tabs, Chart, List }
 })
 export default class Statistics extends Vue {
   billList = billsModel.data;
   monthSum = billsModel.monthSum;
-
+  type = "expend";
   now = new Date();
   sortedBills = billsModel.classify(this.now);
   displayBills = billsModel.display(this.now);
@@ -108,6 +112,13 @@ export default class Statistics extends Vue {
         font-size: $font-size-s;
       }
     }
+  }
+  .category {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    padding-bottom: 40px;
   }
 }
 </style>

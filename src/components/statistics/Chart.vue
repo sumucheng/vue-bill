@@ -1,20 +1,5 @@
 <template>
-  <div class="category">
-    <div id="chart"></div>
-    <div class="labels">
-      <div class="list">支出排行榜</div>
-      <div class="oneLabel" v-for="item in displayBills" :key="item.label+item.sum">
-        <div class="top">
-          <div class="left">
-            <div class="label">{{item.label}}</div>
-            <div class="percent">{{percent(item.sum)+'%'}}</div>
-          </div>
-          <div class="number">{{item.sum}}</div>
-        </div>
-        <div class="line" :style="`width: ${percentLine(item.sum)}`"></div>
-      </div>
-    </div>
-  </div>
+  <div id="chart"></div>
 </template>
 
 <script lang="ts">
@@ -145,75 +130,9 @@ export default class BillList extends Vue {
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
-
-.category {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  position: relative;
-  padding-bottom: 40px;
-  #chart {
-    border-bottom: 1px solid #eee;
-    margin-bottom: 10px;
-  }
-  .circle {
-    position: absolute;
-    top: 20px;
-    align-self: center;
-    height: 140px;
-    width: 140px;
-    border-radius: 50%;
-    border: 15px solid $grey;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .labels {
-    max-height: 90%;
-    overflow: auto;
-    .list {
-      padding-left: 20px;
-      display: flex;
-      justify-content: flex-start;
-    }
-    .oneLabel {
-      margin: 0 20px;
-      height: 60px;
-      border-bottom: 1px solid $light-grey;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      .top {
-        display: flex;
-        justify-content: space-between;
-        .left {
-          display: flex;
-          align-items: center;
-          .label {
-            font-size: $font-size-m;
-            line-height: 1.5em;
-            margin-right: 5px;
-          }
-          .percent {
-            color: $grey;
-            font-size: $font-size-s;
-          }
-        }
-        .number {
-          font-family: $font-number;
-          font-size: $font-size-l;
-          text-align: right;
-          font-weight: bold;
-        }
-      }
-
-      .line {
-        background-color: $light-orange;
-        height: 4px;
-        border-radius: 20px;
-      }
-    }
-  }
+#chart {
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
 }
+
 </style>
