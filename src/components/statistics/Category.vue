@@ -1,15 +1,11 @@
 <template>
   <div class="category">
-    <div id="xxx"></div>
-    <!-- <div class="circle" @click="changeType">
-      <div class="sum">{{type==='expend'?expendAndIncome.expend:expendAndIncome.income}}</div>
-      <div class="text">{{type==='expend'?'总支出':'总收入'}}</div>
-    </div>-->
+    <div id="chart"></div>
     <div class="labels">
       <div class="oneLabel" v-for="item in displayBills" :key="item.label+item.sum">
         <div class="left">
           <div class="label">{{item.label}}</div>
-          <div class="percent">{{percent(item.sum)}}</div>
+          <div class="percent">{{percent(item.sum)+'%'}}</div>
         </div>
         <div class="right">{{item.sum}}</div>
       </div>
@@ -39,6 +35,22 @@ export default class BillList extends Vue {
   @Prop() sortedBills!: SortedBills[];
   @Prop() expendAndIncome!: { expend: number; income: number };
   type = "expend";
+  displayBills = this.sortedBills.filter(el => el.type === this.type);
+  chart: G2.Chart | undefined;
+  html = `
+    <div>
+      <div class='sum' style="font-size: 15px;font-weight: bold;font-family:Consolas">
+      ${
+        this.type === "expend"
+          ? this.expendAndIncome.expend
+          : this.expendAndIncome.income
+      }
+      </div> 
+      <div style="font-size: 12px;color:#999">
+      ${this.type === "expend" ? "总支出" : "总收入"}
+      </div>
+    </div>`;
+
   @Watch("type")
   onTypeChange() {
     this.displayBills = this.sortedBills.filter(el => el.type === this.type);
@@ -46,11 +58,17 @@ export default class BillList extends Vue {
   @Watch("sortedBills")
   onSortedBillsChange() {
     this.displayBills = this.sortedBills.filter(el => el.type === this.type);
+    const chartData = this.displayBills.map(i => {
+      return {
+        item: i.label,
+        count: i.sum,
+        percent: parseInt(this.percent(i.sum))
+      };
+    });
+
+    this.chart!.changeData(chartData);
   }
-  displayBills = this.sortedBills.filter(el => el.type === this.type);
-  changeType() {
-    this.type = this.type === "expend" ? "income" : "expend";
-  }
+
   percent(n: number) {
     const x =
       this.type === "expend"
@@ -60,45 +78,32 @@ export default class BillList extends Vue {
   }
 
   mounted() {
-    const data = this.displayBills.map(i => {
+    const chartData = this.displayBills.map(i => {
       return {
         item: i.label,
         count: i.sum,
         percent: parseInt(this.percent(i.sum))
       };
     });
-
-    const chart = new G2.Chart({
-      container: "xxx",
+    this.chart = new G2.Chart({
+      container: "chart",
       forceFit: true,
-      height: 250,
-      padding: [20, 125, 20, 125],
+      height: 200,
+      padding: [15, 125, 20, 125],
       animate: false
     });
-
-    chart.legend(false);
-    chart.source(data, {
+    this.chart.legend(false);
+    this.chart.source(chartData, {
       percent: {
         formatter: (val: string) => val + "%"
       }
     });
-    chart.coord("theta", {
+    this.chart.coord("theta", {
       radius: 1,
       innerRadius: 0.7
     });
-    chart.tooltip(false);
-    const html = `<div><div style="font-size: 15px;font-weight: bold;">${
-      this.type === "expend"
-        ? this.expendAndIncome.expend
-        : this.expendAndIncome.income
-    }</div> <div>${this.type === "expend" ? "总支出" : "总收入"}</div></div>`;
-    chart.guide().html({
-      position: ["50%", "50%"],
-      html: html,
-      alignX: "middle",
-      alignY: "middle"
-    });
-    chart
+    this.chart.tooltip(false);
+    this.chart
       .intervalStack()
       .position("percent")
       .color("item")
@@ -113,13 +118,19 @@ export default class BillList extends Vue {
       })
       .select(false)
       .active(false);
-    chart.render();
+    this.chart.render();
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
+.sum {
+  font-family: $font-number;
+  font-size: $font-size-l;
+  font-weight: bold;
+  color: red;
+}
 .category {
   display: flex;
   flex-direction: column;
@@ -138,14 +149,8 @@ export default class BillList extends Vue {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    .sum {
-      font-family: $font-number;
-      font-size: $font-size-l;
-      font-weight: bold;
-    }
   }
   .labels {
-    margin-top: 190px;
     max-height: 90%;
     overflow: auto;
     .oneLabel {
