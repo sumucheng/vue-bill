@@ -15,7 +15,12 @@
           </div>
         </div>
       </div>
-      <Category v-else :sortedBills="sortedBills" :expendAndIncome="expendAndIncome" />
+      <Chart
+        v-else
+        :sortedBills="sortedBills"
+        :oneDayBills="displayBills"
+        :expendAndIncome="expendAndIncome"
+      />
     </div>
   </Layout>
 </template>
@@ -34,14 +39,14 @@ import Sum from "@/components/statistics/Sum.vue";
 import Title from "@/components/layout/Title.vue";
 import NoData from "@/components/statistics/NoData.vue";
 import Tabs from "@/components/statistics/Tabs.vue";
-import Category from "@/components/statistics/Category.vue";
+import Chart from "@/components/statistics/Chart.vue";
 
 import billsModel from "@/model/billsModel.ts";
 billsModel.fetch();
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 @Component({
-  components: { BillItem, Time, Sum, Title, NoData, Tabs, Category }
+  components: { BillItem, Time, Sum, Title, NoData, Tabs, Chart }
 })
 export default class Statistics extends Vue {
   billList = billsModel.data;
