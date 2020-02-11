@@ -61,33 +61,41 @@ export default class BillList extends Vue {
 .category {
   display: flex;
   flex-direction: column;
-  max-height: 100%;
+  height: 100%;
+  position: relative;
+  padding-bottom: 40px;
   .circle {
-    margin-top: 20px;
+    position: absolute;
+    top: 20px;
     align-self: center;
-    height: 150px;
-    width: 150px;
+    height: 140px;
+    width: 140px;
     border-radius: 50%;
     border: 15px solid;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    .sum {
+      font-family: $font-number;
+      font-size: $font-size-l;
+      font-weight: bold;
+    }
   }
   .labels {
-    max-height: 100%;
+    margin-top: 190px;
+    max-height: 90%;
     overflow: auto;
     .oneLabel {
       display: flex;
       justify-content: space-between;
-      padding-left: 25px;
-      padding-right: 20px;
+      align-items: center;
+      padding: 0 20px;
       margin: 0 20px;
-      height: 70px;
+      height: 60px;
       background-color: $light-grey;
       margin-bottom: 10px;
       border-radius: $border-radius-m;
-      align-items: center;
       .left {
         display: flex;
         flex-direction: column;
