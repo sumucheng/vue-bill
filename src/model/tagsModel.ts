@@ -4,8 +4,8 @@ type TagsModel = {
     fetch: () => Tag[]
     display: (type: string) => Tag[]
     add: (tag: Tag) => 'success' | '该标签已存在'
-    update: (oldName: string, newName: string) => 'success' | '标签名重复'
-    delete: (name: string) => 'success' | '该标签不可删除'
+    update: (tag: Tag, newName: string) => 'success' | '标签名重复'
+    delete: (tag: Tag) => 'success' | '该标签不可删除'
     save: () => void
     init: () => Tag[]
 }
@@ -28,9 +28,8 @@ const tagsModel: TagsModel = {
         this.save();
         return 'success'
     },
-    update(oldName, newName) {
-        if (oldName === newName) return 'success'
-        const tag = this.data.find(tag => tag.name === oldName)
+    update(tag, newName) {
+        if (tag.name === newName) return 'success'
         if (this.data.find(tag => tag.name === newName)) {
             return "标签名重复"
         }
@@ -38,7 +37,8 @@ const tagsModel: TagsModel = {
         this.save()
         return "success"
     },
-    delete(name) {
+    delete(tag) {
+        const name = tag.name
         if (name === '一般' || name === '工资') return '该标签不可删除'
         const index = this.data.findIndex(tag => tag.name === name);
         this.data.splice(index, 1);

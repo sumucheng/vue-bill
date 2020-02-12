@@ -34,8 +34,7 @@ export default class Labels extends Vue {
   addLabel() {
     const name = window.prompt("请输入标签名称（不超过四个字）");
     if (name && name != "") {
-      const result = tagsModel.add({ type: this.type, name: name });
-      if (result !== "success") window.alert(result);
+      window.createTag(this.type, name);
       this.displayLabels = tagsModel.display(this.type);
     }
   }

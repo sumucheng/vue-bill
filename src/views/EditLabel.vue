@@ -9,7 +9,7 @@
     <div class="line"></div>
     <div class="main">
       <div class="name">
-        <input v-model="tagName" placeholder="不超过4个字" required maxlength="4" />
+        <input v-model="newName" placeholder="不超过4个字" required maxlength="4" />
       </div>
       <div class="buttons">
         <Button text="确 认" type="primary" :handleClick="editLabel" />
@@ -23,36 +23,29 @@
 import Button from "@/components/labels/Button.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
-import tagsModel from "@/model/tagsModel";
 
 @Component({
   components: { Button }
 })
 export default class EditLabel extends Vue {
   tags = window.tags;
-  tagName = "";
-  route = "";
+  tag: Tag | undefined;
+  newName = "";
   created() {
-    this.route = this.$route.params.id;
-    if (this.tags.find(tag => tag.name === this.route)) {
-      this.tagName = this.route;
+    this.tag = window.find(this.$route.params.id);
+    if (this.tag) {
+      this.newName = this.tag.name;
     } else {
       this.$router.replace("/404");
     }
   }
   editLabel() {
-    if (this.tagName && this.tagName !== "") {
-      const result = tagsModel.update(this.route, this.tagName);
-      if (result === "success") this.$router.back();
-      else window.alert(result);
+    if (this.newName && this.newName !== "") {
+      if (window.editTag(this.tag!, this.newName)) this.$router.back();
     }
   }
   deleteLabel() {
-    const result = tagsModel.delete(this.route);
-    if (result === "success") this.$router.back();
-    else {
-      window.alert(result);
-    }
+    if (window.deleteTag(this.tag!)) this.$router.back();
   }
   back() {
     this.$router.back();

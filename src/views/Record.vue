@@ -36,7 +36,7 @@ export default class Record extends Vue {
   };
   displayTags: Tag[] = tagsModel.display(this.newBill.type);
   addTag(tagName: string) {
-    tagsModel.add({ type: this.newBill.type, name: tagName });
+    window.createTag(this.newBill.type, tagName);
   }
   handleSubmit() {
     this.newBill.time = Date.now();
