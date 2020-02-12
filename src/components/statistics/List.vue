@@ -15,20 +15,6 @@
 </template>
 
 <script lang="ts">
-interface Bill {
-  type: string;
-  tag: string;
-  note: string;
-  count: string;
-  time: number;
-}
-
-interface SortedBills {
-  type: string;
-  label: string;
-  sum: number;
-  data: Bill[];
-}
 import G2 from "@antv/g2";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";

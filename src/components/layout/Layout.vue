@@ -16,15 +16,7 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 @Component({
   components: { Header, Nav, Title }
 })
-export default class Layout extends Vue {
-  // @Prop(String) type: string | undefined;
-  // @Prop(String) view: string | undefined;
-  // tempType: string = this.type || "expend";
-  // @Watch("tempType")
-  // onTempTypeChanged(value: string) {
-  //   this.$emit("update:type", value);
-  // }
-}
+export default class Layout extends Vue {}
 </script>
 
 <style lang="scss" scoped>

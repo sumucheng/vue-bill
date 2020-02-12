@@ -4,9 +4,9 @@
     <div class="panel">
       <Tabs :titles="titles" :selected.sync="selectedTitle" />
       <div v-if="selectedTitle==='流水'" class="billList">
-        <NoData v-if="displayBills.length===0" />
+        <NoData v-if="oneDayBills.length===0" />
         <div v-else>
-          <div v-for="bills in displayBills" :key="bills.data[0].time" class="oneDay">
+          <div v-for="bills in oneDayBills" :key="bills.data[0].time" class="oneDay">
             <div class="timeAndSum">
               <Time :time="bills.date" />
               <Sum :sum="bills.sum" />
@@ -20,12 +20,7 @@
           <button @click="type='income'" :class="{active:type==='income'}" class="left">收</button>
           <button @click="type='expend'" :class="{active:type==='expend'}" class="right">支</button>
         </div>
-        <Chart
-          :sortedBills="sortedBills"
-          :oneDayBills="displayBills"
-          :expendAndIncome="expendAndIncome"
-          :type="type"
-        />
+        <Chart :oneDayBills="oneDayBills" :type="type" />
         <List :sortedBills="sortedBills" :expendAndIncome="expendAndIncome" :type="type" />
       </div>
     </div>
@@ -33,13 +28,6 @@
 </template>
  
 <script lang="ts">
-type Bill = {
-  type: string;
-  tag: string;
-  note: string;
-  count: string;
-  time: number;
-};
 import BillItem from "@/components/statistics/Bill.vue";
 import Time from "@/components/statistics/Time.vue";
 import Sum from "@/components/statistics/Sum.vue";
@@ -62,7 +50,7 @@ export default class Statistics extends Vue {
   type = "expend";
   now = new Date();
   sortedBills = billsModel.classify(this.now);
-  displayBills = billsModel.display(this.now);
+  oneDayBills = billsModel.display(this.now);
   expendAndIncome: { expend: number; income: number } | undefined;
   titles = ["流水", "分类"];
   selectedTitle = "流水";
@@ -83,7 +71,7 @@ export default class Statistics extends Vue {
   @Watch("now")
   onNowChanged() {
     this.expendAndIncome = this.sum(this.now);
-    this.displayBills = billsModel.display(this.now);
+    this.oneDayBills = billsModel.display(this.now);
     this.sortedBills = billsModel.classify(this.now);
   }
 }

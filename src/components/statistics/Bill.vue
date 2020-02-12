@@ -9,13 +9,6 @@
 </template>
 
 <script lang="ts">
-type Bill = {
-  type: string;
-  tag: string;
-  note: string;
-  count: string;
-  time: number;
-};
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 @Component

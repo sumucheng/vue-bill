@@ -24,12 +24,6 @@
 </template>
 
 <script lang="ts">
-type MonthSum = {
-  year: number;
-  month: number;
-  expend: number;
-  income: number;
-};
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 

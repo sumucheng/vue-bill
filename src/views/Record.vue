@@ -22,17 +22,7 @@ import tagsModel from "@/model/tagsModel.ts";
 tagsModel.fetch();
 import billsModel from "@/model/billsModel.ts";
 billsModel.fetch();
-type Bill = {
-  type: string;
-  tag: string;
-  note: string;
-  count: number;
-  time: number;
-};
-type Tag = {
-  type: string;
-  name: string;
-};
+
 @Component({
   components: { Tags, Notes, Computer, Header }
 })

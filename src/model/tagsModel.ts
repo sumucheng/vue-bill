@@ -1,7 +1,4 @@
-type Tag = {
-    type: string;
-    name: string;
-};
+
 type TagsModel = {
     data: Tag[]
     fetch: () => Tag[]

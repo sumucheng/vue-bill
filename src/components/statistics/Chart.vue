@@ -3,43 +3,17 @@
 </template>
 
 <script lang="ts">
-interface Bill {
-  type: string;
-  tag: string;
-  note: string;
-  count: string;
-  time: number;
-}
-interface DisplayBills {
-  date: { day: number; week: number; month: number; year: number };
-  sum: { expend: number; income: number };
-  data: Bill[];
-}
-interface SortedBills {
-  type: string;
-  label: string;
-  sum: number;
-  data: Bill[];
-}
 import G2 from "@antv/g2";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 @Component
 export default class BillList extends Vue {
-  @Prop() sortedBills!: SortedBills[];
   @Prop() oneDayBills!: DisplayBills[];
-  @Prop() expendAndIncome!: { expend: number; income: number };
   @Prop() type!: string;
-  displayBills = this.sortedBills.filter(el => el.type === this.type);
   chart: G2.Chart | undefined;
 
   @Watch("type")
   onTypeChange() {
-    this.displayBills = this.sortedBills.filter(el => el.type === this.type);
-  }
-  @Watch("sortedBills")
-  onSortedBillsChange() {
-    this.displayBills = this.sortedBills.filter(el => el.type === this.type);
     const chartData: { date: number; value: number }[] = [];
 
     for (let i = 1; i < 32; i++) {
@@ -53,17 +27,20 @@ export default class BillList extends Vue {
     }
     this.chart && this.chart.changeData(chartData);
   }
+  @Watch("oneDayBills")
+  onOneDayBillsChange() {
+    const chartData: { date: number; value: number }[] = [];
 
-  percent(n: number) {
-    const x =
-      this.type === "expend"
-        ? this.expendAndIncome.expend
-        : this.expendAndIncome.income;
-    return ((100 * n) / x).toFixed(2);
-  }
-  percentLine(n: number) {
-    const max = this.displayBills[0].sum;
-    return ((100 * n) / max).toFixed(2) + "%";
+    for (let i = 1; i < 32; i++) {
+      chartData.push({ date: i, value: 0 });
+    }
+    for (let i of this.oneDayBills) {
+      chartData[i.date.day - 1] = {
+        date: i.date.day,
+        value: this.type === "expend" ? i.sum.expend : i.sum.income
+      };
+    }
+    this.chart && this.chart.changeData(chartData);
   }
 
   mounted() {
