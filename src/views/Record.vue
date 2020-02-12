@@ -19,16 +19,14 @@ import Notes from "@/components/record/Notes.vue";
 import Computer from "@/components/record/Computer.vue";
 import Header from "@/components/layout/Header.vue";
 import tagsModel from "@/model/tagsModel.ts";
-tagsModel.fetch();
 import billsModel from "@/model/billsModel.ts";
-billsModel.fetch();
 
 @Component({
   components: { Tags, Notes, Computer, Header }
 })
 export default class Record extends Vue {
-  billList = billsModel.data;
-  tags = tagsModel.data;
+  billList = window.billList;
+  tags = window.tags;
   newBill: Bill = {
     type: "expend",
     tag: "一般",
@@ -42,7 +40,7 @@ export default class Record extends Vue {
   }
   handleSubmit() {
     this.newBill.time = Date.now();
-    billsModel.add(JSON.parse(JSON.stringify(this.newBill)));
+    billsModel.add(this.newBill);
     this.newBill.note = "";
     this.newBill.tag = this.newBill.type === "expend" ? "一般" : "工资";
   }

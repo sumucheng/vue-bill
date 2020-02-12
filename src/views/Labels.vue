@@ -19,12 +19,12 @@ import Header from "@/components/layout/Header.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import tagsModel from "@/model/tagsModel";
-tagsModel.fetch();
+
 @Component({
   components: { Button, Label, Header }
 })
 export default class Labels extends Vue {
-  tags = tagsModel.data;
+  tags = window.tags;
   displayLabels = tagsModel.display("expend");
   type = "expend";
   @Watch("type")

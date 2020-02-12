@@ -26,3 +26,7 @@ interface SortedBills {
     sum: number,
     data: Bill[]
 }
+interface Window {
+    tags: Tag[],
+    billList: Bill[]
+}

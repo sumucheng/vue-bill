@@ -2,7 +2,7 @@ interface BillsModel {
     data: Bill[]
     monthSum: MonthSum[]
     fetch: () => Bill[]
-    add: (bill: Bill) => void
+    add: (newBill: Bill) => void
     save: () => void
     display: (now: Date) => DisplayBills[]
     classify: (now: Date) => SortedBills[]
@@ -64,7 +64,8 @@ const billsModel: BillsModel = {
             return time.getMonth() === now.getMonth() && time.getFullYear() === now.getFullYear()
         })
     },
-    add(bill) {
+    add(newBill) {
+        const bill = JSON.parse(JSON.stringify(newBill));
         this.data.unshift(bill);
         const yy = new Date(bill.time).getFullYear()
         const mm = new Date(bill.time).getMonth()

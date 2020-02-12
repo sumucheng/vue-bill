@@ -24,13 +24,12 @@ import Button from "@/components/labels/Button.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import tagsModel from "@/model/tagsModel";
-tagsModel.fetch();
 
 @Component({
   components: { Button }
 })
 export default class EditLabel extends Vue {
-  tags = tagsModel.data;
+  tags = window.tags;
   tagName = "";
   route = "";
   created() {

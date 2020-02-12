@@ -36,16 +36,14 @@ import NoData from "@/components/statistics/NoData.vue";
 import Tabs from "@/components/statistics/Tabs.vue";
 import Chart from "@/components/statistics/Chart.vue";
 import List from "@/components/statistics/List.vue";
-
 import billsModel from "@/model/billsModel.ts";
-billsModel.fetch();
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 @Component({
   components: { BillItem, Time, Sum, Title, NoData, Tabs, Chart, List }
 })
 export default class Statistics extends Vue {
-  billList = billsModel.data;
+  billList = window.billList
   monthSum = billsModel.monthSum;
   type = "expend";
   now = new Date();
