@@ -95,12 +95,12 @@ const billsModel: BillsModel = {
         const last = this.monthSum[this.monthSum.length - 1]
         if (last && last.year === yy && last.month === mm) {
             if (bill.type === 'expend') last.expend = this.fix(last.expend + Number(bill.count))
-            else last.income += this.fix(last.income + Number(bill.count))
+            else last.income = this.fix(last.income + Number(bill.count))
         }
         else {
             const newSum: MonthSum = bill.type === 'expend' ?
-                ({ year: yy, month: mm, expend: Number(bill.count), income: 0 }) :
-                ({ year: yy, month: mm, income: Number(bill.count), expend: 0 })
+                ({ year: yy, month: mm, expend: this.fix(Number(bill.count)), income: 0 }) :
+                ({ year: yy, month: mm, income: this.fix(Number(bill.count)), expend: 0 })
             this.monthSum.push(newSum)
         }
         this.save();

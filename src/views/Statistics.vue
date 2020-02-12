@@ -16,6 +16,10 @@
         </div>
       </div>
       <div v-else class="category">
+        <div class="switch">
+          <button @click="type='income'" :class="{active:type==='income'}" class="left">收</button>
+          <button @click="type='expend'" :class="{active:type==='expend'}" class="right">支</button>
+        </div>
         <Chart
           :sortedBills="sortedBills"
           :oneDayBills="displayBills"
@@ -119,6 +123,39 @@ export default class Statistics extends Vue {
     height: 100%;
     position: relative;
     padding-bottom: 40px;
+    position: relative;
+    .switch {
+      position: absolute;
+      right: 20px;
+      top: 5px;
+      z-index: 5;
+      display: flex;
+      button {
+        background-color: white;
+        color: $orange;
+        width: 24px;
+        height: 22px;
+        overflow: hidden;
+        border: 1px solid $orange;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &.active {
+          background-color: $orange;
+          color: white;
+        }
+        &.left {
+          border-top-left-radius: $border-radius-s;
+          border-bottom-left-radius: $border-radius-s;
+          border-right: none;
+        }
+        &.right {
+          border-top-right-radius: $border-radius-s;
+          border-bottom-right-radius: $border-radius-s;
+          border-left: none;
+        }
+      }
+    }
   }
 }
 </style>

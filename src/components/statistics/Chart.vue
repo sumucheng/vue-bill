@@ -29,7 +29,7 @@ export default class BillList extends Vue {
   @Prop() sortedBills!: SortedBills[];
   @Prop() oneDayBills!: DisplayBills[];
   @Prop() expendAndIncome!: { expend: number; income: number };
-  type = "expend";
+  @Prop() type!: string;
   displayBills = this.sortedBills.filter(el => el.type === this.type);
   chart: G2.Chart | undefined;
 
@@ -134,5 +134,4 @@ export default class BillList extends Vue {
   border-bottom: 1px solid #eee;
   margin-bottom: 10px;
 }
-
 </style>
