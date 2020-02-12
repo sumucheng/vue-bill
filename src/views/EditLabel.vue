@@ -20,6 +20,7 @@
 </template>
 
 <script lang="ts">
+import store from "@/store/tagStore";
 import Button from "@/components/labels/Button.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
@@ -28,11 +29,11 @@ import { Component, Prop, Watch } from "vue-property-decorator";
   components: { Button }
 })
 export default class EditLabel extends Vue {
-  tags = window.tags;
+  tags = store.tags;
   tag: Tag | undefined;
   newName = "";
   created() {
-    this.tag = window.find(this.$route.params.id);
+    this.tag = store.findTag(this.$route.params.id);
     if (this.tag) {
       this.newName = this.tag.name;
     } else {
@@ -41,11 +42,11 @@ export default class EditLabel extends Vue {
   }
   editLabel() {
     if (this.newName && this.newName !== "") {
-      if (window.editTag(this.tag!, this.newName)) this.$router.back();
+      if (store.editTag(this.tag!, this.newName)) this.$router.back();
     }
   }
   deleteLabel() {
-    if (window.deleteTag(this.tag!)) this.$router.back();
+    if (store.deleteTag(this.tag!)) this.$router.back();
   }
   back() {
     this.$router.back();

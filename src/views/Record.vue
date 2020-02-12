@@ -12,21 +12,23 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { Component, Prop, Watch } from "vue-property-decorator";
+import store from "@/store/tagStore";
+
 import Tags from "@/components/record/Tags.vue";
 import Notes from "@/components/record/Notes.vue";
 import Computer from "@/components/record/Computer.vue";
 import Header from "@/components/layout/Header.vue";
-import tagsModel from "@/model/tagsModel.ts";
 import billsModel from "@/model/billsModel.ts";
+
+import Vue from "vue";
+import { Component, Prop, Watch } from "vue-property-decorator";
 
 @Component({
   components: { Tags, Notes, Computer, Header }
 })
 export default class Record extends Vue {
   billList = window.billList;
-  tags = window.tags;
+  tags = store.tags;
   newBill: Bill = {
     type: "expend",
     tag: "一般",
@@ -34,28 +36,23 @@ export default class Record extends Vue {
     count: 0,
     time: 0
   };
-  displayTags: Tag[] = tagsModel.display(this.newBill.type);
+  displayTags: Tag[] = store.filterTags(this.newBill.type);
   addTag(tagName: string) {
-    window.createTag(this.newBill.type, tagName);
+    store.createTag(this.newBill.type, tagName);
   }
   handleSubmit() {
     this.newBill.time = Date.now();
-    billsModel.add(this.newBill);
+    window.createBill(this.newBill);
     this.newBill.note = "";
     this.newBill.tag = this.newBill.type === "expend" ? "一般" : "工资";
   }
-  @Watch("billList")
-  onBillListChange() {
-    billsModel.save();
-  }
   @Watch("tags")
   onTagsChange() {
-    tagsModel.save();
-    this.displayTags = tagsModel.display(this.newBill.type);
+    this.displayTags = store.filterTags(this.newBill.type);
   }
   @Watch("newBill.type")
   onTypeChange() {
-    this.displayTags = tagsModel.display(this.newBill.type);
+    this.displayTags = store.filterTags(this.newBill.type);
     this.newBill.tag = this.newBill.type === "expend" ? "一般" : "工资";
   }
 }

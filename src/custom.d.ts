@@ -28,9 +28,12 @@ interface SortedBills {
 }
 interface Window {
     tags: Tag[],
+    displayTags: Tag[],
+    switchTags: (type: string) => Tag[],
     createTag: (type: string, name: string) => void,
     deleteTag: (tag: Tag) => true | undefined,
     editTag: (tag: Tag, newName: string) => true | undefined,
     find: (name: string) => Tag | undefined,
-    billList: Bill[]
+    billList: Bill[],
+    createBill: (bill: Bill) => void
 }
