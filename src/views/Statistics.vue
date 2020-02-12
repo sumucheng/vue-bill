@@ -21,14 +21,19 @@
           <button @click="type='expend'" :class="{active:type==='expend'}" class="right">支</button>
         </div>
         <Chart :oneDayBills="oneDayBills" :type="type" />
-        <List :sortedBills="sortedBills" :expendAndIncome="expendAndIncome" :type="type" />
+        <List
+          :sortedBills="sortedBills"
+          :expendAndIncome="expendAndIncome"
+          :type="type"
+          :now="now"
+        />
       </div>
     </div>
   </Layout>
 </template>
  
 <script lang="ts">
-import BillItem from "@/components/statistics/Bill.vue";
+import BillItem from "@/components/statistics/BillS.vue";
 import Time from "@/components/statistics/Time.vue";
 import Sum from "@/components/statistics/Sum.vue";
 import Title from "@/components/layout/Title.vue";
@@ -43,7 +48,7 @@ import { Component, Prop, Watch } from "vue-property-decorator";
   components: { BillItem, Time, Sum, Title, NoData, Tabs, Chart, List }
 })
 export default class Statistics extends Vue {
-  billList = window.billList
+  billList = window.billList;
   monthSum = billsModel.monthSum;
   type = "expend";
   now = new Date();

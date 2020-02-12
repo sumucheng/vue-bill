@@ -7,6 +7,7 @@ import Labels from '@/views/Labels.vue'
 import Statistics from '@/views/Statistics.vue'
 import NotFound from '@/views/NotFound.vue'
 import EditLabel from '@/views/EditLabel.vue'
+import TagStatistics from '@/views/TagStatistics.vue'
 
 const routes = [
   {
@@ -28,6 +29,10 @@ const routes = [
   {
     path: '/statistics',
     component: Statistics
+  },
+  {
+    path: '/statistics/:id',
+    component: TagStatistics
   },
   {
     path: '*',

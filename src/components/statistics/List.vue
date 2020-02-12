@@ -2,14 +2,16 @@
   <div class="labels">
     <div class="list">{{type==='expend'?'支出':'收入'}}排行榜</div>
     <div class="oneLabel" v-for="item in displayBills" :key="item.label+item.sum">
-      <div class="top">
-        <div class="left">
-          <div class="label">{{item.label}}</div>
-          <div class="percent">{{percent(item.sum)+'%'}}</div>
+      <router-link :to="`/statistics/${item.label}-${now.getTime().toString()}`">
+        <div class="top">
+          <div class="left">
+            <div class="label">{{item.label}}</div>
+            <div class="percent">{{percent(item.sum)+'%'}}</div>
+          </div>
+          <div class="number">{{item.sum}}</div>
         </div>
-        <div class="number">{{item.sum}}</div>
-      </div>
-      <div class="line" :style="`width: ${percentLine(item.sum)}`"></div>
+        <div class="line" :style="`width: ${percentLine(item.sum)}`"></div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -23,6 +25,7 @@ export default class BillList extends Vue {
   @Prop() sortedBills!: SortedBills[];
   @Prop() expendAndIncome!: { expend: number; income: number };
   @Prop() type!: string;
+  @Prop() now!: Date;
   displayBills = this.sortedBills.filter(el => el.type === this.type);
 
   @Watch("type")
