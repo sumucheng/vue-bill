@@ -1,12 +1,6 @@
 <template>
   <div class="tagStatistics">
-    <div class="title">
-      <div class="link" @click="back">
-        <Icon name="left" />返回
-      </div>
-      <div class="titleText">{{tag.name}}</div>
-    </div>
-    <div class="line"></div>
+    <Back :titleText="tag.name" />
     <div class="main">
       <div class="yearAndMonth">{{yearAndMonth}}</div>
       <BillItem v-for="bill in data" :key="bill.time" :bill="bill" />
@@ -19,11 +13,12 @@
 import store from "@/store/tagStore";
 import billsModel from "@/model/billsModel.ts";
 import BillItem from "@/components/category/Bill.vue";
+import Back from "@/components/layout/Back.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 
 @Component({
-  components: { BillItem }
+  components: { BillItem, Back }
 })
 export default class TagStatistics extends Vue {
   tag: Tag | undefined;
@@ -43,47 +38,12 @@ export default class TagStatistics extends Vue {
       .classify(date)
       .find(i => i.label === this.tagName)!.data;
   }
-  back() {
-    this.$router.back();
-  }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
 .tagStatistics {
-  .title {
-    margin: 0 20px;
-    padding-top: 44px;
-    height: 88px;
-    .link {
-      position: fixed;
-      top: 44px;
-      left: 20px;
-      height: 44px;
-      font-size: $font-size-m;
-      color: $black;
-      display: flex;
-      align-items: center;
-      text-align: center;
-      .icon {
-        margin-right: 4px;
-        height: 12px;
-      }
-    }
-    .titleText {
-      font-size: $font-size-l;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  }
-  .line {
-    width: 100vw;
-    height: 10px;
-    background-color: $light-grey;
-  }
   .main {
     position: fixed;
     top: 98px;

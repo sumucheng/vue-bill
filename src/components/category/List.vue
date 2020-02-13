@@ -65,7 +65,7 @@ export default class BillList extends Vue {
   .oneLabel {
     margin: 0 20px;
     height: 60px;
-    border-bottom: 1px solid $light-grey;
+    border-bottom: 1px solid $border-grey;
     display: flex;
     flex-direction: column;
     justify-content: center;

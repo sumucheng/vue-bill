@@ -1,12 +1,6 @@
 <template>
   <div class="editLabel">
-    <div class="title">
-      <div class="link" @click="back">
-        <Icon name="left" />返回
-      </div>
-      <div class="titleText">编辑标签</div>
-    </div>
-    <div class="line"></div>
+    <Back titleText="编辑标签" />
     <div class="main">
       <div class="name">
         <input v-model="newName" placeholder="不超过4个字" required maxlength="4" />
@@ -22,11 +16,12 @@
 <script lang="ts">
 import store from "@/store/tagStore";
 import Button from "@/components/labels/Button.vue";
+import Back from "@/components/layout/Back.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 
 @Component({
-  components: { Button }
+  components: { Button, Back }
 })
 export default class EditLabel extends Vue {
   tags = store.tags;
@@ -42,14 +37,11 @@ export default class EditLabel extends Vue {
   }
   editLabel() {
     if (this.newName && this.newName !== "") {
-      if (store.editTag(this.tag!, this.newName)) this.back();
+      if (store.editTag(this.tag!, this.newName)) this.$router.back();
     }
   }
   deleteLabel() {
-    if (store.deleteTag(this.tag!)) this.back();
-  }
-  back() {
-    this.$router.back();
+    if (store.deleteTag(this.tag!)) this.$router.back();
   }
 }
 </script>
@@ -57,38 +49,6 @@ export default class EditLabel extends Vue {
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
 .editLabel {
-  .title {
-    margin: 0 20px;
-    padding-top: 44px;
-    height: 88px;
-    .link {
-      position: fixed;
-      top: 44px;
-      left: 20px;
-      height: 44px;
-      font-size: $font-size-m;
-      color: $black;
-      display: flex;
-      align-items: center;
-      text-align: center;
-      .icon {
-        margin-right: 4px;
-        height: 12px;
-      }
-    }
-    .titleText {
-      font-size: $font-size-l;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  }
-  .line {
-    width: 100vw;
-    height: 10px;
-    background-color: $light-grey;
-  }
   .main {
     .name {
       margin: 20px;
