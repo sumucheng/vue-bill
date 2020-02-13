@@ -2,10 +2,8 @@
   <div class="bill">
     <div class="left">
       <div class="label">{{bill.tag}}</div>
-      <div class="note">
-        {{bill.note}}
-        <div v-if="displayTime" class="time">{{time(bill.time)}}</div>
-      </div>
+      <div class="note">{{bill.note}}</div>
+      <div class="time">{{time(bill.time)}}</div>
     </div>
     <div class="count">{{(bill.type==='expend'?'-':'+')+bill.count}}</div>
   </div>
@@ -17,7 +15,6 @@ import { Component, Prop } from "vue-property-decorator";
 @Component
 export default class BillList extends Vue {
   @Prop() bill: Bill | undefined;
-  @Prop() displayTime: boolean | undefined;
   time(time: number) {
     const date = new Date(time);
     return `${date.getMonth() + 1}月${date.getDate()}日`;

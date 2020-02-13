@@ -8,7 +8,7 @@
     </div>
     <div class="line"></div>
     <div class="main">
-      <BillItem v-for="bill in data" :key="bill.time" :bill="bill" :displayTime="true" />
+      <BillItem v-for="bill in data" :key="bill.time" :bill="bill" />
     </div>
   </div>
 </template>
@@ -16,7 +16,7 @@
 <script lang="ts">
 import store from "@/store/tagStore";
 import billsModel from "@/model/billsModel.ts";
-import BillItem from "@/components/statistics/Bill.vue";
+import BillItem from "@/components/statistics/BillS.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 

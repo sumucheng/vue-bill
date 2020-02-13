@@ -8,11 +8,12 @@ import Statistics from '@/views/Statistics.vue'
 import NotFound from '@/views/NotFound.vue'
 import EditLabel from '@/views/EditLabel.vue'
 import TagStatistics from '@/views/TagStatistics.vue'
+import Category from '@/views/Category.vue'
 
 const routes = [
   {
     path: '/',
-    redirect: './statistics'
+    redirect: '/statistics/detail'
   },
   {
     path: '/record',
@@ -27,13 +28,18 @@ const routes = [
     component: EditLabel
   },
   {
-    path: '/statistics',
+    path: '/statistics/detail',
     component: Statistics
+  },
+  {
+    path: '/statistics/category',
+    component: Category
   },
   {
     path: '/statistics/:id',
     component: TagStatistics
   },
+
   {
     path: '*',
     component: NotFound

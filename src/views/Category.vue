@@ -1,0 +1,120 @@
+<template>
+  <Layout>
+    <Title :now.sync="now" :expendAndIncome="expendAndIncome" />
+    <div class="panel">
+      <Tabs :initSelected="selectedTitle" />
+      <div class="category">
+        <div class="switch">
+          <button @click="type='income'" :class="{active:type==='income'}" class="left">收</button>
+          <button @click="type='expend'" :class="{active:type==='expend'}" class="right">支</button>
+        </div>
+        <Chart :oneDayBills="oneDayBills" :type="type" />
+        <List
+          :sortedBills="sortedBills"
+          :expendAndIncome="expendAndIncome"
+          :type="type"
+          :now="now"
+        />
+      </div>
+    </div>
+  </Layout>
+</template>
+ 
+<script lang="ts">
+import Title from "@/components/layout/Title.vue";
+import Tabs from "@/components/statistics/Tabs.vue";
+import Chart from "@/components/statistics/Chart.vue";
+import List from "@/components/statistics/List.vue";
+import billsModel from "@/model/billsModel.ts";
+import Vue from "vue";
+import { Component, Prop, Watch } from "vue-property-decorator";
+@Component({
+  components: { Title, Tabs, Chart, List }
+})
+export default class Statistics extends Vue {
+  monthSum = billsModel.monthSum;
+  type = "expend";
+  now = new Date();
+  sortedBills = billsModel.classify(this.now);
+  oneDayBills = billsModel.display(this.now);
+  expendAndIncome: { expend: number; income: number } | undefined;
+  selectedTitle = "category";
+
+  created() {
+    this.expendAndIncome = this.sum(this.now) || { expend: 0, income: 0 };
+  }
+
+  sum(now: Date) {
+    for (let i of this.monthSum) {
+      if (i.year === now.getFullYear() && i.month === now.getMonth()) {
+        return { expend: i.expend, income: i.income };
+        break;
+      }
+    }
+    return { expend: 0, income: 0 };
+  }
+
+  @Watch("now")
+  onNowChanged() {
+    this.expendAndIncome = this.sum(this.now);
+    this.oneDayBills = billsModel.display(this.now);
+    this.sortedBills = billsModel.classify(this.now);
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import "~@/assets/style/normal.scss";
+.navText {
+  color: $blue;
+}
+.panel {
+  position: fixed;
+  z-index: 2;
+  top: 114px;
+  bottom: 80px;
+  background-color: white;
+  width: 100%;
+  border-radius: $border-radius-l;
+  .category {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    padding-bottom: 40px;
+    position: relative;
+    .switch {
+      position: absolute;
+      right: 20px;
+      top: 5px;
+      z-index: 5;
+      display: flex;
+      button {
+        background-color: white;
+        color: $orange;
+        width: 24px;
+        height: 22px;
+        overflow: hidden;
+        border: 1px solid $orange;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &.active {
+          background-color: $orange;
+          color: white;
+        }
+        &.left {
+          border-top-left-radius: $border-radius-s;
+          border-bottom-left-radius: $border-radius-s;
+          border-right: none;
+        }
+        &.right {
+          border-top-right-radius: $border-radius-s;
+          border-bottom-right-radius: $border-radius-s;
+          border-left: none;
+        }
+      }
+    }
+  }
+}
+</style>
