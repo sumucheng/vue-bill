@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <Title :now.sync="now" :expendAndIncome="expendAndIncome" />
+    <Title :now.sync="now" :headerTitle="headerTitle" />
     <div class="panel">
       <Tabs :initSelected="selectedTitle" />
       <div class="category">
@@ -9,12 +9,7 @@
           <button @click="type='expend'" :class="{active:type==='expend'}" class="right">支</button>
         </div>
         <Chart :oneDayBills="oneDayBills" :type="type" />
-        <List
-          :sortedBills="sortedBills"
-          :expendAndIncome="expendAndIncome"
-          :type="type"
-          :now="now"
-        />
+        <List :sortedBills="sortedBills" :expendAndIncome="data" :type="type" :now="now" />
       </div>
     </div>
   </Layout>
@@ -37,28 +32,69 @@ export default class Statistics extends Vue {
   now = new Date();
   sortedBills = billsModel.classify(this.now);
   oneDayBills = billsModel.display(this.now);
-  expendAndIncome: { expend: number; income: number } | undefined;
+  data:
+    | {
+        expend: number;
+        income: number;
+        rest: number;
+        averageExpend: string;
+        averageIncome: string;
+      }
+    | undefined;
+  headerTitle: { text: string; count: number | string }[] = [];
   selectedTitle = "category";
 
   created() {
-    this.expendAndIncome = this.sum(this.now) || { expend: 0, income: 0 };
+    this.data = this.sum(this.now);
+    this.headerTitle = this.text();
+  }
+
+  text() {
+    const averageText =
+      this.type === "expend" ? "平均每日支出" : "平均每日收入";
+    const average =
+      this.type === "expend"
+        ? this.data!.averageExpend
+        : this.data!.averageIncome;
+    return [
+      { text: "结余", count: this.data!.rest },
+      { text: averageText, count: average }
+    ];
   }
 
   sum(now: Date) {
     for (let i of this.monthSum) {
       if (i.year === now.getFullYear() && i.month === now.getMonth()) {
-        return { expend: i.expend, income: i.income };
+        const dayOfMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        return {
+          expend: i.expend,
+          income: i.income,
+          rest: i.expend - i.income,
+          averageExpend: (i.expend / dayOfMonth[i.month]).toFixed(2),
+          averageIncome: (i.income / dayOfMonth[i.month]).toFixed(2)
+        };
         break;
       }
     }
-    return { expend: 0, income: 0 };
+    return {
+      expend: 0,
+      income: 0,
+      rest: 0,
+      averageExpend: "0",
+      averageIncome: "0"
+    };
   }
 
   @Watch("now")
   onNowChanged() {
-    this.expendAndIncome = this.sum(this.now);
+    this.data = this.sum(this.now);
     this.oneDayBills = billsModel.display(this.now);
     this.sortedBills = billsModel.classify(this.now);
+    this.headerTitle = this.text();
+  }
+  @Watch("type")
+  onTypeChanged() {
+    this.headerTitle = this.text();
   }
 }
 </script>

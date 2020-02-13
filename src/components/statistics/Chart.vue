@@ -30,7 +30,6 @@ export default class BillList extends Vue {
   @Watch("oneDayBills")
   onOneDayBillsChange() {
     const chartData: { date: number; value: number }[] = [];
-
     for (let i = 1; i < 32; i++) {
       chartData.push({ date: i, value: 0 });
     }

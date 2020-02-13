@@ -4,7 +4,7 @@ Vue.use(VueRouter)
 
 import Record from '@/views/Record.vue'
 import Labels from '@/views/Labels.vue'
-import Statistics from '@/views/Statistics.vue'
+import Detail from '@/views/Detail.vue'
 import NotFound from '@/views/NotFound.vue'
 import EditLabel from '@/views/EditLabel.vue'
 import TagStatistics from '@/views/TagStatistics.vue'
@@ -29,7 +29,7 @@ const routes = [
   },
   {
     path: '/statistics/detail',
-    component: Statistics
+    component: Detail
   },
   {
     path: '/statistics/category',

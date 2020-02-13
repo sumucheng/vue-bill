@@ -11,13 +11,9 @@
         </div>
       </div>
       <div class="dotLine"></div>
-      <div class="wrapper">
-        <div class="text">支出</div>
-        <div class="sum">{{expendAndIncome.expend}}</div>
-      </div>
-      <div class="wrapper">
-        <div class="text">收入</div>
-        <div class="sum">{{expendAndIncome.income}}</div>
+      <div class="wrapper" v-for="title in headerTitle" :key="title.text">
+        <div class="text">{{title.text}}</div>
+        <div class="sum">{{title.count}}</div>
       </div>
     </div>
   </div>
@@ -30,7 +26,7 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 @Component
 export default class Header extends Vue {
   @Prop() now!: Date;
-  @Prop() expendAndIncome!: { expend: number; income: number };
+  @Prop() headerTitle!: { text: string; count: number }[];
   year = this.now.getFullYear();
   month = this.now.getMonth();
   monthText = this.month < 9 ? "0" + (this.month + 1) : this.month + 1;

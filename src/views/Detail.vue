@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <Title :now.sync="now" :expendAndIncome="expendAndIncome" />
+    <Title :now.sync="now" :headerTitle="headerTitle" />
     <div class="panel">
       <Tabs :initSelected="selectedTitle" />
       <div class="billList">
@@ -38,25 +38,31 @@ export default class Statistics extends Vue {
   type = "expend";
   now = new Date();
   oneDayBills = billsModel.display(this.now);
-  expendAndIncome: { expend: number; income: number } | undefined;
+  headerTitle: { text: string; count: number | string }[] = [];
   selectedTitle = "detail";
   created() {
-    this.expendAndIncome = this.sum(this.now) || { expend: 0, income: 0 };
+    this.headerTitle = this.sum(this.now);
   }
 
   sum(now: Date) {
     for (let i of this.monthSum) {
       if (i.year === now.getFullYear() && i.month === now.getMonth()) {
-        return { expend: i.expend, income: i.income };
+        return [
+          { text: "支出", count: i.expend },
+          { text: "收入", count: i.income }
+        ];
         break;
       }
     }
-    return { expend: 0, income: 0 };
+    return [
+      { text: "支出", count: 0 },
+      { text: "收入", count: 0 }
+    ];
   }
 
   @Watch("now")
   onNowChanged() {
-    this.expendAndIncome = this.sum(this.now);
+    this.headerTitle = this.sum(this.now);
     this.oneDayBills = billsModel.display(this.now);
   }
 }
