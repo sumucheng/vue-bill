@@ -36,7 +36,7 @@ export default class Statistics extends Vue {
     | {
         expend: number;
         income: number;
-        rest: number;
+        rest: string;
         averageExpend: string;
         averageIncome: string;
       }
@@ -69,7 +69,7 @@ export default class Statistics extends Vue {
         return {
           expend: i.expend,
           income: i.income,
-          rest: i.expend - i.income,
+          rest: (i.expend - i.income).toFixed(2),
           averageExpend: (i.expend / dayOfMonth[i.month]).toFixed(2),
           averageIncome: (i.income / dayOfMonth[i.month]).toFixed(2)
         };
@@ -79,7 +79,7 @@ export default class Statistics extends Vue {
     return {
       expend: 0,
       income: 0,
-      rest: 0,
+      rest: "0",
       averageExpend: "0",
       averageIncome: "0"
     };
