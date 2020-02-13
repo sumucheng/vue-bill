@@ -34,15 +34,7 @@ export default class Statistics extends Vue {
   now = new Date();
   sortedBills = billsModel.classify(this.now);
   oneDayBills = billsModel.display(this.now);
-  data:
-    | {
-        expend: number;
-        income: number;
-        rest: string;
-        averageExpend: string;
-        averageIncome: string;
-      }
-    | undefined;
+  data: HeaderData | undefined;
   headerTitle: { text: string; count: number | string }[] = [];
   selectedTitle = "category";
 

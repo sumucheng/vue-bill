@@ -26,6 +26,13 @@ interface SortedBills {
     sum: number,
     data: Bill[]
 }
+interface HeaderData {
+    expend: number;
+    income: number;
+    rest: string;
+    averageExpend: string;
+    averageIncome: string;
+}
 interface Window {
     tags: Tag[],
     displayTags: Tag[],

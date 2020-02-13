@@ -1,29 +1,30 @@
 <template>
   <nav>
     <router-link
-      to="/statistics/detail"
+      v-for="link in links"
+      :key="link.name"
+      :to="link.link"
       class="routerLink"
-      :class="{selected:$route.path.match('statistics')}"
+      :class="{selected:$route.path.match(link.name)}"
     >
-      <Icon v-if="$route.path.match('statistics')" name="statistics-selected" />
-      <Icon v-else name="statistics" />
-      <p class="navText">统计</p>
-    </router-link>
-    <router-link to="/record" class="routerLink" active-class="selected">
-      <Icon v-if="$route.path.match('record')" name="record-selected" />
-      <Icon v-else name="record" />
-      <p class="navText">记一笔</p>
-    </router-link>
-    <router-link to="/labels" class="routerLink" active-class="selected">
-      <Icon v-if="$route.path.match('labels')" name="labels-selected" />
-      <Icon v-else name="labels" />
-      <p class="navText">标签</p>
+      <Icon v-if="$route.path.match(link.name)" :name="`${link.name}-selected`" />
+      <Icon v-else :name="link.name" />
+      <p>{{link.text}}</p>
     </router-link>
   </nav>
 </template>
 
 <script lang="ts">
-export default {};
+import Vue from "vue";
+import { Component, Prop, Watch } from "vue-property-decorator";
+@Component
+export default class Nav extends Vue {
+  links = [
+    { name: "statistics", text: "统计", link: "/statistics/detail" },
+    { name: "record", text: "记一笔", link: "/record" },
+    { name: "labels", text: "标签", link: "/labels" }
+  ];
+}
 </script>
 
 <style lang="scss" scoped>
@@ -55,7 +56,7 @@ nav {
       margin: 0;
     }
   }
-  .routerLink.selected > .navText {
+  .routerLink.selected > p {
     color: $blue;
   }
 }
