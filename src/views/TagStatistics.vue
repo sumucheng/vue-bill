@@ -16,7 +16,7 @@
 <script lang="ts">
 import store from "@/store/tagStore";
 import billsModel from "@/model/billsModel.ts";
-import BillItem from "@/components/statistics/BillS.vue";
+import BillItem from "@/components/category/Bill.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 

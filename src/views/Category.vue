@@ -18,8 +18,8 @@
 <script lang="ts">
 import Title from "@/components/layout/Title.vue";
 import Tabs from "@/components/statistics/Tabs.vue";
-import Chart from "@/components/statistics/Chart.vue";
-import List from "@/components/statistics/List.vue";
+import Chart from "@/components/category/Chart.vue";
+import List from "@/components/category/List.vue";
 import billsModel from "@/model/billsModel.ts";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
