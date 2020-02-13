@@ -4,10 +4,7 @@
     <div class="panel">
       <Tabs :initSelected="selectedTitle" />
       <div class="category">
-        <div class="switch">
-          <button @click="type='income'" :class="{active:type==='income'}" class="left">收</button>
-          <button @click="type='expend'" :class="{active:type==='expend'}" class="right">支</button>
-        </div>
+        <SwitchType :text="switchText" :selected.sync="type" />
         <Chart :oneDayBills="oneDayBills" :type="type" />
         <List :sortedBills="sortedBills" :expendAndIncome="data" :type="type" :now="now" />
       </div>
@@ -20,15 +17,20 @@ import Title from "@/components/layout/Title.vue";
 import Tabs from "@/components/statistics/Tabs.vue";
 import Chart from "@/components/category/Chart.vue";
 import List from "@/components/category/List.vue";
+import SwitchType from "@/components/category/SwitchType.vue";
 import billsModel from "@/model/billsModel.ts";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 @Component({
-  components: { Title, Tabs, Chart, List }
+  components: { Title, Tabs, Chart, List, SwitchType }
 })
 export default class Statistics extends Vue {
   monthSum = billsModel.monthSum;
   type = "expend";
+  switchText = [
+    { en: "income", zh: "收" },
+    { en: "expend", zh: "支" }
+  ];
   now = new Date();
   sortedBills = billsModel.classify(this.now);
   oneDayBills = billsModel.display(this.now);
@@ -101,9 +103,7 @@ export default class Statistics extends Vue {
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
-.navText {
-  color: $blue;
-}
+
 .panel {
   position: fixed;
   z-index: 2;
@@ -119,38 +119,6 @@ export default class Statistics extends Vue {
     position: relative;
     padding-bottom: 40px;
     position: relative;
-    .switch {
-      position: absolute;
-      right: 20px;
-      top: 5px;
-      z-index: 5;
-      display: flex;
-      button {
-        background-color: white;
-        color: $orange;
-        width: 24px;
-        height: 22px;
-        overflow: hidden;
-        border: 1px solid $orange;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        &.active {
-          background-color: $orange;
-          color: white;
-        }
-        &.left {
-          border-top-left-radius: $border-radius-s;
-          border-bottom-left-radius: $border-radius-s;
-          border-right: none;
-        }
-        &.right {
-          border-top-right-radius: $border-radius-s;
-          border-bottom-right-radius: $border-radius-s;
-          border-left: none;
-        }
-      }
-    }
   }
 }
 </style>
