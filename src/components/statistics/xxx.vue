@@ -14,28 +14,15 @@
 </template>
 
 <script lang="ts">
-type Bill = {
-  type: string;
-  tag: string;
-  note: string;
-  count: string;
-  time: number;
-};
-interface SortedBills {
-  type: string;
-  label: string;
-  sum: number;
-  data: Bill[];
-}
 import G2 from "@antv/g2";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 @Component
 export default class BillList extends Vue {
-  @Prop() sortedBills!: SortedBills[];
+  @Prop() oneTagBills!: oneTagBills[];
   @Prop() expendAndIncome!: { expend: number; income: number };
   type = "expend";
-  displayBills = this.sortedBills.filter(el => el.type === this.type);
+  displayBills = this.oneTagBills.filter(el => el.type === this.type);
   chart: G2.Chart | undefined;
   html = `
     <div>
@@ -53,11 +40,11 @@ export default class BillList extends Vue {
 
   @Watch("type")
   onTypeChange() {
-    this.displayBills = this.sortedBills.filter(el => el.type === this.type);
+    this.displayBills = this.oneTagBills.filter(el => el.type === this.type);
   }
-  @Watch("sortedBills")
-  onSortedBillsChange() {
-    this.displayBills = this.sortedBills.filter(el => el.type === this.type);
+  @Watch("oneTagBills")
+  onOneTagBillsChange() {
+    this.displayBills = this.oneTagBills.filter(el => el.type === this.type);
     const chartData = this.displayBills.map(i => {
       return {
         item: i.label,

@@ -25,7 +25,6 @@ export default class TagStatistics extends Vue {
   now: string | undefined;
   data: Bill[] | undefined;
   yearAndMonth: string | undefined;
-  sortedBills: SortedBills[] = [];
   created() {
     this.tagName = this.$route.params.id.split("-")[0];
     this.tag = store.findTag(this.tagName);

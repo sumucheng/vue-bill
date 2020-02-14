@@ -8,7 +8,7 @@ import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 @Component
 export default class BillList extends Vue {
-  @Prop() oneDayBills!: DisplayBills[];
+  @Prop() oneDayBills!: oneDayBills[];
   @Prop() type!: string;
   chart: G2.Chart | undefined;
 

@@ -10,7 +10,7 @@ const billStore = {
         window.localStorage.setItem("monthSum", JSON.stringify(this.monthSum));
     },
     test(now: Date) {
-        const result: SortedBills[] = []
+        const result: oneTagBills[] = []
         const oneMonthBills = this.oneMonthBills(now)
         const tagList: string[] = []
         for (let bill of oneMonthBills) {
@@ -36,7 +36,7 @@ const billStore = {
         }
     },
     OneTagBills(now: Date) {
-        const OneTagBills: SortedBills[] = []
+        const OneTagBills: oneTagBills[] = []
         const oneMonthBills = this.oneMonthBills(now)
         for (let bill of oneMonthBills) {
             let exist = false
@@ -84,24 +84,42 @@ const billStore = {
     createBill(newBill: Bill) {
         const bill = JSON.parse(JSON.stringify(newBill));
         this.bills.unshift(bill);
+        this.updateMonthSum(bill)
+        this.saveBills();
+    },
+    updateMonthSum(bill: Bill) {
         const yy = new Date(bill.time).getFullYear()
         const mm = new Date(bill.time).getMonth()
-        const last = this.monthSum[this.monthSum.length - 1]
-        if (last && last.year === yy && last.month === mm) {
-            if (bill.type === 'expend') last.expend = this.fixTwo(last.expend + bill.count)
-            else last.income = this.fixTwo(last.income + bill.count)
+        const type = bill.type as 'expend' | 'income';
+        const last = this.monthSum[0]
+        if (!(last && last.year === yy && last.month === mm)) {
+            this.monthSum.unshift(this.initMonthSum(yy, mm))
         }
-        else {
-            if (bill.type === 'expend') this.monthSum.push({ year: yy, month: mm, expend: this.fixTwo(bill.count), income: 0 })
-            else this.monthSum.push({ year: yy, month: mm, income: this.fixTwo(bill.count), expend: 0 })
-        }
-        this.saveBills();
+        last[type] = this.fixTwo(last[type] + bill.count)
+        last.rest = this.fixTwo(last.income - last.expend)
+        const days = this.dayOfMonth(last.year, last.month)
+        last.averageExpend = this.fixTwo(last.expend / days)
+        last.averageIncome = this.fixTwo(last.income / days)
+    },
+    dayOfMonth(year: number, month: number) {
+        return new Date(year, month + 1, 0).getDate()
     },
     oneMonthBills(now: Date) {
         return this.bills.filter(bill => {
             const time = new Date(bill.time)
             return time.getMonth() === now.getMonth() && time.getFullYear() === now.getFullYear()
         })
+    },
+    initMonthSum(year: number, month: number) {
+        return {
+            year: year,
+            month: month,
+            income: 0,
+            expend: 0,
+            rest: 0,
+            averageExpend: 0,
+            averageIncome: 0
+        }
     },
     fixTwo(n: number) {
         return Number(n.toFixed(2))

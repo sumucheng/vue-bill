@@ -6,7 +6,7 @@
       <div class="category">
         <SwitchType :text="switchText" :selected.sync="type" />
         <Chart :oneDayBills="oneDayBills" :type="type" />
-        <List :sortedBills="sortedBills" :expendAndIncome="data" :type="type" :now="now" />
+        <List :oneTagBills="oneTagBills" :expendAndIncome="oneMonthSum" :type="type" :now="now" />
       </div>
     </div>
   </Layout>
@@ -25,21 +25,21 @@ import store from "../store/store";
   components: { Title, Tabs, Chart, List, SwitchType }
 })
 export default class Statistics extends Vue {
-  monthSum = store.monthSum;
   type = "expend";
   switchText = [
     { en: "income", zh: "收" },
     { en: "expend", zh: "支" }
   ];
   now = new Date();
-  sortedBills = store.OneTagBills(this.now);
+  oneTagBills = store.OneTagBills(this.now);
   oneDayBills = store.oneDayBills(this.now);
-  data: HeaderData | undefined;
+  oneMonthSum = store.monthSum.find(
+    i => i.year === this.now.getFullYear() && i.month === this.now.getMonth()
+  );
   headerTitle: { text: string; count: number | string }[] = [];
   selectedTitle = "category";
 
   created() {
-    this.data = this.sum(this.now);
     this.headerTitle = this.text();
   }
 
@@ -48,42 +48,17 @@ export default class Statistics extends Vue {
       this.type === "expend" ? "平均每日支出" : "平均每日收入";
     const average =
       this.type === "expend"
-        ? this.data!.averageExpend
-        : this.data!.averageIncome;
+        ? this.oneMonthSum!.averageExpend
+        : this.oneMonthSum!.averageIncome;
     return [
-      { text: "结余", count: this.data!.rest },
+      { text: "结余", count: this.oneMonthSum!.rest },
       { text: averageText, count: average }
     ];
   }
-
-  sum(now: Date) {
-    for (let i of this.monthSum) {
-      if (i.year === now.getFullYear() && i.month === now.getMonth()) {
-        const dayOfMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-        return {
-          expend: i.expend,
-          income: i.income,
-          rest: (i.income - i.expend).toFixed(2),
-          averageExpend: (i.expend / dayOfMonth[i.month]).toFixed(2),
-          averageIncome: (i.income / dayOfMonth[i.month]).toFixed(2)
-        };
-        break;
-      }
-    }
-    return {
-      expend: 0,
-      income: 0,
-      rest: "0",
-      averageExpend: "0",
-      averageIncome: "0"
-    };
-  }
-
   @Watch("now")
   onNowChanged() {
-    this.data = this.sum(this.now);
     this.oneDayBills = store.oneDayBills(this.now);
-    this.sortedBills = store.OneTagBills(this.now);
+    this.oneTagBills = store.OneTagBills(this.now);
     this.headerTitle = this.text();
   }
   @Watch("type")

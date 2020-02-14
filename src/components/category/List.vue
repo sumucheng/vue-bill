@@ -22,19 +22,19 @@ import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 @Component
 export default class BillList extends Vue {
-  @Prop() sortedBills!: SortedBills[];
+  @Prop() oneTagBills!: oneTagBills[];
   @Prop() expendAndIncome!: { expend: number; income: number };
   @Prop() type!: string;
   @Prop() now!: Date;
-  displayBills = this.sortedBills.filter(el => el.type === this.type);
+  displayBills = this.oneTagBills.filter(el => el.type === this.type);
 
   @Watch("type")
   onTypeChange() {
-    this.displayBills = this.sortedBills.filter(el => el.type === this.type);
+    this.displayBills = this.oneTagBills.filter(el => el.type === this.type);
   }
-  @Watch("sortedBills")
-  onSortedBillsChange() {
-    this.displayBills = this.sortedBills.filter(el => el.type === this.type);
+  @Watch("oneTagBills")
+  onOneTagBillsChange() {
+    this.displayBills = this.oneTagBills.filter(el => el.type === this.type);
   }
 
   percent(n: number) {
