@@ -4,8 +4,8 @@
       class="item"
       v-for="title in titles"
       :key="title"
-      :class="{active:nowSelected===title}"
-      @click="nowSelected=title"
+      :class="{active:selected===title}"
+      @click="$emit('update:selected',title)"
     >
       <div class="text">{{title==='category'?'分类':'流水'}}</div>
       <div class="line"></div>
@@ -19,12 +19,7 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 @Component
 export default class Tabs extends Vue {
   titles = ["detail", "category"];
-  @Prop() initSelected!: string;
-  nowSelected = this.initSelected;
-  @Watch("nowSelected")
-  onNowSelectedChanged() {
-    this.$router.replace(`/statistics/${this.nowSelected}`);
-  }
+  @Prop() selected!: string;
 }
 </script>
 

@@ -4,12 +4,11 @@ Vue.use(VueRouter)
 
 import Record from '@/views/Record.vue'
 import Labels from '@/views/Labels.vue'
-import Detail from '@/views/Detail.vue'
 import NotFound from '@/views/NotFound.vue'
 import EditLabel from '@/views/EditLabel.vue'
 import TagStatistics from '@/views/TagStatistics.vue'
-import Category from '@/views/Category.vue'
 import BillDetail from '@/views/BillDetail.vue'
+import Statistics from '@/views/Statistics.vue'
 
 const routes = [
   {
@@ -29,12 +28,8 @@ const routes = [
     component: EditLabel
   },
   {
-    path: '/statistics/detail',
-    component: Detail
-  },
-  {
-    path: '/statistics/category',
-    component: Category
+    path: '/statistics',
+    component: Statistics,
   },
   {
     path: '/statistics/:id',

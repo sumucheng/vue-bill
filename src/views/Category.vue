@@ -1,15 +1,15 @@
 <template>
-  <Layout>
+  <div>
     <Title :now.sync="now" :headerTitle="headerTitle" />
     <div class="panel">
-      <Tabs :initSelected="selectedTitle" />
+      <Tabs :selected.sync="selectedTitle" />
       <div class="category">
         <SwitchType :text="switchText" :selected.sync="type" />
         <Chart :oneDayBills="oneDayBills" :type="type" />
         <List :oneTagBills="oneTagBills" :expendAndIncome="oneMonthSum" :type="type" :now="now" />
       </div>
     </div>
-  </Layout>
+  </div>
 </template>
  
 <script lang="ts">
@@ -31,12 +31,18 @@ export default class Statistics extends Vue {
     { en: "income", zh: "收" },
     { en: "expend", zh: "支" }
   ];
-  now = new Date();
   oneTagBills: oneTagBills[] | undefined;
   oneDayBills: oneDayBills[] | undefined;
   oneMonthSum: MonthSum | undefined;
   headerTitle: { text: string; count: number | string }[] = [];
-  selectedTitle = "category";
+  @Prop() initNow!: Date;
+  now = this.initNow;
+  @Prop() initSelected: string | undefined;
+  selectedTitle = this.initSelected;
+  @Watch("selectedTitle")
+  onSelectedTitleChanged() {
+    this.$emit("update:initSelected", this.selectedTitle);
+  }
 
   created() {
     this.update();
@@ -72,6 +78,7 @@ export default class Statistics extends Vue {
   @Watch("now")
   onNowChanged() {
     this.update();
+    this.$emit("update:initNow", this.now);
   }
   @Watch("type")
   onTypeChanged() {

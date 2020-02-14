@@ -3,7 +3,7 @@
     <router-link
       v-for="link in links"
       :key="link.name"
-      :to="link.link"
+      :to="`/${link.name}`"
       class="routerLink"
       :class="{selected:$route.path.match(link.name)}"
     >
@@ -20,7 +20,7 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 @Component
 export default class Nav extends Vue {
   links = [
-    { name: "statistics", text: "统计", link: "/statistics/detail" },
+    { name: "statistics", text: "统计", link: "/statistics" },
     { name: "record", text: "记一笔", link: "/record" },
     { name: "labels", text: "标签", link: "/labels" }
   ];

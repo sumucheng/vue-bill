@@ -1,8 +1,8 @@
 <template>
-  <Layout>
+  <div>
     <Title :now.sync="now" :headerTitle="headerTitle" />
     <div class="panel">
-      <Tabs :initSelected="selectedTitle" />
+      <Tabs :selected.sync="selectedTitle" />
       <div class="billList">
         <NoData v-if="oneDayBills.length===0" />
         <div v-else>
@@ -16,7 +16,7 @@
         </div>
       </div>
     </div>
-  </Layout>
+  </div>
 </template>
  
 <script lang="ts">
@@ -36,10 +36,17 @@ export default class Statistics extends Vue {
   billList = store.bills;
   monthSum = store.monthSum;
   type = "expend";
-  now = new Date();
-  oneDayBills = store.oneDayBills(this.now);
+
   headerTitle: { text: string; count: number | string }[] = [];
-  selectedTitle = "detail";
+  @Prop() initNow!: Date;
+  now = this.initNow;
+  oneDayBills = store.oneDayBills(this.now);
+  @Prop() initSelected: string | undefined;
+  selectedTitle = this.initSelected;
+  @Watch("selectedTitle")
+  onSelectedTitleChanged() {
+    this.$emit("update:initSelected", this.selectedTitle);
+  }
   created() {
     this.headerTitle = this.sum(this.now);
   }
@@ -64,6 +71,7 @@ export default class Statistics extends Vue {
   onNowChanged() {
     this.headerTitle = this.sum(this.now);
     this.oneDayBills = store.oneDayBills(this.now);
+    this.$emit("update:initNow", this.now);
   }
 }
 </script>
