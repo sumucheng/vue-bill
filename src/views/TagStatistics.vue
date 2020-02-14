@@ -10,8 +10,7 @@
 </template>
 
 <script lang="ts">
-import store from "@/store/tagStore";
-import billsModel from "@/model/billsModel.ts";
+import store from "@/store/store";
 import BillItem from "@/components/category/Bill.vue";
 import Back from "@/components/layout/Back.vue";
 import Vue from "vue";
@@ -34,8 +33,8 @@ export default class TagStatistics extends Vue {
     this.now = this.$route.params.id.split("-")[1];
     const date = new Date(Number(this.now));
     this.yearAndMonth = `${date.getFullYear()}-${date.getMonth() + 1}`;
-    this.data = billsModel
-      .classify(date)
+    this.data = store
+      .OneTagBills(date)
       .find(i => i.label === this.tagName)!.data;
   }
 }
@@ -57,7 +56,6 @@ export default class TagStatistics extends Vue {
       align-items: center;
       padding-left: 25px;
       font-family: $font-number;
-      font-weight: bold;
     }
   }
 }

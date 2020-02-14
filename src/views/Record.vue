@@ -12,13 +12,11 @@
 </template>
 
 <script lang="ts">
-import store from "@/store/tagStore";
-
+import store from "@/store/store";
 import Tags from "@/components/record/Tags.vue";
 import Notes from "@/components/record/Notes.vue";
 import Computer from "@/components/record/Computer.vue";
 import Header from "@/components/layout/Header.vue";
-import billsModel from "@/model/billsModel.ts";
 
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
@@ -27,7 +25,6 @@ import { Component, Prop, Watch } from "vue-property-decorator";
   components: { Tags, Notes, Computer, Header }
 })
 export default class Record extends Vue {
-  billList = window.billList;
   tags = store.tags;
   newBill: Bill = {
     type: "expend",
@@ -42,7 +39,7 @@ export default class Record extends Vue {
   }
   handleSubmit() {
     this.newBill.time = Date.now();
-    window.createBill(this.newBill);
+    store.createBill(this.newBill);
     this.newBill.note = "";
     this.newBill.tag = this.newBill.type === "expend" ? "一般" : "工资";
   }

@@ -26,18 +26,18 @@ import Sum from "@/components/statistics/Sum.vue";
 import Title from "@/components/layout/Title.vue";
 import NoData from "@/components/statistics/NoData.vue";
 import Tabs from "@/components/statistics/Tabs.vue";
-import billsModel from "@/model/billsModel.ts";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
+import store from "../store/store";
 @Component({
   components: { BillItem, Time, Sum, Title, NoData, Tabs }
 })
 export default class Statistics extends Vue {
-  billList = window.billList;
-  monthSum = billsModel.monthSum;
+  billList = store.bills;
+  monthSum = store.monthSum;
   type = "expend";
   now = new Date();
-  oneDayBills = billsModel.display(this.now);
+  oneDayBills = store.oneDayBills(this.now);
   headerTitle: { text: string; count: number | string }[] = [];
   selectedTitle = "detail";
   created() {
@@ -63,7 +63,7 @@ export default class Statistics extends Vue {
   @Watch("now")
   onNowChanged() {
     this.headerTitle = this.sum(this.now);
-    this.oneDayBills = billsModel.display(this.now);
+    this.oneDayBills = store.oneDayBills(this.now);
   }
 }
 </script>

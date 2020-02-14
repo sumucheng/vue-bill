@@ -35,13 +35,14 @@ export default class Back extends Vue {
     left: 20px;
     height: 44px;
     font-size: $font-size-m;
-    color: $black;
+    color: $orange;
     display: flex;
     align-items: center;
     text-align: center;
     .icon {
       margin-right: 4px;
       height: 12px;
+      color: $orange;
     }
   }
   .titleText {

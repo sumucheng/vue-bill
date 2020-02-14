@@ -33,6 +33,7 @@ export default class BillList extends Vue {
   padding-right: 20px;
   height: 40px;
   border-top: 1px solid $border-grey;
+  color: $dark-grey;
   .left {
     display: flex;
     align-items: center;

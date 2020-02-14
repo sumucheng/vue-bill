@@ -18,22 +18,22 @@ import Tabs from "@/components/statistics/Tabs.vue";
 import Chart from "@/components/category/Chart.vue";
 import List from "@/components/category/List.vue";
 import SwitchType from "@/components/category/SwitchType.vue";
-import billsModel from "@/model/billsModel.ts";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
+import store from "../store/store";
 @Component({
   components: { Title, Tabs, Chart, List, SwitchType }
 })
 export default class Statistics extends Vue {
-  monthSum = billsModel.monthSum;
+  monthSum = store.monthSum;
   type = "expend";
   switchText = [
     { en: "income", zh: "收" },
     { en: "expend", zh: "支" }
   ];
   now = new Date();
-  sortedBills = billsModel.classify(this.now);
-  oneDayBills = billsModel.display(this.now);
+  sortedBills = store.OneTagBills(this.now);
+  oneDayBills = store.oneDayBills(this.now);
   data: HeaderData | undefined;
   headerTitle: { text: string; count: number | string }[] = [];
   selectedTitle = "category";
@@ -63,7 +63,7 @@ export default class Statistics extends Vue {
         return {
           expend: i.expend,
           income: i.income,
-          rest: (i.expend - i.income).toFixed(2),
+          rest: (i.income - i.expend).toFixed(2),
           averageExpend: (i.expend / dayOfMonth[i.month]).toFixed(2),
           averageIncome: (i.income / dayOfMonth[i.month]).toFixed(2)
         };
@@ -82,8 +82,8 @@ export default class Statistics extends Vue {
   @Watch("now")
   onNowChanged() {
     this.data = this.sum(this.now);
-    this.oneDayBills = billsModel.display(this.now);
-    this.sortedBills = billsModel.classify(this.now);
+    this.oneDayBills = store.oneDayBills(this.now);
+    this.sortedBills = store.OneTagBills(this.now);
     this.headerTitle = this.text();
   }
   @Watch("type")
