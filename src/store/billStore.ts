@@ -1,6 +1,11 @@
 const billStore = {
     bills: [] as Bill[],
     monthSum: [] as MonthSum[],
+    oneMonthSum(now: Date) {
+        return this.monthSum.find(
+            i => i.year === now.getFullYear() && i.month === now.getMonth()
+        );
+    },
     fetchBills() {
         this.bills = JSON.parse(window.localStorage.getItem("billList") || "[]")
         this.monthSum = JSON.parse(window.localStorage.getItem("monthSum") || "[]")
@@ -121,7 +126,25 @@ const billStore = {
             averageExpend: 0,
             averageIncome: 0
         }
-
+    },
+    headerTitle(oneMonthSum: MonthSum | undefined, selected: string, type: string) {
+        if (selected === 'detail') {
+            const e = oneMonthSum ? oneMonthSum.expend : 0;
+            const i = oneMonthSum ? oneMonthSum.income : 0;
+            return [
+                { text: "支出", count: e },
+                { text: "收入", count: i }
+            ];
+        }
+        else {
+            const averageText = type === "expend" ? "平均每日支出" : "平均每日收入";
+            const rest = oneMonthSum ? oneMonthSum.rest : 0;
+            const ave = oneMonthSum ? type === "expend" ? oneMonthSum.averageExpend : oneMonthSum.averageIncome : 0;
+            return [
+                { text: "结余", count: rest },
+                { text: averageText, count: ave }
+            ];
+        }
     },
     fixTwo(n: number) {
         return Number(n.toFixed(2))

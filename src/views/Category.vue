@@ -1,52 +1,38 @@
 <template>
   <div class="category">
-    <SwitchType :text="switchText" :selected.sync="myType" />
+    <SwitchType :text="switchText" :selected.sync="syncedType" />
     <Chart :oneDayBills="oneDayBills" :type="type" />
     <List :oneTagBills="oneTagBills" :expendAndIncome="oneMonthSum" :type="type" :now="now" />
   </div>
 </template>
  
 <script lang="ts">
+import store from "../store/store";
+
 import Chart from "@/components/category/Chart.vue";
 import List from "@/components/category/List.vue";
 import SwitchType from "@/components/category/SwitchType.vue";
+
 import Vue from "vue";
-import { Component, Prop, Watch } from "vue-property-decorator";
-import store from "../store/store";
+import { Component, Prop, Watch, PropSync } from "vue-property-decorator";
 @Component({
   components: { Chart, List, SwitchType }
 })
 export default class Statistics extends Vue {
   @Prop() now!: Date;
-  @Prop() type!: string;
-  myType = this.type;
+  @PropSync("type", { type: String }) syncedType!: string;
   switchText = [
     { en: "income", zh: "收" },
     { en: "expend", zh: "支" }
   ];
-  oneTagBills = store.OneTagBills(this.now);
-  oneDayBills = store.oneDayBills(this.now);
-  oneMonthSum = store.monthSum.find(
-    i => i.year === this.now.getFullYear() && i.month === this.now.getMonth()
-  );
-
-  created() {
-    this.update();
+  get oneTagBills() {
+    return store.OneTagBills(this.now);
   }
-
-  @Watch("now")
-  onNowChanged() {
-    this.update();
+  get oneDayBills() {
+    return store.oneDayBills(this.now);
   }
-  @Watch("myType")
-  onTypeChanged() {
-    this.update();
-    this.$emit("update:type", this.myType);
-  }
-  update() {
-    this.oneTagBills = store.OneTagBills(this.now);
-    this.oneDayBills = store.oneDayBills(this.now);
-    this.oneMonthSum = store.monthSum.find(
+  get oneMonthSum() {
+    return store.monthSum.find(
       i => i.year === this.now.getFullYear() && i.month === this.now.getMonth()
     );
   }

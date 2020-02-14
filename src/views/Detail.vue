@@ -26,10 +26,8 @@ import store from "../store/store";
 })
 export default class Statistics extends Vue {
   @Prop() now!: Date;
-  oneDayBills = store.oneDayBills(this.now);
-  @Watch("now")
-  onNowChanged() {
-    this.oneDayBills = store.oneDayBills(this.now);
+  get oneDayBills() {
+    return store.oneDayBills(this.now);
   }
 }
 </script>
