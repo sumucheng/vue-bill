@@ -17,7 +17,6 @@
 </template>
 
 <script lang="ts">
-import G2 from "@antv/g2";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 @Component

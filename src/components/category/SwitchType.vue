@@ -17,7 +17,7 @@
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 @Component
-export default class Switch extends Vue {
+export default class SwitchType extends Vue {
   @Prop() text!: { en: string; zh: string }[];
   @Prop() selected!: string;
 }

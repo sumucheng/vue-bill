@@ -30,3 +30,6 @@ interface oneTagBills {
     sum: number,
     data: Bill[]
 }
+interface headerTitle {
+    text: string; count: number | string
+}
