@@ -26,7 +26,8 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 })
 export default class Record extends Vue {
   tags = store.tags;
-  newBill: Bill = {
+  newBill = {
+    id: 0,
     type: "expend",
     tag: "一般",
     note: "",
@@ -39,6 +40,7 @@ export default class Record extends Vue {
   }
   handleSubmit() {
     this.newBill.time = Date.now();
+    this.newBill.id = store.bills.length;
     store.createBill(this.newBill);
     this.newBill.note = "";
     this.newBill.tag = this.newBill.type === "expend" ? "一般" : "工资";

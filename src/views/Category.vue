@@ -17,12 +17,13 @@ import Title from "@/components/layout/Title.vue";
 import Tabs from "@/components/statistics/Tabs.vue";
 import Chart from "@/components/category/Chart.vue";
 import List from "@/components/category/List.vue";
+import NoData from "@/components/statistics/NoData.vue";
 import SwitchType from "@/components/category/SwitchType.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import store from "../store/store";
 @Component({
-  components: { Title, Tabs, Chart, List, SwitchType }
+  components: { Title, Tabs, Chart, List, NoData, SwitchType }
 })
 export default class Statistics extends Vue {
   type = "expend";
@@ -31,39 +32,50 @@ export default class Statistics extends Vue {
     { en: "expend", zh: "支" }
   ];
   now = new Date();
-  oneTagBills = store.OneTagBills(this.now);
-  oneDayBills = store.oneDayBills(this.now);
-  oneMonthSum = store.monthSum.find(
-    i => i.year === this.now.getFullYear() && i.month === this.now.getMonth()
-  );
+  oneTagBills: oneTagBills[] | undefined;
+  oneDayBills: oneDayBills[] | undefined;
+  oneMonthSum: MonthSum | undefined;
   headerTitle: { text: string; count: number | string }[] = [];
   selectedTitle = "category";
 
   created() {
+    this.update();
+  }
+  update() {
+    this.oneMonthSum = store.monthSum.find(
+      i => i.year === this.now.getFullYear() && i.month === this.now.getMonth()
+    );
     this.headerTitle = this.text();
+    this.oneTagBills = store.OneTagBills(this.now);
+    this.oneDayBills = store.oneDayBills(this.now);
   }
 
   text() {
     const averageText =
       this.type === "expend" ? "平均每日支出" : "平均每日收入";
-    const average =
-      this.type === "expend"
-        ? this.oneMonthSum!.averageExpend
-        : this.oneMonthSum!.averageIncome;
-    return [
-      { text: "结余", count: this.oneMonthSum!.rest },
-      { text: averageText, count: average }
-    ];
+    if (this.oneMonthSum) {
+      const average =
+        this.type === "expend"
+          ? this.oneMonthSum!.averageExpend
+          : this.oneMonthSum!.averageIncome;
+      return [
+        { text: "结余", count: this.oneMonthSum!.rest },
+        { text: averageText, count: average }
+      ];
+    } else {
+      return [
+        { text: "结余", count: 0 },
+        { text: averageText, count: 0 }
+      ];
+    }
   }
   @Watch("now")
   onNowChanged() {
-    this.oneDayBills = store.oneDayBills(this.now);
-    this.oneTagBills = store.OneTagBills(this.now);
-    this.headerTitle = this.text();
+    this.update();
   }
   @Watch("type")
   onTypeChanged() {
-    this.headerTitle = this.text();
+    this.update();
   }
 }
 </script>

@@ -4,6 +4,7 @@ const billStore = {
     fetchBills() {
         this.bills = JSON.parse(window.localStorage.getItem("billList") || "[]")
         this.monthSum = JSON.parse(window.localStorage.getItem("monthSum") || "[]")
+        if (this.monthSum.length === 0) this.monthSum = [this.initMonthSum()]
     },
     saveBills() {
         window.localStorage.setItem("billList", JSON.stringify(this.bills));
@@ -110,16 +111,17 @@ const billStore = {
             return time.getMonth() === now.getMonth() && time.getFullYear() === now.getFullYear()
         })
     },
-    initMonthSum(year: number, month: number) {
+    initMonthSum(year?: number, month?: number) {
         return {
-            year: year,
-            month: month,
+            year: year ? year : new Date().getFullYear(),
+            month: month ? month : new Date().getMonth(),
             income: 0,
             expend: 0,
             rest: 0,
             averageExpend: 0,
             averageIncome: 0
         }
+
     },
     fixTwo(n: number) {
         return Number(n.toFixed(2))

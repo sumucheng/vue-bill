@@ -3,6 +3,7 @@ interface Tag {
     name: string;
 }
 interface Bill {
+    id: number;
     type: string;
     tag: string;
     note: string;
