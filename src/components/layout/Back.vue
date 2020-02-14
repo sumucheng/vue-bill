@@ -2,7 +2,8 @@
   <div>
     <div class="back">
       <div class="link" @click="back">
-        <Icon name="left" />返回
+        <Icon name="left" />
+        <div class="text">返回</div>
       </div>
       <div class="titleText">{{titleText}}</div>
     </div>
@@ -43,6 +44,9 @@ export default class Back extends Vue {
       margin-right: 4px;
       height: 12px;
       color: $orange;
+    }
+    .text {
+      line-height: 2em;
     }
   }
   .titleText {

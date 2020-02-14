@@ -2,9 +2,11 @@
   <div class="tagStatistics">
     <Back :titleText="tag.name" />
     <div class="main">
-      <div class="yearAndMonth">{{yearAndMonth}}</div>
-      <BillItem v-for="bill in data" :key="bill.time" :bill="bill" />
-      <div class="line"></div>
+      <div class="bills">
+        <div class="yearAndMonth">{{yearAndMonth}}</div>
+        <BillItem v-for="bill in data" :key="bill.time" :bill="bill" />
+        <div class="line"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -48,13 +50,22 @@ export default class TagStatistics extends Vue {
     bottom: 0;
     width: 100%;
     overflow: auto;
-    .yearAndMonth {
-      font-size: $font-size-m;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      padding-left: 25px;
-      font-family: $font-number;
+    background-color: $light-grey;
+    .bills {
+      background-color: white;
+      .yearAndMonth {
+        font-size: $font-size-m;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        padding-left: 25px;
+        font-family: $font-number;
+      }
+      .line {
+        height: 50px;
+        width: 100vw;
+        background-color: $light-grey;
+      }
     }
   }
 }

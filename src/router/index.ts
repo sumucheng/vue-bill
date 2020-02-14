@@ -9,6 +9,7 @@ import NotFound from '@/views/NotFound.vue'
 import EditLabel from '@/views/EditLabel.vue'
 import TagStatistics from '@/views/TagStatistics.vue'
 import Category from '@/views/Category.vue'
+import BillDetail from '@/views/BillDetail.vue'
 
 const routes = [
   {
@@ -39,7 +40,10 @@ const routes = [
     path: '/statistics/:id',
     component: TagStatistics
   },
-
+  {
+    path: '/bill/:id',
+    component: BillDetail
+  },
   {
     path: '*',
     component: NotFound

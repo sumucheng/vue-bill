@@ -6,8 +6,8 @@
         <input v-model="newName" placeholder="不超过4个字" required maxlength="4" />
       </div>
       <div class="buttons">
-        <Button text="确 认" type="primary" :handleClick="editLabel" />
-        <Button text="删除标签" type="normal" :handleClick="deleteLabel" />
+        <Button text="确 认" type="primary" @click.native="editLabel" />
+        <Button text="删除标签" type="normal" @click.native="deleteLabel" />
       </div>
     </div>
   </div>

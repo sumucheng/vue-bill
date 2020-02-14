@@ -1,11 +1,11 @@
 <template>
-  <button :class="type" @click="handleClick">{{text}}</button>
+  <button :class="type">{{text}}</button>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 export default Vue.extend({
-  props: ["text", "type", "handleClick"]
+  props: ["text", "type"]
 });
 </script>
 
