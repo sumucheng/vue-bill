@@ -6,7 +6,7 @@
         <Label v-for="label in displayTags" :key="label.name" :tagName="label.name"></Label>
       </div>
       <div class="add">
-        <Button text="新建标签" type="primary" :handleClick="addLabel"></Button>
+        <Button text="新建标签" type="primary" @click.native="addLabel"></Button>
       </div>
     </div>
   </Layout>
@@ -27,16 +27,15 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 })
 export default class Labels extends Vue {
   type = "expend";
-  displayTags = store.filterTags(this.type);
-  @Watch("type")
-  onTypeChanged(value: string) {
-    this.displayTags = store.filterTags(this.type);
+  tags = store.tags;
+  get displayTags() {
+    return store.filterTags(this.type, this.tags);
   }
+
   addLabel() {
     const name = window.prompt("请输入标签名称（不超过四个字）");
     if (name && name != "") {
       store.createTag(this.type, name);
-      this.displayTags = store.filterTags(this.type);
     }
   }
 }

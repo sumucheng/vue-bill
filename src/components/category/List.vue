@@ -6,11 +6,11 @@
         <div class="top">
           <div class="left">
             <div class="label">{{item.label}}</div>
-            <div class="percent">{{percent(item.sum)+'%'}}</div>
+            <div class="percent">{{percent(item.sum, oneMonthSum[type])}}</div>
           </div>
           <div class="number">{{item.sum}}</div>
         </div>
-        <div class="line" :style="`width: ${percentLine(item.sum)}`"></div>
+        <div class="line" :style="`width: ${percent(item.sum, displayBills[0].sum)};min-width:5px`"></div>
       </router-link>
     </div>
   </div>
@@ -22,30 +22,14 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 @Component
 export default class BillList extends Vue {
   @Prop() oneTagBills!: oneTagBills[];
-  @Prop() expendAndIncome!: { expend: number; income: number };
-  @Prop() type!: string;
+  @Prop() oneMonthSum!: MonthSum;
+  @Prop() type!: "expend" | "income";
   @Prop() now!: Date;
-  displayBills = this.oneTagBills.filter(el => el.type === this.type);
-
-  @Watch("type")
-  onTypeChange() {
-    this.displayBills = this.oneTagBills.filter(el => el.type === this.type);
+  get displayBills() {
+    return this.oneTagBills.filter(el => el.type === this.type);
   }
-  @Watch("oneTagBills")
-  onOneTagBillsChange() {
-    this.displayBills = this.oneTagBills.filter(el => el.type === this.type);
-  }
-
-  percent(n: number) {
-    const x =
-      this.type === "expend"
-        ? this.expendAndIncome.expend
-        : this.expendAndIncome.income;
-    return ((100 * n) / x).toFixed(2);
-  }
-  percentLine(n: number) {
-    const max = this.displayBills[0].sum;
-    return ((100 * n) / max).toFixed(2) + "%";
+  percent(a: number, b: number) {
+    return ((100 * a) / b).toFixed(2) + "%";
   }
 }
 </script>

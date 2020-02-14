@@ -9,26 +9,9 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 @Component
 export default class BillList extends Vue {
   @Prop() oneDayBills!: oneDayBills[];
-  @Prop() type!: string;
+  @Prop() type!: "expend" | "income";
   chart: G2.Chart | undefined;
-
-  @Watch("type")
-  onTypeChange() {
-    const chartData: { date: number; value: number }[] = [];
-
-    for (let i = 1; i < 32; i++) {
-      chartData.push({ date: i, value: 0 });
-    }
-    for (let i of this.oneDayBills) {
-      chartData[i.date.day - 1] = {
-        date: i.date.day,
-        value: this.type === "expend" ? i.sum.expend : i.sum.income
-      };
-    }
-    this.chart && this.chart.changeData(chartData);
-  }
-  @Watch("oneDayBills")
-  onOneDayBillsChange() {
+  get chartData() {
     const chartData: { date: number; value: number }[] = [];
     for (let i = 1; i < 32; i++) {
       chartData.push({ date: i, value: 0 });
@@ -36,24 +19,16 @@ export default class BillList extends Vue {
     for (let i of this.oneDayBills) {
       chartData[i.date.day - 1] = {
         date: i.date.day,
-        value: this.type === "expend" ? i.sum.expend : i.sum.income
+        value: i.sum[this.type]
       };
     }
-    this.chart && this.chart.changeData(chartData);
+    return chartData;
   }
-
+  @Watch("chartData")
+  onChartDataChange() {
+    this.chart && this.chart.changeData(this.chartData);
+  }
   mounted() {
-    const chartData: { date: number; value: number }[] = [];
-
-    for (let i = 1; i < 32; i++) {
-      chartData.push({ date: i, value: 0 });
-    }
-    for (let i of this.oneDayBills) {
-      chartData[i.date.day - 1] = {
-        date: i.date.day,
-        value: this.type === "expend" ? i.sum.expend : i.sum.income
-      };
-    }
     this.chart = new G2.Chart({
       container: "chart",
       forceFit: true,
@@ -61,7 +36,7 @@ export default class BillList extends Vue {
       padding: [20, 20, 30, 20],
       animate: false
     });
-    this.chart.source(chartData);
+    this.chart.source(this.chartData);
     this.chart.scale("value", {
       min: 0
     });

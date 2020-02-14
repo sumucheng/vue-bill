@@ -2,7 +2,7 @@
   <div class="category">
     <SwitchType :text="switchText" :selected.sync="syncedType" />
     <Chart :oneDayBills="oneDayBills" :type="type" />
-    <List :oneTagBills="oneTagBills" :expendAndIncome="oneMonthSum" :type="type" :now="now" />
+    <List :oneTagBills="oneTagBills" :oneMonthSum="oneMonthSum" :type="type" :now="now" />
   </div>
 </template>
  

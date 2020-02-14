@@ -8,8 +8,9 @@ const tagStore = {
     saveTags() {
         window.localStorage.setItem("tags", JSON.stringify(this.tags));
     },
-    filterTags(type: string) {
-        return this.tags.filter(i => i.type === type);
+    filterTags(type: string, data?: Tag[]) {
+        const tags = data ? data : this.tags
+        return tags.filter(i => i.type === type);
     },
     createTag(type: string, name: string) {
         name = name.substr(0, 4);

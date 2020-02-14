@@ -34,7 +34,9 @@ export default class Record extends Vue {
     count: 0,
     time: 0
   };
-  displayTags: Tag[] = store.filterTags(this.newBill.type);
+  get displayTags() {
+    return store.filterTags(this.newBill.type, this.tags);
+  }
   addTag(tagName: string) {
     store.createTag(this.newBill.type, tagName);
   }
@@ -45,13 +47,8 @@ export default class Record extends Vue {
     this.newBill.note = "";
     this.newBill.tag = this.newBill.type === "expend" ? "一般" : "工资";
   }
-  @Watch("tags")
-  onTagsChange() {
-    this.displayTags = store.filterTags(this.newBill.type);
-  }
   @Watch("newBill.type")
   onTypeChange() {
-    this.displayTags = store.filterTags(this.newBill.type);
     this.newBill.tag = this.newBill.type === "expend" ? "一般" : "工资";
   }
 }
@@ -59,7 +56,6 @@ export default class Record extends Vue {
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
-
 .panel {
   position: fixed;
   z-index: 2;

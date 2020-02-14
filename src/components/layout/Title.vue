@@ -5,7 +5,7 @@
       <div class="wrapper yearAndMonth">
         <div class="year text">{{year}}年</div>
         <div class="month">
-          <Icon name="solid-left" class="left" @click.native="lastMonth" />
+          <Icon name="solid-left" class="left" @click.native="preMonth" />
           {{monthText}}月
           <Icon name="solid-right" class="right" @click.native="nextMonth" />
         </div>
@@ -27,20 +27,20 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 export default class Header extends Vue {
   @Prop() now!: Date;
   @Prop() headerTitle!: { text: string; count: number }[];
-  year = this.now.getFullYear();
-  month = this.now.getMonth();
-  monthText = this.month < 9 ? "0" + (this.month + 1) : this.month + 1;
-  lastMonth() {
+  get year() {
+    return this.now.getFullYear();
+  }
+  get month() {
+    return this.now.getMonth();
+  }
+  get monthText() {
+    return this.month < 9 ? "0" + (this.month + 1) : this.month + 1;
+  }
+  preMonth() {
     this.$emit("update:now", new Date(this.now.setMonth(this.month - 1)));
   }
   nextMonth() {
     this.$emit("update:now", new Date(this.now.setMonth(this.month + 1)));
-  }
-  @Watch("now")
-  onNowChanged() {
-    this.year = this.now.getFullYear();
-    this.month = this.now.getMonth();
-    this.monthText = this.month < 9 ? "0" + (this.month + 1) : this.month + 1;
   }
 }
 </script>
