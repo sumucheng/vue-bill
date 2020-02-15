@@ -37,6 +37,7 @@ export default class Record extends Vue {
   handleSubmit() {
     this.newBill.time = Date.now();
     store.createBill(this.newBill);
+    this.newBill.id = store.bills[0].id + 1;
     this.newBill.note = "";
     this.newBill.tag = this.newBill.type === "expend" ? "一般" : "工资";
   }

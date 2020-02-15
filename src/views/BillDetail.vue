@@ -32,8 +32,10 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 })
 export default class EditLabel extends Vue {
   bill: Bill | undefined;
+  id!: number;
   created() {
-    this.bill = store.findBill(Number(this.$route.params.id));
+    this.id = Number(this.$route.params.id);
+    this.bill = store.findBill(this.id);
     if (!this.bill) this.$router.replace("/404");
   }
   getDate(n: number) {
@@ -42,7 +44,10 @@ export default class EditLabel extends Vue {
     return `${yearText}-${d.monthText}-${d.dateText}`;
   }
   editBill() {}
-  deleteBill() {}
+  deleteBill() {
+    store.deleteBill(this.id);
+    this.$router.back();
+  }
 }
 </script>
 

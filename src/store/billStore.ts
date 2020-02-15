@@ -93,8 +93,26 @@ const billStore = {
         this.updateMonthSum(bill)
         this.saveBills();
     },
+    deleteBill(id: number) {
+        const index = this.bills.findIndex(i => i.id === id);
+        this.x(this.findBill(id)!)
+        this.bills.splice(index, 1);
+        this.saveBills()
+    },
+    x(bill: Bill) {
+        const yy = new Date(bill.time).getFullYear()
+        const mm = new Date(bill.time).getMonth()
+        const ms = this.monthSum.find(i => i.month === mm && i.year === yy) as MonthSum
+        const type = bill.type as 'expend' | 'income';
+        ms[type] = this.fixTwo(ms[type] - bill.count)
+        ms.rest = this.fixTwo(ms.income - ms.expend)
+        const days = this.dayOfMonth(ms.year, ms.month)
+        ms.averageExpend = this.fixTwo(ms.expend / days)
+        ms.averageIncome = this.fixTwo(ms.income / days)
+    }
+    ,
     findBill(id: number) {
-        return this.bills[this.bills.length - 1 - id]
+        return this.bills.find(bill => bill.id === id)
     },
     updateMonthSum(bill: Bill) {
         const yy = new Date(bill.time).getFullYear()
@@ -121,7 +139,7 @@ const billStore = {
     },
     initNewBill() {
         return {
-            id: this.bills.length,
+            id: this.bills[0] ? (this.bills[0].id + 1) : 0,
             type: "expend",
             tag: "一般",
             note: "",

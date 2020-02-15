@@ -1,7 +1,7 @@
 <template>
   <div class="date">
     <div class="monthAndDay">{{monthAndDay}}</div>
-    <div class="week">{{displayDate.weekText}}</div>
+    <div class="week">{{d.weekText}}</div>
   </div>
 </template>
 
