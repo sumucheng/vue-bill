@@ -93,6 +93,9 @@ const billStore = {
         this.updateMonthSum(bill)
         this.saveBills();
     },
+    findBill(id: number) {
+        return this.bills[this.bills.length - 1 - id]
+    },
     updateMonthSum(bill: Bill) {
         const yy = new Date(bill.time).getFullYear()
         const mm = new Date(bill.time).getMonth()
@@ -115,6 +118,16 @@ const billStore = {
             const time = new Date(bill.time)
             return time.getMonth() === now.getMonth() && time.getFullYear() === now.getFullYear()
         })
+    },
+    initNewBill() {
+        return {
+            id: this.bills.length,
+            type: "expend",
+            tag: "一般",
+            note: "",
+            count: 0,
+            time: 0
+        }
     },
     initMonthSum(year?: number, month?: number) {
         return {
@@ -145,6 +158,22 @@ const billStore = {
                 { text: averageText, count: ave }
             ];
         }
+    },
+    displayDate(date: number | { day?: number; week?: number; month?: number; year?: number }) {
+        if (typeof date === 'number') {
+            const d = new Date(date)
+            date = {
+                day: d.getDate(),
+                week: d.getDay(),
+                month: d.getMonth()
+            }
+        }
+        const oneWeek = ["日", "一", "二", "三", "四", "五", "六"];
+        const dateText = date.day && (date.day < 10 ? "0" + date.day : date.day);
+        const monthText =
+            date.month && (date.month < 9 ? "0" + (date.month + 1) : date.month + 1);
+        const weekText = date.week && (`星期${oneWeek[date.week]}`);
+        return { dateText, weekText, monthText }
     },
     fixTwo(n: number) {
         return Number(n.toFixed(2))

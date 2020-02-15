@@ -1,7 +1,7 @@
 <template>
   <div class="bill">
     <div class="left">
-      <div class="time">{{time(bill.time)}}</div>
+      <div class="time">{{getDate(bill.time)}}</div>
       <div class="label">{{bill.tag}}</div>
       <div class="note">{{bill.note}}</div>
     </div>
@@ -15,9 +15,8 @@ import { Component, Prop } from "vue-property-decorator";
 @Component
 export default class BillList extends Vue {
   @Prop() bill: Bill | undefined;
-  time(time: number) {
-    const date = new Date(time);
-    return `${date.getDate()}日`;
+  getDate(time: number) {
+    return `${new Date(time).getDate()}日`;
   }
 }
 </script>
@@ -34,7 +33,6 @@ export default class BillList extends Vue {
   height: 40px;
   border-top: 1px solid $border-grey;
   color: $dark-grey;
-
   .left {
     display: flex;
     align-items: center;

@@ -1,22 +1,19 @@
 <template>
   <div class="date">
-    <div class="monthAndDay">{{displayText}}</div>
-    <div class="week">{{weekText}}</div>
+    <div class="monthAndDay">{{monthAndDay}}</div>
+    <div class="week">{{displayDate.weekText}}</div>
   </div>
 </template>
 
 <script lang="ts">
+import store from "@/store/store";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 @Component
 export default class BillList extends Vue {
   @Prop() time!: { day: number; week: number; month: number; year: number };
-  oneWeek = ["日", "一", "二", "三", "四", "五", "六"];
-  dateText = this.time.day < 10 ? "0" + this.time.day : this.time.day;
-  monthText =
-    this.time.month < 9 ? "0" + (this.time.month + 1) : this.time.month + 1;
-  weekText = `星期${this.oneWeek[this.time.week]}`;
-  displayText = `${this.monthText}/${this.dateText}`;
+  d = store.displayDate(this.time);
+  monthAndDay = `${this.d.monthText}/${this.d.dateText}`;
 }
 </script>
 

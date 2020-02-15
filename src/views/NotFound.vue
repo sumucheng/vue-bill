@@ -1,7 +1,7 @@
 <template>
   <div class="panel">
     <Icon name="notFound" />
-    <router-link to="/" class="return">
+    <router-link to="/record" class="return">
       <Button text="返回" type="primary"></Button>
     </router-link>
   </div>

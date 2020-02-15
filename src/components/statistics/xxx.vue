@@ -22,7 +22,9 @@ export default class BillList extends Vue {
   @Prop() oneTagBills!: oneTagBills[];
   @Prop() expendAndIncome!: { expend: number; income: number };
   type = "expend";
-  displayBills = this.oneTagBills.filter(el => el.type === this.type);
+  get displayBills() {
+    return this.oneTagBills.filter(el => el.type === this.type);
+  }
   chart: G2.Chart | undefined;
   html = `
     <div>
@@ -38,13 +40,8 @@ export default class BillList extends Vue {
       </div>
     </div>`;
 
-  @Watch("type")
-  onTypeChange() {
-    this.displayBills = this.oneTagBills.filter(el => el.type === this.type);
-  }
   @Watch("oneTagBills")
   onOneTagBillsChange() {
-    this.displayBills = this.oneTagBills.filter(el => el.type === this.type);
     const chartData = this.displayBills.map(i => {
       return {
         item: i.label,

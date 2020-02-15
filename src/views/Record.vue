@@ -13,6 +13,7 @@
 
 <script lang="ts">
 import store from "@/store/store";
+
 import Tags from "@/components/record/Tags.vue";
 import Notes from "@/components/record/Notes.vue";
 import Computer from "@/components/record/Computer.vue";
@@ -26,14 +27,7 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 })
 export default class Record extends Vue {
   tags = store.tags;
-  newBill = {
-    id: 0,
-    type: "expend",
-    tag: "一般",
-    note: "",
-    count: 0,
-    time: 0
-  };
+  newBill = store.initNewBill();
   get displayTags() {
     return store.filterTags(this.newBill.type, this.tags);
   }
@@ -42,7 +36,6 @@ export default class Record extends Vue {
   }
   handleSubmit() {
     this.newBill.time = Date.now();
-    this.newBill.id = store.bills.length;
     store.createBill(this.newBill);
     this.newBill.note = "";
     this.newBill.tag = this.newBill.type === "expend" ? "一般" : "工资";

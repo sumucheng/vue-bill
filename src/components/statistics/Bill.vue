@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="`/bill/${bill.time}`">
+  <router-link :to="`/bill/${bill.id}`">
     <div class="bill">
       <div class="left">
         <div class="label">{{bill.tag}}</div>
