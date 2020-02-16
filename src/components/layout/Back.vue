@@ -44,7 +44,6 @@ export default class Back extends Vue {
     .icon {
       margin-right: 4px;
       height: 12px;
-      color: $orange;
     }
     .text {
       line-height: 2em;

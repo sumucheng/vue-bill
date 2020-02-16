@@ -75,8 +75,9 @@ export default class Record extends Vue {
   display: flex;
   align-items: center;
   text-align: center;
-  .text {
-    margin-left: 5px;
+  .icon {
+    margin-right: 4px;
+    height: 12px;
   }
 }
 .panel {

@@ -95,8 +95,9 @@ const billStore = {
     },
     deleteBill(id: number) {
         const index = this.bills.findIndex(i => i.id === id);
-        this.updateMonthSum(this.findBill(id)!)
+        const bill = this.bills[index]
         this.bills.splice(index, 1);
+        this.updateMonthSum(bill)
         this.saveBills()
     },
     editBill(bill: Bill) {

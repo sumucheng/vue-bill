@@ -91,7 +91,9 @@ export default class Computer extends Vue {
   width: 100%;
   > .display {
     @extend %shadow;
-    text-align: right;
+    justify-content: flex-end;
+    display: flex;
+    align-items: center;
     height: 70px;
     font-size: $font-size-xxl;
     border-radius: $border-radius-m;
