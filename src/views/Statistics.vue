@@ -41,9 +41,7 @@ export default class Statistics extends Vue {
   }
   beforeRouteEnter(to: Route, from: Route, next: Function) {
     if (from.path.match("statistics/")) {
-      next((vm: any) => {
-        vm.selected = "category";
-      });
+      next((vm: any) => (vm.selected = "category"));
     } else next();
   }
 }

@@ -1,12 +1,14 @@
 <template>
-  <div class="bill">
-    <div class="left">
-      <div class="time">{{getDate(bill.time)}}</div>
-      <div class="label">{{bill.tag}}</div>
-      <div class="note">{{bill.note}}</div>
+  <router-link :to="`/bill/${bill.id}`">
+    <div class="bill">
+      <div class="left">
+        <div class="time">{{getDate(bill.time)}}</div>
+        <div class="label">{{bill.tag}}</div>
+        <div class="note">{{bill.note}}</div>
+      </div>
+      <div class="count">{{(bill.type==='expend'?'-':'+')+bill.count}}</div>
     </div>
-    <div class="count">{{(bill.type==='expend'?'-':'+')+bill.count}}</div>
-  </div>
+  </router-link>
 </template>
 
 <script lang="ts">
