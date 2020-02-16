@@ -13,7 +13,7 @@ import Statistics from '@/views/Statistics.vue'
 const routes = [
   {
     path: '/',
-    redirect: '/statistics/detail'
+    redirect: '/statistics'
   },
   {
     path: '/record',

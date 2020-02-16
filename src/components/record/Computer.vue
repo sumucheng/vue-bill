@@ -83,7 +83,7 @@ export default class Computer extends Vue {
   background-color: $light-grey;
   padding: 15px;
   position: fixed;
-  bottom: 80px;
+  bottom: 0;
   width: 100%;
   > .display {
     @extend %shadow;

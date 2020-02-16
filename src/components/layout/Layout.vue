@@ -3,7 +3,7 @@
     <div class="main">
       <slot />
     </div>
-    <Nav />
+    <Nav v-if="hasNav" />
   </div>
 </template>
 
@@ -16,7 +16,9 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 @Component({
   components: { Header, Nav, Title }
 })
-export default class Layout extends Vue {}
+export default class Layout extends Vue {
+  @Prop({ default: true }) hasNav!: boolean;
+}
 </script>
 
 <style lang="scss" scoped>

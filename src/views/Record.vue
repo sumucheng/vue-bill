@@ -1,5 +1,9 @@
 <template>
-  <Layout>
+  <Layout :hasNav="false">
+    <div class="link" @click="back">
+      <Icon name="left-white" />
+      <div class="text">返回</div>
+    </div>
     <Header :type.sync="newBill.type" />
     <div class="panel">
       <div class="tagsAndNotes">
@@ -31,30 +35,54 @@ export default class Record extends Vue {
   get displayTags() {
     return store.filterTags(this.newBill.type, this.tags);
   }
+  created() {
+    const id = this.$route.params.id;
+    if (id) {
+      const bill = store.findBill(Number(id));
+      if (bill) this.newBill = bill;
+      else this.$router.replace("/404");
+    }
+  }
   addTag(tagName: string) {
     store.createTag(this.newBill.type, tagName);
   }
   handleSubmit() {
     this.newBill.time = Date.now();
     store.createBill(this.newBill);
-    this.newBill.id = store.bills[0].id + 1;
-    this.newBill.note = "";
-    this.newBill.tag = this.newBill.type === "expend" ? "一般" : "工资";
+    this.$router.replace("/");
   }
   @Watch("newBill.type")
   onTypeChange() {
     this.newBill.tag = this.newBill.type === "expend" ? "一般" : "工资";
+  }
+  back() {
+    this.$router.back();
   }
 }
 </script>  
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
+.link {
+  position: fixed;
+  top: 0px;
+  left: 10px;
+  height: 44px;
+  z-index: 10;
+  font-size: $font-size-m;
+  color: white;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  .text {
+    margin-left: 5px;
+  }
+}
 .panel {
   position: fixed;
   z-index: 2;
   top: 114px;
-  bottom: 420px;
+  bottom: 340px;
   background-color: white;
   width: 100%;
   border-radius: $border-radius-l;
