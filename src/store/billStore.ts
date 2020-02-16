@@ -90,43 +90,32 @@ const billStore = {
     createBill(newBill: Bill) {
         const bill = JSON.parse(JSON.stringify(newBill));
         this.bills.unshift(bill);
-        this.updateMonthSum(bill)
+        this.updateMonthSum(bill, 'create')
         this.saveBills();
     },
     deleteBill(id: number) {
         const index = this.bills.findIndex(i => i.id === id);
-        this.x(this.findBill(id)!)
+        this.updateMonthSum(this.findBill(id)!, 'delete')
         this.bills.splice(index, 1);
         this.saveBills()
     },
-    x(bill: Bill) {
+    findBill(id: number) {
+        return this.bills.find(bill => bill.id === id)
+    },
+    updateMonthSum(bill: Bill, op: string) {
         const yy = new Date(bill.time).getFullYear()
         const mm = new Date(bill.time).getMonth()
-        const ms = this.monthSum.find(i => i.month === mm && i.year === yy) as MonthSum
         const type = bill.type as 'expend' | 'income';
-        ms[type] = this.fixTwo(ms[type] - bill.count)
+        const ms = this.monthSum.find(i => i.month === mm && i.year === yy) as MonthSum
+        if (!ms) {
+            this.monthSum.unshift(this.initMonthSum(yy, mm))
+        }
+        const x = op === 'create' ? bill.count : -bill.count
+        ms[type] = this.fixTwo(ms[type] + x)
         ms.rest = this.fixTwo(ms.income - ms.expend)
         const days = this.dayOfMonth(ms.year, ms.month)
         ms.averageExpend = this.fixTwo(ms.expend / days)
         ms.averageIncome = this.fixTwo(ms.income / days)
-    }
-    ,
-    findBill(id: number) {
-        return this.bills.find(bill => bill.id === id)
-    },
-    updateMonthSum(bill: Bill) {
-        const yy = new Date(bill.time).getFullYear()
-        const mm = new Date(bill.time).getMonth()
-        const type = bill.type as 'expend' | 'income';
-        const last = this.monthSum[0]
-        if (!(last && last.year === yy && last.month === mm)) {
-            this.monthSum.unshift(this.initMonthSum(yy, mm))
-        }
-        last[type] = this.fixTwo(last[type] + bill.count)
-        last.rest = this.fixTwo(last.income - last.expend)
-        const days = this.dayOfMonth(last.year, last.month)
-        last.averageExpend = this.fixTwo(last.expend / days)
-        last.averageIncome = this.fixTwo(last.income / days)
     },
     dayOfMonth(year: number, month: number) {
         return new Date(year, month + 1, 0).getDate()
@@ -190,7 +179,7 @@ const billStore = {
         const dateText = date.day && (date.day < 10 ? "0" + date.day : date.day);
         const monthText =
             date.month && (date.month < 9 ? "0" + (date.month + 1) : date.month + 1);
-        const weekText = date.week && (`星期${oneWeek[date.week]}`);
+        const weekText = (date.week || date.week === 0) && (`星期${oneWeek[date.week]}`);
         return { dateText, weekText, monthText }
     },
     fixTwo(n: number) {
