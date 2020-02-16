@@ -1,5 +1,8 @@
 <template>
-  <Layout>
+  <Layout :hasNav="false">
+    <div class="link" @click="back">
+      <Icon name="left-white" />
+    </div>
     <Header :type.sync="type" />
     <div class="panel">
       <div class="labels">
@@ -38,24 +41,34 @@ export default class Labels extends Vue {
       store.createTag(this.type, name);
     }
   }
+  back() {
+    this.$router.back();
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
-
+.link {
+  position: fixed;
+  top: 55px;
+  left: 10px;
+  z-index: 10;
+  .icon {
+    height: 12px;
+  }
+}
 .panel {
   position: fixed;
   z-index: 2;
   top: 114px;
-  bottom: 420px;
   background-color: white;
   width: 100%;
   border-radius: $border-radius-l;
   .labels {
     margin: 20px;
     overflow: auto;
-    max-height: 500px;
+    max-height: 550px;
   }
   .add {
     margin-top: 20px;

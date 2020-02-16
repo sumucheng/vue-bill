@@ -10,6 +10,7 @@ import TagStatistics from '@/views/TagStatistics.vue'
 import BillDetail from '@/views/BillDetail.vue'
 import Statistics from '@/views/Statistics.vue'
 import Annual from '@/views/Annual.vue'
+import Setting from '@/views/Setting.vue'
 
 const routes = [
   {
@@ -43,6 +44,10 @@ const routes = [
   {
     path: '/bill/:id',
     component: BillDetail
+  },
+  {
+    path: '/setting',
+    component: Setting
   },
   {
     path: '/annualBill',

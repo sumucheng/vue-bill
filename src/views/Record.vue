@@ -65,17 +65,10 @@ export default class Record extends Vue {
 @import "~@/assets/style/normal.scss";
 .link {
   position: fixed;
-  top: 40px;
+  top: 55px;
   left: 10px;
-  height: 44px;
   z-index: 10;
-  font-size: $font-size-m;
-  color: white;
-  display: flex;
-  align-items: center;
-  text-align: center;
   .icon {
-    margin-right: 4px;
     height: 12px;
   }
 }

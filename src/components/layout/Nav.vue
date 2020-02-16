@@ -22,7 +22,7 @@ export default class Nav extends Vue {
   links = [
     { name: "statistics", text: "统计", link: "/statistics" },
     { name: "record", text: "", link: "/record" },
-    { name: "labels", text: "标签", link: "/labels" }
+    { name: "setting", text: "设置", link: "/setting" }
   ];
 }
 </script>
