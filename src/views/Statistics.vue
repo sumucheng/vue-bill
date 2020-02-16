@@ -10,6 +10,8 @@
 </template>
 
 <script lang="ts">
+import store from "../store/store";
+
 import Title from "@/components/layout/Title.vue";
 import Tabs from "@/components/statistics/Tabs.vue";
 import Category from "./Category.vue";
@@ -17,7 +19,13 @@ import Detail from "./Detail.vue";
 
 import Vue from "vue";
 import { Component, Prop, Watch, PropSync } from "vue-property-decorator";
-import store from "../store/store";
+import { Route } from "vue-router";
+Component.registerHooks([
+  "beforeRouteEnter",
+  "beforeRouteLeave",
+  "beforeRouteUpdate"
+]);
+
 @Component({
   components: { Category, Detail, Title, Tabs }
 })
@@ -30,6 +38,13 @@ export default class Statistics extends Vue {
   }
   get headerTitle() {
     return store.headerTitle(this.oneMonthSum, this.selected, this.type);
+  }
+  beforeRouteEnter(to: Route, from: Route, next: Function) {
+    if (from.path.match("statistics/")) {
+      next((vm: any) => {
+        vm.selected = "category";
+      });
+    } else next();
   }
 }
 </script>

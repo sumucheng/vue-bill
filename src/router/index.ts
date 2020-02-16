@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import VueRouter, { Route } from 'vue-router'
 Vue.use(VueRouter)
 
 import Record from '@/views/Record.vue'
@@ -9,6 +9,7 @@ import EditLabel from '@/views/EditLabel.vue'
 import TagStatistics from '@/views/TagStatistics.vue'
 import BillDetail from '@/views/BillDetail.vue'
 import Statistics from '@/views/Statistics.vue'
+
 
 const routes = [
   {
