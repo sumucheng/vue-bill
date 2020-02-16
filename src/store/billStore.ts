@@ -90,28 +90,34 @@ const billStore = {
     createBill(newBill: Bill) {
         const bill = JSON.parse(JSON.stringify(newBill));
         this.bills.unshift(bill);
-        this.updateMonthSum(bill, 'create')
+        this.updateMonthSum(bill)
         this.saveBills();
     },
     deleteBill(id: number) {
         const index = this.bills.findIndex(i => i.id === id);
-        this.updateMonthSum(this.findBill(id)!, 'delete')
+        this.updateMonthSum(this.findBill(id)!)
         this.bills.splice(index, 1);
+        this.saveBills()
+    },
+    editBill(bill: Bill) {
+        bill && this.updateMonthSum(bill)
         this.saveBills()
     },
     findBill(id: number) {
         return this.bills.find(bill => bill.id === id)
     },
-    updateMonthSum(bill: Bill, op: string) {
-        const yy = new Date(bill.time).getFullYear()
-        const mm = new Date(bill.time).getMonth()
-        const type = bill.type as 'expend' | 'income';
+    updateMonthSum(bill: Bill) {
+        const billTime = new Date(bill.time)
+        const yy = billTime.getFullYear()
+        const mm = billTime.getMonth()
+        const oneMonthBills = this.oneMonthBills(billTime)
         const ms = this.monthSum.find(i => i.month === mm && i.year === yy) as MonthSum
-        if (!ms) {
-            this.monthSum.unshift(this.initMonthSum(yy, mm))
+        if (!ms) this.monthSum.unshift(this.initMonthSum(yy, mm))
+        ms.expend = 0
+        ms.income = 0
+        for (let bill of oneMonthBills) {
+            ms[bill.type as 'income' | 'expend'] = this.fixTwo(ms[bill.type as 'income' | 'expend'] + bill.count)
         }
-        const x = op === 'create' ? bill.count : -bill.count
-        ms[type] = this.fixTwo(ms[type] + x)
         ms.rest = this.fixTwo(ms.income - ms.expend)
         const days = this.dayOfMonth(ms.year, ms.month)
         ms.averageExpend = this.fixTwo(ms.expend / days)

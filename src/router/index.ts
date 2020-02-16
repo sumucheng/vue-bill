@@ -20,6 +20,10 @@ const routes = [
     component: Record
   },
   {
+    path: '/record/:id',
+    component: Record
+  },
+  {
     path: '/labels',
     component: Labels
   },

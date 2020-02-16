@@ -48,7 +48,8 @@ export default class Record extends Vue {
   }
   handleSubmit() {
     this.newBill.time = Date.now();
-    store.createBill(this.newBill);
+    if (store.findBill(this.newBill.id)) store.editBill(this.newBill);
+    else store.createBill(this.newBill);
     this.$router.replace("/");
   }
   @Watch("newBill.type")

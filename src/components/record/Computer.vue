@@ -42,12 +42,16 @@ export default class Computer extends Vue {
   next = "";
   operation = "";
   finish = true;
-  @Prop(Function) handleSubmit: Function | undefined;
+  @Prop() handleSubmit: Function | undefined;
+  @Prop() count: number | undefined;
+  created() {
+    if (this.count) this.next = this.count.toString();
+  }
 
   submit() {
-    const count = Number(this.next || this.total || "0");
-    if (count > 0) {
-      this.$emit("update:count", count);
+    const amount = Number(this.next || this.total || "0");
+    if (amount > 0) {
+      this.$emit("update:count", amount);
       this.handleSubmit && this.handleSubmit();
       this.total = "";
       this.next = "";

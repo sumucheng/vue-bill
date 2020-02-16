@@ -11,7 +11,9 @@
         <Item text="备注" :content="bill.note" />
       </div>
       <div class="buttons">
-        <Button text="编 辑" type="primary" @click.native="editBill" />
+        <router-link :to="`/record/${bill.id}`">
+          <Button text="编 辑" type="primary" />
+        </router-link>
         <Button text="删 除" type="normal" @click.native="deleteBill" />
       </div>
     </div>
@@ -43,7 +45,6 @@ export default class EditLabel extends Vue {
     const d = store.displayDate(n);
     return `${yearText}-${d.monthText}-${d.dateText}`;
   }
-  editBill() {}
   deleteBill() {
     store.deleteBill(this.id);
     this.$router.back();
