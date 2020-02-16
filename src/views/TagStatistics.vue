@@ -34,9 +34,10 @@ export default class TagStatistics extends Vue {
     this.now = this.$route.params.id.split("-")[1];
     const date = new Date(Number(this.now));
     this.yearAndMonth = `${date.getFullYear()}-${date.getMonth() + 1}`;
-    this.data = store
+    const OneTagBills = store
       .OneTagBills(date)
-      .find(i => i.label === this.tagName)!.data;
+      .find(i => i.label === this.tagName);
+    this.data = OneTagBills ? OneTagBills.data : [];
   }
 }
 </script>

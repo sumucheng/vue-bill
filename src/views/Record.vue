@@ -2,7 +2,6 @@
   <Layout :hasNav="false">
     <div class="link" @click="back">
       <Icon name="left-white" />
-      <div class="text">返回</div>
     </div>
     <Header :type.sync="newBill.type" />
     <div class="panel">
@@ -50,7 +49,7 @@ export default class Record extends Vue {
     this.newBill.time = Date.now();
     if (store.findBill(this.newBill.id)) store.editBill(this.newBill);
     else store.createBill(this.newBill);
-    this.$router.replace("/");
+    this.$router.back();
   }
   @Watch("newBill.type")
   onTypeChange() {
@@ -66,7 +65,7 @@ export default class Record extends Vue {
 @import "~@/assets/style/normal.scss";
 .link {
   position: fixed;
-  top: 0px;
+  top: 40px;
   left: 10px;
   height: 44px;
   z-index: 10;

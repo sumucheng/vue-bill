@@ -8,7 +8,7 @@
       :class="{selected:$route.path.match(link.name)}"
     >
       <Icon v-if="$route.path.match(link.name)" :name="`${link.name}-selected`" />
-      <Icon v-else :name="link.name" />
+      <Icon v-else :name="link.name" :class="link.name" />
       <p>{{link.text}}</p>
     </router-link>
   </nav>
@@ -21,7 +21,7 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 export default class Nav extends Vue {
   links = [
     { name: "statistics", text: "统计", link: "/statistics" },
-    { name: "record", text: "记一笔", link: "/record" },
+    { name: "record", text: "", link: "/record" },
     { name: "labels", text: "标签", link: "/labels" }
   ];
 }
@@ -46,10 +46,17 @@ nav {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
     > .icon {
       width: 32px;
       height: 32px;
       margin-bottom: 3px;
+    }
+    > .record {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      top: -20px;
     }
     > p {
       color: $grey;

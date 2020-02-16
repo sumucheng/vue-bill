@@ -164,11 +164,12 @@ const billStore = {
             ];
         }
         else {
+            const x = type === "expend" ? "支出" : "收入";
+            const y = oneMonthSum ? (type === "expend" ? oneMonthSum.expend : oneMonthSum.income) : 0;
             const averageText = type === "expend" ? "平均每日支出" : "平均每日收入";
-            const rest = oneMonthSum ? oneMonthSum.rest : 0;
             const ave = oneMonthSum ? type === "expend" ? oneMonthSum.averageExpend : oneMonthSum.averageIncome : 0;
             return [
-                { text: "结余", count: rest },
+                { text: x, count: y },
                 { text: averageText, count: ave }
             ];
         }
