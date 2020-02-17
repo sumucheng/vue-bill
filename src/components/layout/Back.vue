@@ -1,13 +1,10 @@
 <template>
-  <div>
-    <div class="back">
-      <div class="link" @click="back">
-        <Icon :name="`left-${color}`" />
-        <div class="text">返回</div>
-      </div>
-      <div class="titleText">{{titleText}}</div>
+  <div class="back">
+    <div class="link" @click="back">
+      <Icon :name="`left-${color}`" />
+      <div class="text" :class="color">返回</div>
     </div>
-    <div class="line"></div>
+    <div class="titleText" :class="color">{{titleText}}</div>
   </div>
 </template>
 
@@ -28,9 +25,10 @@ export default class Back extends Vue {
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
 .back {
-  margin: 0 20px;
   padding-top: 44px;
   height: 88px;
+  z-index: 10;
+  position: fixed;
   .link {
     position: fixed;
     top: 44px;
@@ -47,19 +45,21 @@ export default class Back extends Vue {
     }
     .text {
       line-height: 2em;
+      &.white {
+        color: white;
+      }
     }
   }
   .titleText {
-    font-size: $font-size-l;
+    width: 100vw;
+    font-size: $font-size-m;
     height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
+    &.white {
+      color: white;
+    }
   }
-}
-.line {
-  width: 100vw;
-  height: 10px;
-  background-color: $light-grey;
 }
 </style>

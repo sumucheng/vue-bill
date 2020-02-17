@@ -5,7 +5,6 @@
         <div class="title">账单</div>
         <Icon name="right" />
       </div>
-
       <div class="content">
         <div class="item month">{{monthText}}月</div>
         <div class="dotLine"></div>
