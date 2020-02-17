@@ -1,5 +1,6 @@
 <template>
   <Layout>
+    <TotalBill />
     <nav class="setting">
       <router-link v-for="link in links" :key="link.link" :to="link.link">
         <p>{{link.text}}</p>
@@ -10,12 +11,12 @@
 
 <script lang="ts">
 import store from "../store/store";
-
+import TotalBill from "@/components/setting/TotalBill.vue";
 import Vue from "vue";
 import { Component, Prop, Watch, PropSync } from "vue-property-decorator";
 
 @Component({
-  components: {}
+  components: { TotalBill }
 })
 export default class Setting extends Vue {
   links = [

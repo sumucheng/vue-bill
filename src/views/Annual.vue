@@ -1,24 +1,35 @@
 <template>
-  <div class="annual">
-    <Back />
-    <div class="year">{{year}}</div>
-    <div class="title">
-      <div class="expend">支出 {{yearData.expend}}</div>
-      <div class="income">收入 {{yearData.income}}</div>
-      <div class="rest">结余 {{yearData.rest}}</div>
-    </div>
-    <div class="monthList">
-      <div class="listTitle">
-        <div class="item">月份</div>
-        <div class="item">支出</div>
-        <div class="item">收入</div>
-        <div class="item">结余</div>
+  <div>
+    <img src="@/assets/background.png" class="background" />
+    <div class="annual">
+      <div class="link" @click="back">
+        <Icon name="left-white" />
       </div>
-      <div class="content" v-for="month in monthSum" :key="month.month">
-        <div class="month item">{{`${month.month+1}月`}}</div>
-        <div class="expend item">{{month.expend}}</div>
-        <div class="income item">{{month.income}}</div>
-        <div class="rest item">{{month.rest}}</div>
+      <div class="header">
+        <div class="year">
+          <Icon name="solid-left" class="left" @click.native="preMonth" />
+          {{year}}
+          <Icon name="solid-right" class="right" @click.native="nextMonth" />
+        </div>
+        <div class="title">
+          <div class="expend">支出 {{yearData.expend}}</div>
+          <div class="income">收入 {{yearData.income}}</div>
+          <div class="rest">结余 {{yearData.rest}}</div>
+        </div>
+      </div>
+      <div class="monthList">
+        <div class="listTitle">
+          <div class="item">月份</div>
+          <div class="item">支出</div>
+          <div class="item">收入</div>
+          <div class="item">结余</div>
+        </div>
+        <div class="content" v-for="month in monthSum" :key="month.month">
+          <div class="month item">{{`${month.month+1}月`}}</div>
+          <div class="expend item">{{month.expend}}</div>
+          <div class="income item">{{month.income}}</div>
+          <div class="rest item">{{month.rest}}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -51,26 +62,49 @@ export default class Annual extends Vue {
       this.yearData.rest += month.rest;
     }
   }
+  back() {
+    this.$router.back();
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
-
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
 .annual {
-  .year {
-    height: 50px;
-  }
-  .title {
-    display: flex;
-    height: 100px;
-    > * {
-      width: 33%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+  position: absolute;
+  top: 44px;
+  .link {
+    position: fixed;
+    top: 55px;
+    left: 10px;
+    z-index: 10;
+    .icon {
+      height: 12px;
     }
   }
+  .header {
+    .year {
+      font-size: $font-size-l;
+    }
+    .title {
+      display: flex;
+      height: 100px;
+
+      > * {
+        width: 33%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
   .monthList {
     width: 100vw;
     .item {
