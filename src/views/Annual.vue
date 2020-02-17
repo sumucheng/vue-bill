@@ -6,9 +6,9 @@
       <div class="header">
         <div class="year">
           <div class="line"></div>
-          <Icon name="solid-left" class="left" @click.native="preMonth" />
+          <Icon name="solid-left" class="left" @click.native="preYear" />
           {{year}}年
-          <Icon name="solid-right" class="right" @click.native="nextMonth" />
+          <Icon name="solid-right" class="right" @click.native="nextYear" />
           <div class="line"></div>
         </div>
         <div class="title">
@@ -49,25 +49,34 @@ import { Component, Prop, Watch, PropSync } from "vue-property-decorator";
 })
 export default class Annual extends Vue {
   now = new Date();
-  year = this.now.getFullYear();
-  monthSum = store.monthSum;
-  yearData = {
-    expend: 0,
-    income: 0,
-    rest: 0
-  };
-  headerTitle: { text: string; count: number }[] = [];
-  created() {
-    for (let month of this.monthSum) {
-      this.yearData.expend += month.expend;
-      this.yearData.income += month.income;
-      this.yearData.rest += month.rest;
+  get year() {
+    return this.now.getFullYear();
+  }
+  get monthSum() {
+    return store.monthSum.filter(i => i.year === this.year);
+  }
+  get headerTitle() {
+    let yearData = {
+      expend: 0,
+      income: 0,
+      rest: 0
+    };
+    for (let i of this.monthSum) {
+      yearData.expend += i.expend;
+      yearData.income += i.income;
+      yearData.rest += i.rest;
     }
-    this.headerTitle = [
-      { text: "支出", count: this.yearData.expend },
-      { text: "收入", count: this.yearData.income },
-      { text: "结余", count: this.yearData.rest }
+    return [
+      { text: "支出", count: yearData.expend },
+      { text: "收入", count: yearData.income },
+      { text: "结余", count: yearData.rest }
     ];
+  }
+  preYear() {
+    this.now = new Date(this.now.setFullYear(this.year - 1));
+  }
+  nextYear() {
+    this.now = new Date(this.now.setFullYear(this.year + 1));
   }
 }
 </script>
