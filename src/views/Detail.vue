@@ -14,10 +14,11 @@
 </template>
  
 <script lang="ts">
-import BillItem from "@/components/statistics/Bill.vue";
-import Time from "@/components/statistics/Time.vue";
-import Sum from "@/components/statistics/Sum.vue";
-import NoData from "@/components/statistics/NoData.vue";
+import BillItem from "@/components/detail/Bill.vue";
+import Time from "@/components/detail/Time.vue";
+import Sum from "@/components/detail/Sum.vue";
+import NoData from "@/components/detail/NoData.vue";
+
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import store from "../store/store";

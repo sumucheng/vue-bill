@@ -2,6 +2,7 @@
   <div class="tagStatistics">
     <Back :titleText="tag.name" />
     <div class="main">
+      <div class="line"></div>
       <div class="bills">
         <div class="yearAndMonth">{{yearAndMonth}}</div>
         <BillItem v-for="bill in data" :key="bill.time" :bill="bill" />
@@ -47,11 +48,16 @@ export default class TagStatistics extends Vue {
 .tagStatistics {
   .main {
     position: fixed;
-    top: 98px;
+    top: 88px;
     bottom: 0;
     width: 100%;
     overflow: auto;
     background-color: $light-grey;
+    .line {
+      height: 10px;
+      width: 100vw;
+      background-color: $border-grey;
+    }
     .bills {
       background-color: white;
       .yearAndMonth {

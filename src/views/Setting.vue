@@ -21,8 +21,7 @@ import { Component, Prop, Watch, PropSync } from "vue-property-decorator";
 export default class Setting extends Vue {
   links = [
     { text: "标签管理", link: "/labels" },
-    { text: "年账单", link: "/annualBill" },
-    { text: "预算设置", link: "/" }
+    { text: "预算设置", link: "/budget" }
   ];
 }
 </script>

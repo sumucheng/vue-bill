@@ -70,6 +70,9 @@ export default class Record extends Vue {
 .record {
   background-color: $light-grey;
   height: 100vh;
+  .back {
+    background-color: white;
+  }
   .panel {
     position: fixed;
     z-index: 2;

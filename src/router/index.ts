@@ -11,6 +11,7 @@ import BillDetail from '@/views/BillDetail.vue'
 import Statistics from '@/views/Statistics.vue'
 import Annual from '@/views/Annual.vue'
 import Setting from '@/views/Setting.vue'
+import Budget from '@/views/Budget.vue'
 
 const routes = [
   {
@@ -52,6 +53,10 @@ const routes = [
   {
     path: '/annualBill',
     component: Annual
+  },
+  {
+    path: '/budget',
+    component: Budget
   },
   {
     path: '*',
