@@ -29,6 +29,7 @@ export default class Back extends Vue {
   height: 88px;
   z-index: 10;
   position: fixed;
+  background-color: white;
   .link {
     position: fixed;
     top: 44px;

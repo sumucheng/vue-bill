@@ -2,7 +2,7 @@
   <Layout>
     <Title :now.sync="now" :headerTitle="headerTitle" />
     <div class="panel">
-      <Tabs :selected.sync="selected" />
+      <Tabs :selected.sync="selected" :options="options" />
       <Detail v-if="selected==='detail'" :selected.sync="selected" :now="now" />
       <Category v-else :selected.sync="selected" :now="now" :type.sync="type" />
     </div>
@@ -33,6 +33,10 @@ export default class Statistics extends Vue {
   now = new Date();
   selected = "detail";
   type = "expend";
+  options = [
+    { en: "detail", zh: "流水" },
+    { en: "category", zh: "分类" }
+  ];
   get oneMonthSum() {
     return store.oneMonthSum(this.now);
   }

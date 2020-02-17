@@ -1,17 +1,15 @@
 <template>
-  <Layout :hasNav="false">
-    <div class="link" @click="back">
-      <Icon name="left-white" />
-    </div>
-    <Header :type.sync="newBill.type" />
+  <div class="record">
+    <Back color="orange" titleText="记一笔" />
     <div class="panel">
+      <Tabs :selected.sync="newBill.type" :options="options" />
       <div class="tagsAndNotes">
         <Tags :tags.sync="displayTags" :tag.sync="newBill.tag" @newTag="addTag" />
         <Notes v-model="newBill.note" />
       </div>
       <Computer :count.sync="newBill.count" :handleSubmit="handleSubmit" />
     </div>
-  </Layout>
+  </div>
 </template>
 
 <script lang="ts">
@@ -20,17 +18,23 @@ import store from "@/store/store";
 import Tags from "@/components/record/Tags.vue";
 import Notes from "@/components/record/Notes.vue";
 import Computer from "@/components/record/Computer.vue";
-import Header from "@/components/layout/Header.vue";
+import Tabs from "@/components/record/Tabs.vue";
+import Back from "@/components/layout/Back.vue";
 
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 
 @Component({
-  components: { Tags, Notes, Computer, Header }
+  components: { Tags, Notes, Computer, Back, Tabs }
 })
 export default class Record extends Vue {
   tags = store.tags;
   newBill = store.initNewBill();
+  options = [
+    { en: "expend", zh: "支出" },
+    { en: "income", zh: "收入" }
+  ];
+
   get displayTags() {
     return store.filterTags(this.newBill.type, this.tags);
   }
@@ -63,39 +67,23 @@ export default class Record extends Vue {
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
-.link {
-  position: fixed;
-  top: 55px;
-  left: 10px;
-  z-index: 10;
-  .icon {
-    height: 12px;
-  }
-}
-.panel {
-  position: fixed;
-  z-index: 2;
-  top: 114px;
-  bottom: 340px;
-  background-color: white;
-  width: 100%;
-  border-radius: $border-radius-l;
-  .tagsAndNotes {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-}
-@media (max-height: 735px) {
+.record {
+  background-color: $light-grey;
+  height: 100vh;
   .panel {
-    top: 114px;
-    bottom: 370px;
-  }
-}
-@media (min-width: 500px) {
-  .panel {
-    top: 114px;
-    bottom: 630px;
+    position: fixed;
+    z-index: 2;
+    top: 98px;
+    bottom: 367px;
+    background-color: white;
+    width: 100%;
+    .tagsAndNotes {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 40px;
+      bottom: 0;
+    }
   }
 }
 </style>
