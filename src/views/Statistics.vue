@@ -12,8 +12,8 @@
 <script lang="ts">
 import store from "../store/store";
 
-import Title from "@/components/layout/Title.vue";
-import Tabs from "@/components/statistics/Tabs.vue";
+import Title from "@/components/common/Title.vue";
+import Tabs from "@/components/common/Tabs.vue";
 import Category from "./Category.vue";
 import Detail from "./Detail.vue";
 

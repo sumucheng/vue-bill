@@ -3,7 +3,7 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
-import Layout from '@/components/layout/Layout.vue'
+import Layout from '@/components/common/Layout.vue'
 import Icon from '@/components/Icon.vue'
 Vue.config.productionTip = false
 

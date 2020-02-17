@@ -20,7 +20,7 @@ import store from "@/store/tagStore";
 
 import Button from "@/components/labels/Button.vue";
 import Label from "@/components/labels/Label.vue";
-import Header from "@/components/layout/Header.vue";
+import Header from "@/components/common/Header.vue";
 
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";

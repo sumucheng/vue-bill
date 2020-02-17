@@ -2,6 +2,7 @@
   <div class="billDetail">
     <Back titleText="详情" />
     <div class="main">
+      <div class="line"></div>
       <div class="detail">
         <div class="title">
           <div>{{bill.tag}}</div>
@@ -23,7 +24,7 @@
 <script lang="ts">
 import store from "@/store/store";
 import Button from "@/components/labels/Button.vue";
-import Back from "@/components/layout/Back.vue";
+import Back from "@/components/common/Back.vue";
 import Item from "@/components/detail/Item.vue";
 
 import Vue from "vue";
@@ -56,6 +57,14 @@ export default class EditLabel extends Vue {
 @import "~@/assets/style/normal.scss";
 .billDetail {
   .main {
+    position: fixed;
+    top: 88px;
+    width: 100vw;
+    .line {
+      height: 10px;
+      width: 100vw;
+      background-color: $border-grey;
+    }
     .detail {
       margin: 20px;
       display: flex;

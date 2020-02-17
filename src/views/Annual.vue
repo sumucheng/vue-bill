@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import store from "@/store/store";
-import Back from "@/components/layout/Back.vue";
+import Back from "@/components/common/Back.vue";
 import Year from "@/components/annual/Year.vue";
 import Title from "@/components/annual/Title.vue";
 import MonthList from "@/components/annual/MonthList.vue";

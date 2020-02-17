@@ -8,9 +8,9 @@
 </template>
 
 <script lang="ts">
-import Header from "@/components/layout/Header.vue";
-import Title from "@/components/layout/Title.vue";
-import Nav from "@/components/layout/Nav.vue";
+import Header from "@/components/common/Header.vue";
+import Title from "@/components/common/Title.vue";
+import Nav from "@/components/common/Nav.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 @Component({

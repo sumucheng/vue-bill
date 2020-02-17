@@ -8,7 +8,7 @@
 <script lang="ts">
 import store from "@/store/store";
 import Button from "@/components/labels/Button.vue";
-import Back from "@/components/layout/Back.vue";
+import Back from "@/components/common/Back.vue";
 
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
