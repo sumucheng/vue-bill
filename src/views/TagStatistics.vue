@@ -13,7 +13,6 @@
 </template>
 
 <script lang="ts">
-import store from "@/store/store";
 import BillItem from "@/components/category/Bill.vue";
 import Back from "@/components/common/Back.vue";
 import Vue from "vue";
@@ -30,7 +29,7 @@ export default class TagStatistics extends Vue {
   yearAndMonth: string | undefined;
   created() {
     this.tagName = this.$route.params.id.split("-")[0];
-    this.tag = store.findTag(this.tagName);
+    this.tag = this.$store.getters.findTag(this.tagName);
     if (!this.tag) this.$router.replace("/404");
     this.now = this.$route.params.id.split("-")[1];
     const date = new Date(Number(this.now));
@@ -56,7 +55,7 @@ export default class TagStatistics extends Vue {
     .line {
       height: 10px;
       width: 100vw;
-      background-color: $border-grey;
+      background-color: $light-grey;
     }
     .bills {
       background-color: white;

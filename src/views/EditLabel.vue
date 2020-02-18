@@ -2,6 +2,7 @@
   <div class="editLabel">
     <Back titleText="编辑标签" />
     <div class="main">
+      <div class="line"></div>
       <div class="name">
         <input v-model="newName" placeholder="不超过4个字" required maxlength="4" />
       </div>
@@ -14,7 +15,6 @@
 </template>
 
 <script lang="ts">
-import store from "@/store/tagStore";
 import Button from "@/components/labels/Button.vue";
 import Back from "@/components/common/Back.vue";
 import Vue from "vue";
@@ -24,11 +24,10 @@ import { Component, Prop, Watch } from "vue-property-decorator";
   components: { Button, Back }
 })
 export default class EditLabel extends Vue {
-  tags = store.tags;
   tag: Tag | undefined;
   newName = "";
   created() {
-    this.tag = store.findTag(this.$route.params.id);
+    this.tag = this.$store.getters.findTag(this.$route.params.id);
     if (this.tag) {
       this.newName = this.tag.name;
     } else {
@@ -37,11 +36,24 @@ export default class EditLabel extends Vue {
   }
   editLabel() {
     if (this.newName && this.newName !== "") {
-      if (store.editTag(this.tag!, this.newName)) this.$router.back();
+      if (this.tag!.name === this.newName) this.$router.back();
+      else if (this.$store.getters.findTag(this.newName))
+        window.alert("标签名重复");
+      else {
+        this.$store.commit("editTag", {
+          tag: this.tag,
+          newName: this.newName
+        });
+        this.$router.back();
+      }
     }
   }
   deleteLabel() {
-    if (store.deleteTag(this.tag!)) this.$router.back();
+    if (name === "一般" || name === "工资") window.alert("该标签不可删除");
+    else {
+      this.$store.commit("deleteTag", this.tag);
+      this.$router.back();
+    }
   }
 }
 </script>
@@ -50,6 +62,14 @@ export default class EditLabel extends Vue {
 @import "~@/assets/style/normal.scss";
 .editLabel {
   .main {
+    position: fixed;
+    top: 88px;
+    width: 100vw;
+    .line {
+      height: 10px;
+      width: 100vw;
+      background-color: $light-grey;
+    }
     .name {
       margin: 20px;
       > input {

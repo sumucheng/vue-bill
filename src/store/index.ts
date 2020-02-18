@@ -6,6 +6,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
+    tags: [] as Tag[],
     bills: [] as Bill[],
     monthSum: [] as MonthSum[],
     initOneMonthSum: {
@@ -16,9 +17,28 @@ const store = new Vuex.Store({
       rest: 0,
       averageExpend: 0,
       averageIncome: 0
-    }
+    },
+    initTags: [
+      { type: "expend", name: "一般" },
+      { type: "expend", name: "餐饮" },
+      { type: "expend", name: "娱乐" },
+      { type: "expend", name: "服饰" },
+      { type: "expend", name: "交通" },
+      { type: "expend", name: "通讯" },
+      { type: "income", name: "工资" },
+      { type: "income", name: "理财" },
+      { type: "income", name: "礼金" },
+      { type: "income", name: "其他" }
+    ]
   },
   getters: {
+    filterTags: (state) => (type: string, data?: Tag[]) => {
+      const tags = data ? data : state.tags
+      return tags.filter(i => i.type === type);
+    },
+    findTag: (state) => (name: string) => {
+      return state.tags.find(tag => tag.name === name)
+    },
     findBill: (state) => (id: number) => {
       return state.bills.find(bill => bill.id === id)
     },
@@ -82,12 +102,37 @@ const store = new Vuex.Store({
     },
   },
   mutations: {
+    fetchTags(state) {
+      state.tags = JSON.parse(window.localStorage.getItem("tags") || "[]")
+      if (state.tags.length === 0) state.tags = JSON.parse(JSON.stringify(state.initTags))
+    },
+    saveTags(state) {
+      window.localStorage.setItem("tags", JSON.stringify(state.tags));
+    },
+    createTag(state, dispatch: { type: string, name: string }) {
+      const name = dispatch.name.substr(0, 4);
+      if (state.tags.find((i: Tag) => i.name === name)) {
+        window.alert('该标签已存在')
+      }
+      else {
+        state.tags = [...state.tags, { type: dispatch.type, name: name }]
+        store.commit('saveTags')
+      }
+    },
+    deleteTag(state, tag: Tag) {
+      const name = tag.name
+      const index = state.tags.findIndex(i => i.name === name);
+      state.tags.splice(index, 1);
+      store.commit('saveTags')
+    },
+    editTag(state, dispatch: { tag: Tag, newName: string }) {
+      dispatch.tag.name = dispatch.newName
+      store.commit('saveTags')
+    },
     fetchBills(state) {
       state.bills = JSON.parse(window.localStorage.getItem("billList") || "[]")
       state.monthSum = JSON.parse(window.localStorage.getItem("monthSum") || "[]")
-      if (state.monthSum.length === 0) {
-        state.monthSum = [JSON.parse(JSON.stringify(state.initOneMonthSum))]
-      }
+      if (state.monthSum.length === 0) state.monthSum = [JSON.parse(JSON.stringify(state.initOneMonthSum))]
     },
     createBill(state, newBill: Bill) {
       const bill = JSON.parse(JSON.stringify(newBill));
@@ -118,7 +163,6 @@ const store = new Vuex.Store({
       const oneMonthBills = store.getters.oneMonthBills(billTime)
       let ms = state.monthSum.find(i => i.month === mm && i.year === yy) as MonthSum
       if (!ms) {
-
         ms = JSON.parse(JSON.stringify(state.initOneMonthSum))
         ms.year = yy
         ms.year = mm

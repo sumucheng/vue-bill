@@ -16,8 +16,6 @@
 </template>
 
 <script lang="ts">
-import store from "@/store/tagStore";
-
 import Button from "@/components/labels/Button.vue";
 import Label from "@/components/labels/Label.vue";
 import Header from "@/components/common/Header.vue";
@@ -30,15 +28,14 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 })
 export default class Labels extends Vue {
   type = "expend";
-  tags = store.tags;
   get displayTags() {
-    return store.filterTags(this.type, this.tags);
+    return this.$store.getters.filterTags(this.type);
   }
 
   addLabel() {
     const name = window.prompt("请输入标签名称（不超过四个字）");
     if (name && name != "") {
-      store.createTag(this.type, name);
+      this.$store.commit("createTag", { type: this.type, name: name });
     }
   }
   back() {

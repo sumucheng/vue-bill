@@ -63,7 +63,7 @@ export default class EditLabel extends Vue {
     .line {
       height: 10px;
       width: 100vw;
-      background-color: $border-grey;
+      background-color: $light-grey;
     }
     .detail {
       margin: 20px;

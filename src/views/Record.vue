@@ -13,8 +13,6 @@
 </template>
 
 <script lang="ts">
-import store from "@/store/store";
-
 import Tags from "@/components/record/Tags.vue";
 import Notes from "@/components/record/Notes.vue";
 import Computer from "@/components/record/Computer.vue";
@@ -28,7 +26,6 @@ import { Component, Prop, Watch } from "vue-property-decorator";
   components: { Tags, Notes, Computer, Back, Tabs }
 })
 export default class Record extends Vue {
-  tags = store.tags;
   newBill = {
     id: this.$store.state.bills[0] ? this.$store.state.bills[0].id + 1 : 0,
     type: "expend",
@@ -43,7 +40,7 @@ export default class Record extends Vue {
   ];
 
   get displayTags() {
-    return store.filterTags(this.newBill.type, this.tags);
+    return this.$store.getters.filterTags(this.newBill.type);
   }
   created() {
     const id = this.$route.params.id;
@@ -54,7 +51,7 @@ export default class Record extends Vue {
     }
   }
   addTag(tagName: string) {
-    store.createTag(this.newBill.type, tagName);
+    this.$store.commit("createTag", { type: this.newBill.type, name: tagName });
   }
   handleSubmit() {
     this.newBill.time = Date.now();

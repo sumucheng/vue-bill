@@ -103,7 +103,7 @@ export default class Budget extends Vue {
     .line {
       height: 10px;
       width: 100vw;
-      background-color: $border-grey;
+      background-color: $light-grey;
     }
   }
 }
