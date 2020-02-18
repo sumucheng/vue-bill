@@ -12,6 +12,7 @@ import Statistics from '@/views/Statistics.vue'
 import Annual from '@/views/Annual.vue'
 import Setting from '@/views/Setting.vue'
 import Budget from '@/views/Budget.vue'
+import SettingBudget from '@/views/SettingBudget.vue'
 
 const routes = [
   {
@@ -57,6 +58,10 @@ const routes = [
   {
     path: '/budget',
     component: Budget
+  },
+  {
+    path: '/settingBudget',
+    component: SettingBudget
   },
   {
     path: '*',
