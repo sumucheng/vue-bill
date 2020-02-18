@@ -6,7 +6,6 @@
 </template>
 
 <script lang="ts">
-import store from "@/store/store";
 import Button from "@/components/labels/Button.vue";
 import Back from "@/components/common/Back.vue";
 

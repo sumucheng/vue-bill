@@ -25,6 +25,9 @@ const store = new Vuex.Store({
     oneMonthSum: (state) => (now: Date) => {
       return state.monthSum.find(i => i.year === now.getFullYear() && i.month === now.getMonth())
     },
+    getMonthSumByYear: (state) => (now: Date) => {
+      return state.monthSum.filter(i => i.year === now.getFullYear())
+    },
     oneMonthBills: (state) => (now: Date) => {
       return state.bills.filter(bill => {
         const time = new Date(bill.time)

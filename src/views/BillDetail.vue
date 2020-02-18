@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import store from "@/store/store";
+import common from "@/store/store";
 import Button from "@/components/labels/Button.vue";
 import Back from "@/components/common/Back.vue";
 import Item from "@/components/detail/Item.vue";
@@ -38,16 +38,16 @@ export default class EditLabel extends Vue {
   id!: number;
   created() {
     this.id = Number(this.$route.params.id);
-    this.bill = store.findBill(this.id);
+    this.bill = this.$store.getters.findBill(this.id);
     if (!this.bill) this.$router.replace("/404");
   }
   getDate(n: number) {
     const yearText = new Date(n).getFullYear();
-    const d = store.displayDate(n);
+    const d = common.displayDate(n);
     return `${yearText}-${d.monthText}-${d.dateText}`;
   }
   deleteBill() {
-    store.deleteBill(this.id);
+    this.$store.commit("deleteBill", this.id);
     this.$router.back();
   }
 }

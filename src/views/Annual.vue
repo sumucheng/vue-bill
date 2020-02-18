@@ -13,7 +13,6 @@
 </template>
 
 <script lang="ts">
-import store from "@/store/store";
 import Back from "@/components/common/Back.vue";
 import Year from "@/components/annual/Year.vue";
 import Title from "@/components/annual/Title.vue";
@@ -32,9 +31,7 @@ export default class Annual extends Vue {
       income: 0,
       rest: 0
     };
-    const monthSum = store.monthSum.filter(
-      i => i.year === this.now.getFullYear()
-    );
+    const monthSum = this.$store.getters.getMonthSumByYear(this.now);
     for (let i of monthSum) {
       yearData.expend += i.expend;
       yearData.income += i.income;
@@ -45,6 +42,9 @@ export default class Annual extends Vue {
       { text: "收入", count: yearData.income },
       { text: "结余", count: yearData.rest }
     ];
+  }
+  created() {
+    this.$store.commit("fetchBills");
   }
 }
 </script>

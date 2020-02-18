@@ -10,7 +10,6 @@
 </template>
 
 <script lang="ts">
-import store from "../store/store";
 import TotalBill from "@/components/setting/TotalBill.vue";
 import Vue from "vue";
 import { Component, Prop, Watch, PropSync } from "vue-property-decorator";

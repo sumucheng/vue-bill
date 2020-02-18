@@ -21,7 +21,6 @@ import NoData from "@/components/detail/NoData.vue";
 
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
-import store from "../store/store";
 @Component({
   components: { BillItem, Time, Sum, NoData }
 })

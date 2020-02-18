@@ -16,14 +16,13 @@
 </template>
 
 <script lang="ts">
-import store from "@/store/store";
 import Vue from "vue";
 import { Component, Prop, Watch, PropSync } from "vue-property-decorator";
 @Component
 export default class MonthList extends Vue {
   @Prop({ default: new Date() }) now!: Date;
   get monthSum() {
-    return store.monthSum.filter(i => i.year === this.now.getFullYear());
+    return this.$store.getters.getMonthSumByYear(this.now);
   }
   monthText(month: number) {
     return (month < 9 ? "0" + (month + 1) : month + 1) + "月";

@@ -6,13 +6,13 @@
 </template>
 
 <script lang="ts">
-import store from "@/store/store";
+import common from "@/store/store";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 @Component
 export default class BillList extends Vue {
   @Prop() time!: { day: number; week: number; month: number; year: number };
-  d = store.displayDate(this.time);
+  d = common.displayDate(this.time);
   monthAndDay = `${this.d.monthText}/${this.d.dateText}`;
 }
 </script>

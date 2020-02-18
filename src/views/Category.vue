@@ -7,8 +7,6 @@
 </template>
  
 <script lang="ts">
-import store from "../store/store";
-
 import Chart from "@/components/category/Chart.vue";
 import List from "@/components/category/List.vue";
 import SwitchType from "@/components/category/SwitchType.vue";

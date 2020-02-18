@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import store from "../store/store";
+import common from "../store/store";
 
 import Title from "@/components/common/Title.vue";
 import Tabs from "@/components/common/Tabs.vue";
@@ -44,8 +44,7 @@ export default class Statistics extends Vue {
     return this.$store.getters.oneMonthSum(this.now);
   }
   get headerTitle() {
-    console.log();
-    return store.headerTitle(this.oneMonthSum, this.selected, this.type);
+    return common.headerTitle(this.oneMonthSum, this.selected, this.type);
   }
   beforeRouteEnter(to: Route, from: Route, next: Function) {
     if (from.path.match("statistics/")) {

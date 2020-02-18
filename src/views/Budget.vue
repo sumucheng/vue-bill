@@ -43,9 +43,7 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 export default class Budget extends Vue {
   budget = store.budget;
   now = new Date();
-  monthSum = store.monthSum.find(
-    i => i.year === this.now.getFullYear() && i.month === this.now.getMonth()
-  );
+  monthSum = this.$store.getters.oneMonthSum(this.now);
   expend = this.monthSum ? this.monthSum.expend : 0;
   settingBudget() {}
 }

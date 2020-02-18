@@ -18,7 +18,6 @@
 </template>
 
 <script lang="ts">
-import store from "@/store/store";
 import Vue from "vue";
 import { Component, Prop, Watch, PropSync } from "vue-property-decorator";
 
@@ -27,9 +26,7 @@ import { Component, Prop, Watch, PropSync } from "vue-property-decorator";
 })
 export default class TotalBill extends Vue {
   now = new Date();
-  monthSum = store.monthSum.find(
-    i => i.year === this.now.getFullYear() && i.month === this.now.getMonth()
-  );
+  monthSum = this.$store.getters.oneMonthSum(this.now);
   headerTitle = [
     { text: "支出", count: this.monthSum ? this.monthSum.expend : 0 },
     { text: "收入", count: this.monthSum ? this.monthSum.income : 0 },
