@@ -103,9 +103,13 @@ const store = new Vuex.Store({
     },
   },
   mutations: {
-    fetchTags(state) {
+    fetch(state) {
       state.tags = JSON.parse(window.localStorage.getItem("tags") || "[]")
       if (state.tags.length === 0) state.tags = JSON.parse(JSON.stringify(state.initTags))
+      state.budget = JSON.parse(window.localStorage.getItem("budget") || "0")
+      state.bills = JSON.parse(window.localStorage.getItem("billList") || "[]")
+      state.monthSum = JSON.parse(window.localStorage.getItem("monthSum") || "[]")
+      if (state.monthSum.length === 0) state.monthSum = [JSON.parse(JSON.stringify(state.initOneMonthSum))]
     },
 
     saveTags(state) {
@@ -131,21 +135,12 @@ const store = new Vuex.Store({
       dispatch.tag.name = dispatch.newName
       store.commit('saveTags')
     },
-    fetchBudget(state) {
-      state.budget = JSON.parse(window.localStorage.getItem("budget") || "0")
-    },
     saveBudget(state) {
       window.localStorage.setItem("budget", JSON.stringify(state.budget));
     },
     settingBudget(state, sum: number) {
       state.budget = sum
       store.commit("saveBudget")
-    },
-
-    fetchBills(state) {
-      state.bills = JSON.parse(window.localStorage.getItem("billList") || "[]")
-      state.monthSum = JSON.parse(window.localStorage.getItem("monthSum") || "[]")
-      if (state.monthSum.length === 0) state.monthSum = [JSON.parse(JSON.stringify(state.initOneMonthSum))]
     },
     createBill(state, newBill: Bill) {
       const bill = JSON.parse(JSON.stringify(newBill));

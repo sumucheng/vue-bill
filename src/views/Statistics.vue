@@ -38,7 +38,7 @@ export default class Statistics extends Vue {
     { en: "category", zh: "分类" }
   ];
   created() {
-    this.$store.commit("fetchBills");
+    this.$store.commit("fetch");
   }
   get oneMonthSum() {
     return this.$store.getters.oneMonthSum(this.now);

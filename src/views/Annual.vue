@@ -44,7 +44,7 @@ export default class Annual extends Vue {
     ];
   }
   created() {
-    this.$store.commit("fetchBills");
+    this.$store.commit("fetch");
   }
 }
 </script>
