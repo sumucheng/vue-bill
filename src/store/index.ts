@@ -7,6 +7,11 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     tags: [] as Tag[],
+    budget: {
+      sum: 0,
+      rest: 0,
+      dailyCanUse: 0
+    },
     bills: [] as Bill[],
     monthSum: [] as MonthSum[],
     initOneMonthSum: {
@@ -106,6 +111,7 @@ const store = new Vuex.Store({
       state.tags = JSON.parse(window.localStorage.getItem("tags") || "[]")
       if (state.tags.length === 0) state.tags = JSON.parse(JSON.stringify(state.initTags))
     },
+
     saveTags(state) {
       window.localStorage.setItem("tags", JSON.stringify(state.tags));
     },
@@ -128,6 +134,27 @@ const store = new Vuex.Store({
     editTag(state, dispatch: { tag: Tag, newName: string }) {
       dispatch.tag.name = dispatch.newName
       store.commit('saveTags')
+    },
+    fetchBudget(state) {
+      state.budget = JSON.parse(window.localStorage.getItem("budget")!)
+      if (!state.budget) state.budget = { sum: 0, rest: 0, dailyCanUse: 0 }
+    },
+    saveBudget(state) {
+      window.localStorage.setItem("budget", JSON.stringify(state.budget));
+    },
+    settingBudget(state, sum: number) {
+      const now = new Date()
+      const yy = now.getFullYear()
+      const mm = now.getMonth()
+      const monthSum = state.monthSum.find(i => i.year === yy && i.month === mm);
+      const expend = monthSum ? monthSum.expend : 0;
+      const restDay = d.dayOfMonth(yy, mm) - now.getDate()
+      state.budget = {
+        sum: sum,
+        rest: sum - expend > 0 ? sum - expend : 0,
+        dailyCanUse: sum - expend > 0 ? d.fixTwo((sum - expend) / restDay) : 0
+      }
+      store.commit("saveBudget")
     },
     fetchBills(state) {
       state.bills = JSON.parse(window.localStorage.getItem("billList") || "[]")

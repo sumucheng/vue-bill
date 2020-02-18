@@ -31,7 +31,9 @@ export default class Labels extends Vue {
   get displayTags() {
     return this.$store.getters.filterTags(this.type);
   }
-
+  created() {
+    this.$store.commit("fetchTags");
+  }
   addLabel() {
     const name = window.prompt("请输入标签名称（不超过四个字）");
     if (name && name != "") {

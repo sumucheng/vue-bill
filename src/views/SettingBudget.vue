@@ -8,7 +8,6 @@
 </template>
 
 <script lang="ts">
-import store from "@/store/store";
 import Button from "@/components/labels/Button.vue";
 import Back from "@/components/common/Back.vue";
 import Computer from "@/components/record/Computer.vue";
@@ -20,9 +19,9 @@ import { Component, Prop, Watch } from "vue-property-decorator";
   components: { Button, Back, Computer }
 })
 export default class Budget extends Vue {
-  count = store.budget.sum > 0 ? store.budget.sum : 0;
+  count = this.$store.state.budget.sum > 0 ? this.$store.state.budget.sum : 0;
   handleSubmit() {
-    store.settingBudget(this.count);
+    this.$store.commit("settingBudget", this.count);
     this.$router.back();
   }
 }

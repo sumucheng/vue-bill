@@ -30,7 +30,6 @@
 </template>
 
 <script lang="ts">
-import store from "@/store/store";
 import Button from "@/components/labels/Button.vue";
 import Back from "@/components/common/Back.vue";
 
@@ -41,11 +40,10 @@ import { Component, Prop, Watch } from "vue-property-decorator";
   components: { Button, Back }
 })
 export default class Budget extends Vue {
-  budget = store.budget;
+  budget = this.$store.state.budget;
   now = new Date();
   monthSum = this.$store.getters.oneMonthSum(this.now);
   expend = this.monthSum ? this.monthSum.expend : 0;
-  settingBudget() {}
 }
 </script>
 
