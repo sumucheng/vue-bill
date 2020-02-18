@@ -30,17 +30,21 @@ Component.registerHooks([
   components: { Category, Detail, Title, Tabs }
 })
 export default class Statistics extends Vue {
-  now = new Date();
+  now: Date = new Date();
   selected = "detail";
   type = "expend";
   options = [
     { en: "detail", zh: "流水" },
     { en: "category", zh: "分类" }
   ];
+  created() {
+    this.$store.commit("fetchBills");
+  }
   get oneMonthSum() {
-    return store.oneMonthSum(this.now);
+    return this.$store.getters.oneMonthSum(this.now);
   }
   get headerTitle() {
+    console.log();
     return store.headerTitle(this.oneMonthSum, this.selected, this.type);
   }
   beforeRouteEnter(to: Route, from: Route, next: Function) {

@@ -29,7 +29,14 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 })
 export default class Record extends Vue {
   tags = store.tags;
-  newBill = store.initNewBill();
+  newBill = {
+    id: this.$store.state.bills[0] ? this.$store.state.bills[0].id + 1 : 0,
+    type: "expend",
+    tag: "一般",
+    note: "",
+    count: 0,
+    time: 0
+  };
   options = [
     { en: "expend", zh: "支出" },
     { en: "income", zh: "收入" }
@@ -41,7 +48,7 @@ export default class Record extends Vue {
   created() {
     const id = this.$route.params.id;
     if (id) {
-      const bill = store.findBill(Number(id));
+      const bill = this.$store.getters.findBill(Number(id));
       if (bill) this.newBill = bill;
       else this.$router.replace("/404");
     }
@@ -51,8 +58,9 @@ export default class Record extends Vue {
   }
   handleSubmit() {
     this.newBill.time = Date.now();
-    if (store.findBill(this.newBill.id)) store.editBill(this.newBill);
-    else store.createBill(this.newBill);
+    if (this.$store.getters.findBill(this.newBill.id))
+      this.$store.commit("editBill", this.newBill);
+    else this.$store.commit("createBill", this.newBill);
     this.$router.back();
   }
   @Watch("newBill.type")

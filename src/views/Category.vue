@@ -26,15 +26,13 @@ export default class Statistics extends Vue {
     { en: "expend", zh: "支" }
   ];
   get oneTagBills() {
-    return store.OneTagBills(this.now);
+    return this.$store.getters.OneTagBills(this.now);
   }
   get oneDayBills() {
-    return store.oneDayBills(this.now);
+    return this.$store.getters.oneDayBills(this.now);
   }
   get oneMonthSum() {
-    return store.monthSum.find(
-      i => i.year === this.now.getFullYear() && i.month === this.now.getMonth()
-    );
+    return this.$store.getters.oneMonthSum(this.now);
   }
 }
 </script>

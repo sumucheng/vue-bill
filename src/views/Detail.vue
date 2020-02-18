@@ -28,7 +28,7 @@ import store from "../store/store";
 export default class Statistics extends Vue {
   @Prop() now!: Date;
   get oneDayBills() {
-    return store.oneDayBills(this.now);
+    return this.$store.getters.oneDayBills(this.now);
   }
 }
 </script>
