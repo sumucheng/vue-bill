@@ -5,12 +5,12 @@
       <div class="line"></div>
       <div class="rest">
         <div class="text">剩余预算</div>
-        <div class="count">{{budget.rest}}</div>
+        <div class="count">{{rest}}</div>
       </div>
       <div class="row">
         <div class="item">
           <div class="text">总预算</div>
-          <div class="count">{{budget.sum}}</div>
+          <div class="count">{{budget}}</div>
         </div>
         <div class="item">
           <div class="text">本月支出</div>
@@ -18,7 +18,7 @@
         </div>
         <div class="item">
           <div class="text">剩余每日可用</div>
-          <div class="count">{{budget.dailyCanUse}}</div>
+          <div class="count">{{dailyCanUse}}</div>
         </div>
       </div>
 
@@ -30,6 +30,7 @@
 </template>
 
 <script lang="ts">
+import common from "@/store/common";
 import Button from "@/components/labels/Button.vue";
 import Back from "@/components/common/Back.vue";
 
@@ -40,10 +41,23 @@ import { Component, Prop, Watch } from "vue-property-decorator";
   components: { Button, Back }
 })
 export default class Budget extends Vue {
-  budget = this.$store.state.budget;
   now = new Date();
   monthSum = this.$store.getters.oneMonthSum(this.now);
-  expend = this.monthSum ? this.monthSum.expend : 0;
+  budget = this.$store.state.budget;
+  get rest() {
+    return this.budget - this.expend > 0 ? this.budget - this.expend : 0;
+  }
+  get expend() {
+    return this.monthSum ? this.monthSum.expend : 0;
+  }
+  get dailyCanUse() {
+    const restDay =
+      common.dayOfMonth(this.now.getFullYear(), this.now.getMonth()) -
+      this.now.getDate();
+    return this.budget - this.expend > 0
+      ? common.fixTwo((this.budget - this.expend) / restDay)
+      : 0;
+  }
 }
 </script>
 

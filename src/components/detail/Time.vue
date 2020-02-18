@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import common from "@/store/store";
+import common from "@/store/common";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 @Component

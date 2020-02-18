@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import common from "../store/store";
+import common from "../store/common";
 
 import Title from "@/components/common/Title.vue";
 import Tabs from "@/components/common/Tabs.vue";

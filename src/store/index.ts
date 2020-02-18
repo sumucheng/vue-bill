@@ -1,17 +1,13 @@
 import Vue from 'vue'
 import Vuex, { mapState } from 'vuex'
-import d from './billStore'
+import common from './common'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
     tags: [] as Tag[],
-    budget: {
-      sum: 0,
-      rest: 0,
-      dailyCanUse: 0
-    },
+    budget: 0,
     bills: [] as Bill[],
     monthSum: [] as MonthSum[],
     initOneMonthSum: {
@@ -67,7 +63,7 @@ const store = new Vuex.Store({
         for (let item of OneTagBills) {
           if (item.label === bill.tag) {
             item.data.push(bill)
-            item.sum = d.fixTwo(item.sum + bill.count)
+            item.sum = common.fixTwo(item.sum + bill.count)
             exist = true
             break;
           }
@@ -76,7 +72,7 @@ const store = new Vuex.Store({
           OneTagBills.push({
             type: bill.type,
             label: bill.tag,
-            sum: d.fixTwo(bill.count),
+            sum: common.fixTwo(bill.count),
             data: [bill]
           })
       }
@@ -93,8 +89,8 @@ const store = new Vuex.Store({
         const thisBill = { day: t.getDate(), week: t.getDay(), month: t.getMonth(), year: t.getFullYear() }
         if (thisBill.day === nowTime.day && thisBill.month === nowTime.month && thisBill.year === nowTime.year) {
           oneDayBills[count].data.push(bill)
-          if (bill.type === 'expend') oneDayBills[count].sum['expend'] = d.fixTwo(oneDayBills[count].sum['expend'] + bill.count)
-          else oneDayBills[count].sum['income'] = d.fixTwo(oneDayBills[count].sum['income'] + bill.count)
+          if (bill.type === 'expend') oneDayBills[count].sum['expend'] = common.fixTwo(oneDayBills[count].sum['expend'] + bill.count)
+          else oneDayBills[count].sum['income'] = common.fixTwo(oneDayBills[count].sum['income'] + bill.count)
         }
         else {
           const sum = bill.type === 'expend' ? { expend: bill.count, income: 0 } : { expend: 0, income: bill.count }
@@ -136,26 +132,27 @@ const store = new Vuex.Store({
       store.commit('saveTags')
     },
     fetchBudget(state) {
-      state.budget = JSON.parse(window.localStorage.getItem("budget")!)
-      if (!state.budget) state.budget = { sum: 0, rest: 0, dailyCanUse: 0 }
+      state.budget = JSON.parse(window.localStorage.getItem("budget") || "0")
     },
     saveBudget(state) {
       window.localStorage.setItem("budget", JSON.stringify(state.budget));
     },
     settingBudget(state, sum: number) {
-      const now = new Date()
-      const yy = now.getFullYear()
-      const mm = now.getMonth()
-      const monthSum = state.monthSum.find(i => i.year === yy && i.month === mm);
-      const expend = monthSum ? monthSum.expend : 0;
-      const restDay = d.dayOfMonth(yy, mm) - now.getDate()
-      state.budget = {
-        sum: sum,
-        rest: sum - expend > 0 ? sum - expend : 0,
-        dailyCanUse: sum - expend > 0 ? d.fixTwo((sum - expend) / restDay) : 0
-      }
+      state.budget = sum
       store.commit("saveBudget")
+      // const now = new Date()
+      // const yy = now.getFullYear()
+      // const mm = now.getMonth()
+      // const monthSum = state.monthSum.find(i => i.year === yy && i.month === mm);
+      // const expend = monthSum ? monthSum.expend : 0;
+      // const restDay = common.dayOfMonth(yy, mm) - now.getDate()
+      // state.budget = {
+      //   sum: sum,
+      //   rest: sum - expend > 0 ? sum - expend : 0,
+      //   dailyCanUse: sum - expend > 0 ? common.fixTwo((sum - expend) / restDay) : 0
+      // }
     },
+
     fetchBills(state) {
       state.bills = JSON.parse(window.localStorage.getItem("billList") || "[]")
       state.monthSum = JSON.parse(window.localStorage.getItem("monthSum") || "[]")
@@ -198,12 +195,12 @@ const store = new Vuex.Store({
       ms.expend = 0
       ms.income = 0
       for (let bill of oneMonthBills) {
-        ms[bill.type as 'income' | 'expend'] = d.fixTwo(ms[bill.type as 'income' | 'expend'] + bill.count)
+        ms[bill.type as 'income' | 'expend'] = common.fixTwo(ms[bill.type as 'income' | 'expend'] + bill.count)
       }
-      ms.rest = d.fixTwo(ms.income - ms.expend)
-      const days = d.dayOfMonth(ms.year, ms.month)
-      ms.averageExpend = d.fixTwo(ms.expend / days)
-      ms.averageIncome = d.fixTwo(ms.income / days)
+      ms.rest = common.fixTwo(ms.income - ms.expend)
+      const days = common.dayOfMonth(ms.year, ms.month)
+      ms.averageExpend = common.fixTwo(ms.expend / days)
+      ms.averageIncome = common.fixTwo(ms.income / days)
     }
   },
   actions: {
