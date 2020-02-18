@@ -140,17 +140,6 @@ const store = new Vuex.Store({
     settingBudget(state, sum: number) {
       state.budget = sum
       store.commit("saveBudget")
-      // const now = new Date()
-      // const yy = now.getFullYear()
-      // const mm = now.getMonth()
-      // const monthSum = state.monthSum.find(i => i.year === yy && i.month === mm);
-      // const expend = monthSum ? monthSum.expend : 0;
-      // const restDay = common.dayOfMonth(yy, mm) - now.getDate()
-      // state.budget = {
-      //   sum: sum,
-      //   rest: sum - expend > 0 ? sum - expend : 0,
-      //   dailyCanUse: sum - expend > 0 ? common.fixTwo((sum - expend) / restDay) : 0
-      // }
     },
 
     fetchBills(state) {

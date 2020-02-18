@@ -7,21 +7,7 @@
         <div class="text">剩余预算</div>
         <div class="count">{{rest}}</div>
       </div>
-      <div class="row">
-        <div class="item">
-          <div class="text">总预算</div>
-          <div class="count">{{budget}}</div>
-        </div>
-        <div class="item">
-          <div class="text">本月支出</div>
-          <div class="count">{{expend}}</div>
-        </div>
-        <div class="item">
-          <div class="text">剩余每日可用</div>
-          <div class="count">{{dailyCanUse}}</div>
-        </div>
-      </div>
-
+      <Lists :lists="lists" />
       <router-link to="/settingBudget" class="button">
         <Button text="设置每月预算" type="primary" />
       </router-link>
@@ -33,30 +19,41 @@
 import common from "@/store/common";
 import Button from "@/components/labels/Button.vue";
 import Back from "@/components/common/Back.vue";
-
+import Lists from "@/components/budget/Lists.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 
 @Component({
-  components: { Button, Back }
+  components: { Button, Back, Lists }
 })
 export default class Budget extends Vue {
   now = new Date();
   monthSum = this.$store.getters.oneMonthSum(this.now);
-  budget = this.$store.state.budget;
-  get rest() {
-    return this.budget - this.expend > 0 ? this.budget - this.expend : 0;
+  get budget() {
+    return this.$store.state.budget;
   }
   get expend() {
     return this.monthSum ? this.monthSum.expend : 0;
   }
-  get dailyCanUse() {
+  get rest() {
+    return this.budget - this.expend > 0 ? this.budget - this.expend : 0;
+  }
+  get lists() {
     const restDay =
       common.dayOfMonth(this.now.getFullYear(), this.now.getMonth()) -
       this.now.getDate();
-    return this.budget - this.expend > 0
-      ? common.fixTwo((this.budget - this.expend) / restDay)
-      : 0;
+    const dailyCanUse =
+      this.budget - this.expend > 0
+        ? common.fixTwo((this.budget - this.expend) / restDay)
+        : 0;
+    return [
+      { text: "总预算", count: this.budget },
+      { text: "本月支出", count: this.expend },
+      { text: "剩余每日可用", count: dailyCanUse }
+    ];
+  }
+  created() {
+    this.$store.commit("fetchBudget");
   }
 }
 </script>
@@ -88,30 +85,6 @@ export default class Budget extends Vue {
         font-family: $font-number;
       }
     }
-    .row {
-      margin-top: 20px;
-      display: flex;
-      align-items: center;
-      .item {
-        width: 33%;
-        padding-left: 20px;
-        border-right: 1px dotted $light-orange;
-        &:last-child {
-          border: none;
-        }
-        .text {
-          color: $grey;
-          display: flex;
-          margin-bottom: 4px;
-        }
-        .count {
-          font-family: $font-number;
-          font-size: $font-size-m;
-          display: flex;
-        }
-      }
-    }
-
     .line {
       height: 10px;
       width: 100vw;
