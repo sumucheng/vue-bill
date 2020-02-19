@@ -10,8 +10,7 @@
 </template>
 
 <script lang="ts">
-import common from "../store/common";
-
+import BillCommon from "@/mixins/BillCommon";
 import Title from "@/components/common/Title.vue";
 import Tabs from "@/components/common/Tabs.vue";
 import Category from "./Category.vue";
@@ -20,6 +19,7 @@ import Detail from "./Detail.vue";
 import Vue from "vue";
 import { Component, Prop, Watch, PropSync } from "vue-property-decorator";
 import { Route } from "vue-router";
+import { mixins } from "vue-class-component";
 Component.registerHooks([
   "beforeRouteEnter",
   "beforeRouteLeave",
@@ -29,7 +29,7 @@ Component.registerHooks([
 @Component({
   components: { Category, Detail, Title, Tabs }
 })
-export default class Statistics extends Vue {
+export default class Statistics extends mixins(BillCommon) {
   now: Date = new Date();
   selected = "detail";
   type = "expend";
@@ -44,7 +44,7 @@ export default class Statistics extends Vue {
     return this.$store.getters.oneMonthSum(this.now);
   }
   get headerTitle() {
-    return common.headerTitle(this.oneMonthSum, this.selected, this.type);
+    return this.getHeaderTitle(this.oneMonthSum, this.selected, this.type);
   }
   beforeRouteEnter(to: Route, from: Route, next: Function) {
     if (from.path.match("statistics/")) {

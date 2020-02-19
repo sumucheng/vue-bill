@@ -22,18 +22,19 @@
 </template>
 
 <script lang="ts">
-import common from "@/store/common";
+import BillCommon from "@/mixins/BillCommon";
 import Button from "@/components/labels/Button.vue";
 import Back from "@/components/common/Back.vue";
 import Item from "@/components/detail/Item.vue";
 
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
+import { mixins } from "vue-class-component";
 
 @Component({
   components: { Button, Back, Item }
 })
-export default class EditLabel extends Vue {
+export default class EditLabel extends mixins(BillCommon) {
   bill: Bill | undefined;
   id!: number;
   created() {
@@ -43,7 +44,7 @@ export default class EditLabel extends Vue {
   }
   getDate(n: number) {
     const yearText = new Date(n).getFullYear();
-    const d = common.displayDate(n);
+    const d = this.displayDate(n);
     return `${yearText}-${d.monthText}-${d.dateText}`;
   }
   deleteBill() {

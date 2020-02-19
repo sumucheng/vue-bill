@@ -9,7 +9,7 @@
         <Label v-for="label in displayTags" :key="label.name" :tagName="label.name"></Label>
       </div>
       <div class="add">
-        <Button text="新建标签" type="primary" @click.native="addLabel"></Button>
+        <Button text="新建标签" type="primary" @click.native="addTag(type)"></Button>
       </div>
     </div>
   </Layout>
@@ -19,26 +19,22 @@
 import Button from "@/components/labels/Button.vue";
 import Label from "@/components/labels/Label.vue";
 import Header from "@/components/common/Header.vue";
+import TagCommon from "@/mixins/TagCommon";
 
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
+import { mixins } from "vue-class-component";
 
 @Component({
   components: { Button, Label, Header }
 })
-export default class Labels extends Vue {
+export default class Labels extends mixins(TagCommon) {
   type = "expend";
   get displayTags() {
     return this.$store.getters.filterTags(this.type);
   }
   created() {
     this.$store.commit("fetch");
-  }
-  addLabel() {
-    const name = window.prompt("请输入标签名称（不超过四个字）");
-    if (name && name != "") {
-      this.$store.commit("createTag", { type: this.type, name: name });
-    }
   }
   back() {
     this.$router.back();

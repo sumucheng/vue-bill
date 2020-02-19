@@ -1,7 +1,14 @@
-const billStore = {
+import Vue from "vue";
+import { Component, Prop, Watch } from "vue-property-decorator";
+
+@Component
+export default class BillCommon extends Vue {
+    fixTwo(n: number) {
+        return Number(n.toFixed(2))
+    }
     dayOfMonth(year: number, month: number) {
         return new Date(year, month + 1, 0).getDate()
-    },
+    }
     initMonthSum(year?: number, month?: number) {
         return {
             year: year ? year : new Date().getFullYear(),
@@ -12,8 +19,8 @@ const billStore = {
             averageExpend: 0,
             averageIncome: 0
         }
-    },
-    headerTitle(oneMonthSum: MonthSum | undefined, selected: string, type: string) {
+    }
+    getHeaderTitle(oneMonthSum: MonthSum | undefined, selected: string, type: string) {
         if (selected === 'detail') {
             const e = oneMonthSum ? oneMonthSum.expend : 0;
             const i = oneMonthSum ? oneMonthSum.income : 0;
@@ -32,7 +39,7 @@ const billStore = {
                 { text: averageText, count: ave }
             ];
         }
-    },
+    }
     displayDate(date: number | { day?: number; week?: number; month?: number; year?: number }) {
         if (typeof date === 'number') {
             const d = new Date(date)
@@ -48,10 +55,5 @@ const billStore = {
             date.month && (date.month < 9 ? "0" + (date.month + 1) : date.month + 1);
         const weekText = (date.week || date.week === 0) && (`星期${oneWeek[date.week]}`);
         return { dateText, weekText, monthText }
-    },
-    fixTwo(n: number) {
-        return Number(n.toFixed(2))
     }
 }
-
-export default billStore

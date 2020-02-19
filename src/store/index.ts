@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex, { mapState } from 'vuex'
-import common from './common'
 
 Vue.use(Vuex)
 
@@ -33,6 +32,12 @@ const store = new Vuex.Store({
     ]
   },
   getters: {
+    fixTwo: (state) => (n: number) => {
+      return Number(n.toFixed(2))
+    },
+    dayOfMonth: (state) => (year: number, month: number) => {
+      return new Date(year, month + 1, 0).getDate()
+    },
     filterTags: (state) => (type: string, data?: Tag[]) => {
       const tags = data ? data : state.tags
       return tags.filter(i => i.type === type);
@@ -63,7 +68,7 @@ const store = new Vuex.Store({
         for (let item of OneTagBills) {
           if (item.label === bill.tag) {
             item.data.push(bill)
-            item.sum = common.fixTwo(item.sum + bill.count)
+            item.sum = getters.fixTwo(item.sum + bill.count)
             exist = true
             break;
           }
@@ -72,7 +77,7 @@ const store = new Vuex.Store({
           OneTagBills.push({
             type: bill.type,
             label: bill.tag,
-            sum: common.fixTwo(bill.count),
+            sum: getters.fixTwo(bill.count),
             data: [bill]
           })
       }
@@ -89,8 +94,8 @@ const store = new Vuex.Store({
         const thisBill = { day: t.getDate(), week: t.getDay(), month: t.getMonth(), year: t.getFullYear() }
         if (thisBill.day === nowTime.day && thisBill.month === nowTime.month && thisBill.year === nowTime.year) {
           oneDayBills[count].data.push(bill)
-          if (bill.type === 'expend') oneDayBills[count].sum['expend'] = common.fixTwo(oneDayBills[count].sum['expend'] + bill.count)
-          else oneDayBills[count].sum['income'] = common.fixTwo(oneDayBills[count].sum['income'] + bill.count)
+          if (bill.type === 'expend') oneDayBills[count].sum['expend'] = getters.fixTwo(oneDayBills[count].sum['expend'] + bill.count)
+          else oneDayBills[count].sum['income'] = getters.fixTwo(oneDayBills[count].sum['income'] + bill.count)
         }
         else {
           const sum = bill.type === 'expend' ? { expend: bill.count, income: 0 } : { expend: 0, income: bill.count }
@@ -179,12 +184,13 @@ const store = new Vuex.Store({
       ms.expend = 0
       ms.income = 0
       for (let bill of oneMonthBills) {
-        ms[bill.type as 'income' | 'expend'] = common.fixTwo(ms[bill.type as 'income' | 'expend'] + bill.count)
+        ms[bill.type as 'income' | 'expend'] = store.getters.fixTwo(ms[bill.type as 'income' | 'expend'] + bill.count)
       }
-      ms.rest = common.fixTwo(ms.income - ms.expend)
-      const days = common.dayOfMonth(ms.year, ms.month)
-      ms.averageExpend = common.fixTwo(ms.expend / days)
-      ms.averageIncome = common.fixTwo(ms.income / days)
+
+      ms.rest = store.getters.fixTwo(ms.income - ms.expend)
+      const days = store.getters.dayOfMonth(ms.year, ms.month)
+      ms.averageExpend = store.getters.fixTwo(ms.expend / days)
+      ms.averageIncome = store.getters.fixTwo(ms.income / days)
     }
   },
   actions: {

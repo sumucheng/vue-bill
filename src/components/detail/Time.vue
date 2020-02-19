@@ -6,13 +6,14 @@
 </template>
 
 <script lang="ts">
-import common from "@/store/common";
+import BillCommon from "@/mixins/BillCommon";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
+import { mixins } from "vue-class-component";
 @Component
-export default class BillList extends Vue {
+export default class BillList extends mixins(BillCommon) {
   @Prop() time!: { day: number; week: number; month: number; year: number };
-  d = common.displayDate(this.time);
+  d = this.displayDate(this.time);
   monthAndDay = `${this.d.monthText}/${this.d.dateText}`;
 }
 </script>

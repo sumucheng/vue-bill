@@ -26,21 +26,22 @@
 </template>
 
 <script lang="ts">
-import common from "@/store/common";
+import BillCommon from "@/mixins/BillCommon";
 import Button from "@/components/labels/Button.vue";
 import Back from "@/components/common/Back.vue";
 import Lists from "@/components/budget/Lists.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
+import { mixins } from 'vue-class-component';
 
 @Component({
   components: { Button, Back, Lists }
 })
-export default class Budget extends Vue {
+export default class Budget extends mixins(BillCommon) {
   now = new Date();
   yy = this.now.getFullYear();
   mm = this.now.getMonth();
-  endDate = common.dayOfMonth(this.yy, this.mm);
+  endDate = this.dayOfMonth(this.yy, this.mm);
   monthSum = this.$store.getters.oneMonthSum(this.now);
   get budget() {
     return this.$store.state.budget;
@@ -57,7 +58,7 @@ export default class Budget extends Vue {
   get lists() {
     const dailyCanUse =
       this.budget - this.expend > 0
-        ? common.fixTwo((this.budget - this.expend) / this.restDay)
+        ? this.fixTwo((this.budget - this.expend) / this.restDay)
         : 0;
     return [
       { text: "总预算", count: this.budget },
