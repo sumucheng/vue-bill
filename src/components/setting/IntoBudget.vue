@@ -1,16 +1,19 @@
 <template>
-  <router-link to="/annualBill">
+  <router-link to="/budget">
     <div class="total">
       <div class="top">
-        <div class="title">账单</div>
+        <div class="title">本月预算</div>
         <Icon name="right" />
       </div>
       <div class="content">
-        <div class="item month">{{monthText}}月</div>
-        <div class="dotLine"></div>
-        <div class="item" v-for="title in headerTitle" :key="title.text">
-          <div class="text">{{title.text}}</div>
-          <div class="sum">{{title.count}}</div>
+        <div
+          class="item"
+          v-for="list in lists"
+          :key="list.text"
+          :class="{active:list.text==='剩余预算'}"
+        >
+          <div class="text">{{list.text}}</div>
+          <div class="sum">{{list.count}}</div>
         </div>
       </div>
     </div>
@@ -27,15 +30,19 @@ import { Component, Prop, Watch, PropSync } from "vue-property-decorator";
 export default class TotalBill extends Vue {
   now = new Date();
   monthSum = this.$store.getters.oneMonthSum(this.now);
-  headerTitle = [
-    { text: "支出", count: this.monthSum ? this.monthSum.expend : 0 },
-    { text: "收入", count: this.monthSum ? this.monthSum.income : 0 },
-    { text: "结余", count: this.monthSum ? this.monthSum.rest : 0 }
-  ];
-  monthText =
-    this.now.getMonth() < 9
-      ? "0" + (this.now.getMonth() + 1)
-      : this.now.getMonth() + 1;
+  get lists() {
+    const budget = this.$store.state.budget;
+    const expend = this.monthSum ? this.monthSum.expend : 0;
+    const rest = budget - expend > 0 ? budget - expend : 0;
+    return [
+      { text: "总预算", count: budget },
+      { text: "本月支出", count: expend },
+      { text: "剩余预算", count: rest }
+    ];
+  }
+  created() {
+    this.$store.commit("fetch");
+  }
 }
 </script>
 
@@ -45,40 +52,25 @@ export default class TotalBill extends Vue {
   height: 100px;
   display: flex;
   flex-direction: column;
-  padding: 10px;
-  margin: 10px;
+  padding: 15px;
+  margin: 15px;
   background-color: white;
   border-radius: $border-radius-s;
   .top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     .title {
       font-size: $font-size-m;
     }
   }
-
   .content {
     display: flex;
-    .dotLine {
-      margin-top: 13px;
-      border-right: 1px dotted $grey;
-      height: 22px;
-    }
     .item {
-      width: 26.6%;
+      width: 33%;
       display: flex;
       flex-direction: column;
-      padding-left: 18px;
-      &.month {
-        width: 15%;
-        padding-left: 0;
-        flex-direction: row;
-        font-size: $font-size-l;
-        display: flex;
-        align-items: flex-end;
-      }
       .text {
         display: flex;
         color: $grey;
@@ -88,6 +80,12 @@ export default class TotalBill extends Vue {
         display: flex;
         font-family: $font-number;
         font-size: $font-size-m;
+      }
+      &.active {
+        .sum {
+          font-weight: bold;
+          color: $orange;
+        }
       }
     }
   }
