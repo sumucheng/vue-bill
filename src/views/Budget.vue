@@ -3,19 +3,20 @@
     <Back titleText="本月预算" />
     <div class="main">
       <div class="line"></div>
-      <div class="rest">
-        <div class="text">剩余预算</div>
-        <div class="count">{{rest}}</div>
-      </div>
-      <div class="percentLine">
-        <div class="use" :style="`width: ${expend/budget*100}%`"></div>
-        <div class="line" :style="`left: ${now.getDate()/endDate*100}%`">
-          <div class="day">{{now.getDate()}}日</div>
+      <div class="top">
+        <div class="rest">
+          <div class="text">剩余预算</div>
+          <div class="count">{{rest}}</div>
         </div>
-      </div>
-      <div class="date">
-        <div class="startDate">{{mm+1}}月1日</div>
-        <div class="endDate">{{mm+1}}月{{endDate}}日</div>
+        <div class="percentLine">
+          <div class="use" :style="`width: ${expend/budget*100}%;max-width:100%`"></div>
+          <div class="line" :style="`left: ${now.getDate()/endDate*100}%`"></div>
+        </div>
+        <div class="date">
+          <div class="startDate">{{mm+1}}月1日</div>
+          <div class="endDate">{{endDate}}日</div>
+        </div>
+        <Icon name="scale" />
       </div>
       <Lists :lists="lists" />
       <router-link to="/settingBudget" class="button">
@@ -32,7 +33,7 @@ import Back from "@/components/common/Back.vue";
 import Lists from "@/components/budget/Lists.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
-import { mixins } from 'vue-class-component';
+import { mixins } from "vue-class-component";
 
 @Component({
   components: { Button, Back, Lists }
@@ -77,10 +78,24 @@ export default class Budget extends mixins(BillCommon) {
 .budget {
   .main {
     position: fixed;
+    z-index: 10;
     top: 88px;
+    bottom: 0;
     width: 100vw;
     display: flex;
     flex-direction: column;
+    .line {
+      height: 10px;
+      width: 100vw;
+      position: absolute;
+      top: 0;
+      background-color: $light-grey;
+    }
+    .top {
+      margin-top: 9px;
+      background-color: white;
+      box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.1);
+    }
     .button {
       margin: 20px;
     }
@@ -100,19 +115,21 @@ export default class Budget extends mixins(BillCommon) {
       }
     }
     .percentLine {
-      height: 30px;
+      height: 20px;
       margin: 0 20px;
       background-color: $light-yellow;
       position: relative;
+      border-radius: $border-radius-m;
       .use {
-        height: 30px;
-        background-color: $light-orange;
+        border-radius: $border-radius-m;
+        height: 20px;
+        background-image: linear-gradient(141deg, #ff8700 0%, #ffce4c 100%);
         position: absolute;
         top: 0;
         left: 0;
       }
       .line {
-        height: 30px;
+        height: 20px;
         width: 1px;
         background-color: $orange;
         position: absolute;
@@ -126,21 +143,20 @@ export default class Budget extends mixins(BillCommon) {
         }
       }
     }
+    .icon {
+      width: 100%;
+      height: 10px;
+    }
     .date {
       display: flex;
       justify-content: space-between;
-      margin: 5px 20px;
+      margin: 5px 20px 0 20px;
       color: $grey;
       position: relative;
       .nowDate {
         color: $orange;
         position: absolute;
       }
-    }
-    .line {
-      height: 10px;
-      width: 100vw;
-      background-color: $light-grey;
     }
   }
 }

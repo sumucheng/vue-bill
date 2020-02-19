@@ -63,6 +63,7 @@ export default class Statistics extends mixins(BillCommon) {
   bottom: 80px;
   background-color: white;
   width: 100%;
-  border-radius: $border-radius-l;
+  border-top-left-radius: $border-radius-l;
+  border-top-right-radius: $border-radius-l;
 }
 </style>

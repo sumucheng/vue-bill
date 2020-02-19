@@ -1,5 +1,5 @@
 <template>
-  <Layout :hasNav="false">
+  <div>
     <div class="link" @click="back">
       <Icon name="left-white" />
     </div>
@@ -12,7 +12,7 @@
         <Button text="新建标签" type="primary" @click.native="addTag(type)"></Button>
       </div>
     </div>
-  </Layout>
+  </div>
 </template>
 
 <script lang="ts">

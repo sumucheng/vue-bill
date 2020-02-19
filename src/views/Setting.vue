@@ -1,6 +1,10 @@
 <template>
   <Layout>
     <TotalBill />
+    <router-link to="/labels" class="tags">
+      <div class="title">标签管理</div>
+      <Icon name="right" />
+    </router-link>
     <nav class="setting">
       <router-link v-for="link in links" :key="link.link" :to="link.link">
         <p>{{link.text}}</p>
@@ -27,10 +31,20 @@ export default class Setting extends Vue {
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
-
+.tags {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  padding: 10px;
+  margin: 10px;
+  background-color: white;
+  border-radius: $border-radius-s;
+}
 .setting {
   display: flex;
   flex-direction: column;
+
   > * {
     height: 40px;
     display: flex;

@@ -120,13 +120,14 @@ const store = new Vuex.Store({
     saveTags(state) {
       window.localStorage.setItem("tags", JSON.stringify(state.tags));
     },
-    createTag(state, dispatch: { type: string, name: string }) {
-      const name = dispatch.name.substr(0, 4);
+    createTag(state, payload: { type: string, name: string }) {
+      let { type, name } = payload
+      name = name.substr(0, 4);
       if (state.tags.find((i: Tag) => i.name === name)) {
         window.alert('该标签已存在')
       }
       else {
-        state.tags = [...state.tags, { type: dispatch.type, name: name }]
+        state.tags = [...state.tags, { type: type, name: name }]
         store.commit('saveTags')
       }
     },
@@ -136,8 +137,9 @@ const store = new Vuex.Store({
       state.tags.splice(index, 1);
       store.commit('saveTags')
     },
-    editTag(state, dispatch: { tag: Tag, newName: string }) {
-      dispatch.tag.name = dispatch.newName
+    editTag(state, payload: { tag: Tag, newName: string }) {
+      const { tag, newName } = payload
+      tag.name = newName
       store.commit('saveTags')
     },
     saveBudget(state) {

@@ -28,11 +28,8 @@ export default class EditLabel extends Vue {
   newName = "";
   created() {
     this.tag = this.$store.getters.findTag(this.$route.params.id);
-    if (this.tag) {
-      this.newName = this.tag.name;
-    } else {
-      this.$router.replace("/404");
-    }
+    if (this.tag) this.newName = this.tag.name;
+    else this.$router.replace("/404");
   }
   editLabel() {
     if (this.newName && this.newName !== "") {

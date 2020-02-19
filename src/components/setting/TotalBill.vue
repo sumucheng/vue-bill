@@ -47,6 +47,8 @@ export default class TotalBill extends Vue {
   flex-direction: column;
   padding: 10px;
   margin: 10px;
+  background-color: white;
+  border-radius: $border-radius-s;
   .top {
     display: flex;
     justify-content: space-between;
@@ -68,7 +70,7 @@ export default class TotalBill extends Vue {
       width: 26.6%;
       display: flex;
       flex-direction: column;
-      padding-left: 12px;
+      padding-left: 18px;
       &.month {
         width: 15%;
         padding-left: 0;

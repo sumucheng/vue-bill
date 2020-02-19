@@ -33,9 +33,8 @@ export default class Layout extends Vue {
     z-index: 2;
     top: 0;
     bottom: 81px;
-    background-color: white;
+    background-color: $light-grey;
     width: 100%;
-    border-radius: $border-radius-l;
   }
 }
 </style>
