@@ -32,6 +32,9 @@ export default class Statistics extends Vue {
   get oneMonthSum() {
     return this.$store.getters.oneMonthSum(this.now);
   }
+  created(){
+    this.$store.commit('fetch')
+  }
 }
 </script>
 

@@ -8,9 +8,9 @@
     </div>
     <div class="row" v-for="month in monthSum" :key="month.month">
       <div class="month item">{{monthText(month.month)}}</div>
-      <div class="item">{{month.expend}}</div>
-      <div class="item">{{month.income}}</div>
-      <div class="item">{{month.rest}}</div>
+      <div class="item sum">{{month.expend}}</div>
+      <div class="item sum">{{month.income}}</div>
+      <div class="item sum">{{month.rest}}</div>
     </div>
   </div>
 </template>
@@ -50,11 +50,12 @@ export default class MonthList extends Vue {
     background-color: white;
     > .item {
       height: 50px;
-      font-size: $font-size-m;
-      font-family: $font-number;
+      &.sum {
+        font-size: $font-size-m;
+        font-family: $font-number;
+      }
       &.month {
         width: 15%;
-        font-family: $font-hei;
       }
     }
   }
