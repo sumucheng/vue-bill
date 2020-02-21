@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex, { mapState } from 'vuex'
-
+import dayjs from 'dayjs'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -55,10 +55,7 @@ const store = new Vuex.Store({
       return state.monthSum.filter(i => i.year === now.getFullYear())
     },
     oneMonthBills: (state) => (now: Date) => {
-      return state.bills.filter(bill => {
-        const time = new Date(bill.time)
-        return time.getMonth() === now.getMonth() && time.getFullYear() === now.getFullYear()
-      })
+      return state.bills.filter(bill => dayjs(now).isSame(bill.time, 'month'))
     },
     getBillsByTag: (state, getters) => (now: Date) => {
       const bills: BillsGroupByTag = {}
@@ -66,7 +63,7 @@ const store = new Vuex.Store({
       for (let bill of oneMonthBills) {
         const key = bill.tag
         bills[key] = bills[key] || { data: [], type: bill.type, sum: 0, tag: key }
-        bills[key].data.unshift(bill)
+        bills[key].data.push(bill)
         bills[key].sum = getters.fixTwo(bills[key].sum + bill.count)
       }
       return bills
@@ -76,10 +73,10 @@ const store = new Vuex.Store({
       const oneMonthBills = getters.oneMonthBills(now)
       for (let bill of oneMonthBills) {
         const type = bill.type as 'income' | 'expend'
-        const time = new Date(bill.time)
-        const key = `${time.getFullYear()}-${time.getMonth()}-${time.getDate()}`
-        bills[key] = bills[key] || { data: [], sum: { expend: 0, income: 0 }, date: { day: time.getDate(), week: time.getDay(), month: time.getMonth(), year: time.getFullYear() } }
-        bills[key].data.unshift(bill)
+        const time = dayjs(bill.time)
+        const key = time.format('YYYY MM DD')
+        bills[key] = bills[key] || { data: [], sum: { expend: 0, income: 0 }, date: { day: time.date(), week: time.day(), month: time.month(), year: time.year() } }
+        bills[key].data.push(bill)
         bills[key].sum[type] = getters.fixTwo(bills[key].sum[type] + bill.count)
       }
       return bills
@@ -148,15 +145,13 @@ const store = new Vuex.Store({
       store.commit('saveBills')
     },
     updateMonthSum(state, bill: Bill) {
-      const billTime = new Date(bill.time)
-      const yy = billTime.getFullYear()
-      const mm = billTime.getMonth()
+      const billTime = dayjs(bill.time)
       const oneMonthBills = store.getters.oneMonthBills(billTime)
-      let ms = state.monthSum.find(i => i.month === mm && i.year === yy) as MonthSum
+      let ms = state.monthSum.find(i => dayjs(new Date(i.year, i.month)).isSame(billTime, 'month')) as MonthSum
       if (!ms) {
         ms = JSON.parse(JSON.stringify(state.initOneMonthSum))
-        ms.year = yy
-        ms.year = mm
+        ms.year = billTime.year()
+        ms.year = billTime.month()
         state.monthSum = [...state.monthSum, ms]
       }
       ms.expend = 0

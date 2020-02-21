@@ -1,6 +1,6 @@
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
-
+import dayjs from 'dayjs'
 @Component
 export default class BillCommon extends Vue {
     fixTwo(n: number) {
@@ -40,20 +40,10 @@ export default class BillCommon extends Vue {
             ];
         }
     }
-    displayDate(date: number | { day?: number; week?: number; month?: number; year?: number }) {
-        if (typeof date === 'number') {
-            const d = new Date(date)
-            date = {
-                day: d.getDate(),
-                week: d.getDay(),
-                month: d.getMonth()
-            }
-        }
+    displayDate(date: { day: number, week: number, month: number, year: number }) {
         const oneWeek = ["日", "一", "二", "三", "四", "五", "六"];
-        const dateText = date.day && (date.day < 10 ? "0" + date.day : date.day);
-        const monthText =
-            date.month && (date.month < 9 ? "0" + (date.month + 1) : date.month + 1);
         const weekText = (date.week || date.week === 0) && (`星期${oneWeek[date.week]}`);
-        return { dateText, weekText, monthText }
+        const text = dayjs(new Date(date.year, date.month, date.day)).format('MM/DD')
+        return { text, weekText }
     }
 }

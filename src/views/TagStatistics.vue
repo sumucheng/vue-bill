@@ -13,6 +13,7 @@
 </template>
 
 <script lang="ts">
+import dayjs from "dayjs";
 import BillItem from "@/components/category/Bill.vue";
 import Back from "@/components/common/Back.vue";
 import Vue from "vue";
@@ -33,7 +34,7 @@ export default class TagStatistics extends Vue {
     if (!this.tag) this.$router.replace("/404");
     this.now = this.$route.params.id.split("-")[1];
     const date = new Date(Number(this.now));
-    this.yearAndMonth = `${date.getFullYear()}-${date.getMonth() + 1}`;
+    this.yearAndMonth = dayjs(date).format("YYYY-M");
     this.data =
       this.$store.getters.getBillsByTag(date)[this.tagName].data || [];
   }

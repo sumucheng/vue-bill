@@ -1,6 +1,6 @@
 <template>
   <div class="date">
-    <div class="monthAndDay">{{monthAndDay}}</div>
+    <div class="monthAndDay">{{d.text}}</div>
     <div class="week">{{d.weekText}}</div>
   </div>
 </template>
@@ -14,7 +14,6 @@ import { mixins } from "vue-class-component";
 export default class BillList extends mixins(BillCommon) {
   @Prop() time!: { day: number; week: number; month: number; year: number };
   d = this.displayDate(this.time);
-  monthAndDay = `${this.d.monthText}/${this.d.dateText}`;
 }
 </script>
 

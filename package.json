@@ -12,6 +12,7 @@
     "@antv/data-set": "^0.10.2",
     "@antv/g2": "^3.5.11",
     "core-js": "^3.4.4",
+    "dayjs": "^1.8.20",
     "register-service-worker": "^1.6.2",
     "svgo-loader": "^2.2.1",
     "viser-vue": "^2.4.8",

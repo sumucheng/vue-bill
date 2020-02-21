@@ -26,11 +26,10 @@ import BillCommon from "@/mixins/BillCommon";
 import Button from "@/components/labels/Button.vue";
 import Back from "@/components/common/Back.vue";
 import Item from "@/components/detail/Item.vue";
-
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import { mixins } from "vue-class-component";
-
+import dayjs from "dayjs";
 @Component({
   components: { Button, Back, Item }
 })
@@ -43,9 +42,7 @@ export default class EditLabel extends mixins(BillCommon) {
     if (!this.bill) this.$router.replace("/404");
   }
   getDate(n: number) {
-    const yearText = new Date(n).getFullYear();
-    const d = this.displayDate(n);
-    return `${yearText}-${d.monthText}-${d.dateText}`;
+    return dayjs(n).format("YYYY-MM-DD");
   }
   deleteBill() {
     this.$store.commit("deleteBill", this.id);

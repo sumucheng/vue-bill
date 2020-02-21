@@ -5,6 +5,7 @@ import router from './router'
 import store from './store'
 import Icon from '@/components/common/Icon.vue'
 import Layout from '@/components/common/Layout.vue'
+
 Vue.config.productionTip = false
 
 Vue.component('Layout', Layout)

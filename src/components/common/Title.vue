@@ -3,10 +3,10 @@
     <img src="@/assets/background.png" class="background" />
     <div class="title">
       <div class="wrapper yearAndMonth">
-        <div class="year text">{{year}}年</div>
+        <div class="year text">{{dateText.year}}年</div>
         <div class="month">
           <Icon name="solid-left" class="left" @click.native="preMonth" />
-          {{monthText}}月
+          {{dateText.month}}月
           <Icon name="solid-right" class="right" @click.native="nextMonth" />
         </div>
       </div>
@@ -22,25 +22,23 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
+import dayjs from "dayjs";
 
 @Component
 export default class Header extends Vue {
   @Prop() now!: Date;
   @Prop() headerTitle!: { text: string; count: number }[];
-  get year() {
-    return this.now.getFullYear();
+  get date() {
+    return dayjs(this.now);
   }
-  get month() {
-    return this.now.getMonth();
-  }
-  get monthText() {
-    return this.month < 9 ? "0" + (this.month + 1) : this.month + 1;
+  get dateText() {
+    return { year: this.date.year(), month: this.date.format("MM") };
   }
   preMonth() {
-    this.$emit("update:now", new Date(this.now.setMonth(this.month - 1)));
+    this.$emit("update:now", this.date.subtract(1, "month").toDate());
   }
   nextMonth() {
-    this.$emit("update:now", new Date(this.now.setMonth(this.month + 1)));
+    this.$emit("update:now", this.date.add(1, "month").toDate());
   }
 }
 </script>

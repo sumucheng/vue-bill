@@ -38,7 +38,6 @@ interface oneTagBills {
 interface headerTitle {
     text: string; count: number | string
 }
-
 interface Budget {
     sum: number,
     rest: number,
