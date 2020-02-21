@@ -1,8 +1,8 @@
 <template>
   <div class="billList">
-    <NoData v-if="oneDayBills.length===0" />
+    <NoData v-if="billsGroupByDay.length===0" />
     <div v-else>
-      <div v-for="bills in oneDayBills" :key="bills.data[0].time" class="oneDay">
+      <div v-for="bills in billsGroupByDay" :key="bills.data[0].time" class="oneDay">
         <div class="timeAndSum">
           <Time :time="bills.date" />
           <Sum :sum="bills.sum" />
@@ -26,8 +26,8 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 })
 export default class Statistics extends Vue {
   @Prop() now!: Date;
-  get oneDayBills() {
-    return this.$store.getters.oneDayBills(this.now);
+  get billsGroupByDay() {
+    return this.$store.getters.getBillsByDay(this.now);
   }
 }
 </script>

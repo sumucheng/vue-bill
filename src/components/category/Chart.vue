@@ -8,7 +8,7 @@ import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 @Component
 export default class BillList extends Vue {
-  @Prop() oneDayBills!: oneDayBills[];
+  @Prop() billsGroupByDay!: BillsGroupByDay;
   @Prop() type!: "expend" | "income";
   chart: G2.Chart | undefined;
   get chartData() {
@@ -16,7 +16,7 @@ export default class BillList extends Vue {
     for (let i = 1; i < 32; i++) {
       chartData.push({ date: i, value: 0 });
     }
-    for (let i of this.oneDayBills) {
+    for (let i of Object.values(this.billsGroupByDay)) {
       chartData[i.date.day - 1] = {
         date: i.date.day,
         value: i.sum[this.type]

@@ -1,11 +1,11 @@
 <template>
   <div class="labels">
     <div class="list">{{type==='expend'?'支出':'收入'}}排行榜</div>
-    <div class="oneLabel" v-for="item in displayBills" :key="item.label+item.sum">
-      <router-link :to="`/statistics/${item.label}-${now.getTime().toString()}`">
+    <div class="oneLabel" v-for="item in displayBills" :key="item.tag+item.sum">
+      <router-link :to="`/statistics/${item.tag}-${now.getTime().toString()}`">
         <div class="top">
           <div class="left">
-            <div class="label">{{item.label}}</div>
+            <div class="label">{{item.tag}}</div>
             <div class="percent">{{percent(item.sum, oneMonthSum[type])}}</div>
           </div>
           <div class="number">{{item.sum}}</div>
@@ -21,12 +21,17 @@ import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 @Component
 export default class BillList extends Vue {
-  @Prop() oneTagBills!: oneTagBills[];
+  @Prop() billsGroupByTag!: BillsGroupByTag;
   @Prop() oneMonthSum!: MonthSum;
   @Prop() type!: "expend" | "income";
   @Prop() now!: Date;
   get displayBills() {
-    return this.oneTagBills.filter(el => el.type === this.type);
+    let bills = [];
+    for (let i of Object.values(this.billsGroupByTag)) {
+      if (i.type === this.type) bills.push(i);
+    }
+    bills.sort((a, b) => b.sum - a.sum);
+    return bills;
   }
   percent(a: number, b: number) {
     return ((100 * a) / b).toFixed(2) + "%";

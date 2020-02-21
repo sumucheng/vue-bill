@@ -19,14 +19,19 @@ interface MonthSum {
     averageExpend: number;
     averageIncome: number;
 }
-interface oneDayBills {
-    date: { day: number, week: number, month: number, year: number },
-    sum: { expend: number, income: number }
-    data: Bill[]
+interface BillsGroupByDay {
+    [key: string]: {
+        data: Bill[],
+        date: { day: number, week: number, month: number, year: number },
+        sum: { expend: number, income: number }
+    }
+}
+interface BillsGroupByTag {
+    [key: string]: oneTagBills
 }
 interface oneTagBills {
     type: string,
-    label: string,
+    tag: string,
     sum: number,
     data: Bill[]
 }

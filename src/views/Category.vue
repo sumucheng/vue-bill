@@ -1,8 +1,8 @@
 <template>
   <div class="category">
     <SwitchType :text="switchText" :selected.sync="syncedType" />
-    <Chart :oneDayBills="oneDayBills" :type="type" />
-    <List :oneTagBills="oneTagBills" :oneMonthSum="oneMonthSum" :type="type" :now="now" />
+    <Chart :billsGroupByDay="billsGroupByDay" :type="type" />
+    <List :billsGroupByTag="billsGroupByTag" :oneMonthSum="oneMonthSum" :type="type" :now="now" />
   </div>
 </template>
  
@@ -23,17 +23,17 @@ export default class Statistics extends Vue {
     { en: "income", zh: "收" },
     { en: "expend", zh: "支" }
   ];
-  get oneTagBills() {
-    return this.$store.getters.OneTagBills(this.now);
+  get billsGroupByTag() {
+    return this.$store.getters.getBillsByTag(this.now);
   }
-  get oneDayBills() {
-    return this.$store.getters.oneDayBills(this.now);
+  get billsGroupByDay() {
+    return this.$store.getters.getBillsByDay(this.now);
   }
   get oneMonthSum() {
     return this.$store.getters.oneMonthSum(this.now);
   }
-  created(){
-    this.$store.commit('fetch')
+  created() {
+    this.$store.commit("fetch");
   }
 }
 </script>
