@@ -10,9 +10,8 @@ interface Bill {
     count: number;
     time: number;
 }
-interface MonthSum {
-    year: number;
-    month: number;
+interface MonthStats {
+    date: Date;
     expend: number;
     income: number;
     rest: number;

@@ -7,7 +7,7 @@
         <Year :now.sync="now" />
         <Title :headerTitle="headerTitle" />
       </div>
-      <MonthList :now="now" />
+      <MonthList :msList="msList" />
     </div>
   </div>
 </template>
@@ -25,18 +25,14 @@ import { Component, Prop, Watch, PropSync } from "vue-property-decorator";
 })
 export default class Annual extends Vue {
   now = new Date();
+  get yearStats() {
+    return this.$store.getters.getYearStats(this.now);
+  }
+  get msList() {
+    return this.yearStats.msList;
+  }
   get headerTitle() {
-    let yearData = {
-      expend: 0,
-      income: 0,
-      rest: 0
-    };
-    const monthSum = this.$store.getters.getMonthSumByYear(this.now);
-    for (let i of monthSum) {
-      yearData.expend += i.expend;
-      yearData.income += i.income;
-      yearData.rest += i.rest;
-    }
+    const yearData = this.yearStats.yearData;
     return [
       { text: "支出", count: yearData.expend },
       { text: "收入", count: yearData.income },

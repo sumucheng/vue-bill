@@ -6,7 +6,7 @@
         <div class="top">
           <div class="left">
             <div class="label">{{item.tag}}</div>
-            <div class="percent">{{percent(item.sum, oneMonthSum[type])}}</div>
+            <div class="percent">{{percent(item.sum, oneMonthStats[type])}}</div>
           </div>
           <div class="number">{{item.sum}}</div>
         </div>
@@ -22,7 +22,7 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 @Component
 export default class BillList extends Vue {
   @Prop() billsGroupByTag!: BillsGroupByTag;
-  @Prop() oneMonthSum!: MonthSum;
+  @Prop() oneMonthStats!: MonthStats;
   @Prop() type!: "expend" | "income";
   @Prop() now!: Date;
   get displayBills() {

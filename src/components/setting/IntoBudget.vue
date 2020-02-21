@@ -29,15 +29,14 @@ import { Component, Prop, Watch, PropSync } from "vue-property-decorator";
 })
 export default class TotalBill extends Vue {
   now = new Date();
-  monthSum = this.$store.getters.oneMonthSum(this.now);
+  monthStats = this.$store.getters.getMonthStats(this.now);
   get lists() {
     const budget = this.$store.state.budget;
-    const expend = this.monthSum ? this.monthSum.expend : 0;
-    const rest = budget - expend > 0 ? budget - expend : 0;
+    const expend = this.monthStats.expend || 0;
     return [
       { text: "总预算", count: budget },
       { text: "本月支出", count: expend },
-      { text: "剩余预算", count: rest }
+      { text: "剩余预算", count: budget - expend > 0 ? budget - expend : 0 }
     ];
   }
   created() {

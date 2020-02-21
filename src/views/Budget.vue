@@ -43,12 +43,12 @@ export default class Budget extends mixins(BillCommon) {
   yy = this.now.getFullYear();
   mm = this.now.getMonth();
   endDate = this.dayOfMonth(this.yy, this.mm);
-  monthSum = this.$store.getters.oneMonthSum(this.now);
+  monthStats = this.$store.getters.getMonthStats(this.now);
   get budget() {
     return this.$store.state.budget;
   }
   get expend() {
-    return this.monthSum ? this.monthSum.expend : 0;
+    return this.monthStats.expend || 0;
   }
   get rest() {
     return this.budget - this.expend > 0 ? this.budget - this.expend : 0;

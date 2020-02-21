@@ -8,16 +8,6 @@ const store = new Vuex.Store({
     tags: [] as Tag[],
     budget: 0,
     bills: [] as Bill[],
-    monthSum: [] as MonthSum[],
-    initOneMonthSum: {
-      year: new Date().getFullYear(),
-      month: new Date().getMonth(),
-      income: 0,
-      expend: 0,
-      rest: 0,
-      averageExpend: 0,
-      averageIncome: 0
-    },
     initTags: [
       { type: "expend", name: "一般" },
       { type: "expend", name: "餐饮" },
@@ -48,14 +38,36 @@ const store = new Vuex.Store({
     findBill: (state) => (id: number) => {
       return state.bills.find(bill => bill.id === id)
     },
-    oneMonthSum: (state) => (now: Date) => {
-      return state.monthSum.find(i => i.year === now.getFullYear() && i.month === now.getMonth())
-    },
-    getMonthSumByYear: (state) => (now: Date) => {
-      return state.monthSum.filter(i => i.year === now.getFullYear())
-    },
     oneMonthBills: (state) => (now: Date) => {
       return state.bills.filter(bill => dayjs(now).isSame(bill.time, 'month'))
+    },
+    getYearStats: (state, getters) => (now: Date) => {
+      const msList: MonthStats[] = []
+      let yearData = { expend: 0, income: 0, rest: 0 };
+      let date = dayjs(now).startOf('year')
+      for (let i = 0; i < 12; i++) {
+        const ms = getters.getMonthStats(date)
+        if(ms.expend>0 ||ms.income>0){  
+          msList.push(ms)
+          yearData.expend += ms.expend
+          yearData.income += ms.income}
+        date = date.add(1, 'month')
+      }
+      yearData.rest = yearData.income - yearData.expend
+      return { yearData, msList }
+    },
+    getMonthStats: (state, getters) => (now: Date) => {
+      const ms :MonthStats= { date:now, expend: 0, income: 0, rest: 0, averageExpend: 0, averageIncome: 0 }
+      const oneMonthBills = getters.oneMonthBills(now)
+      for (let bill of oneMonthBills) {
+        const type = bill.type as 'income' | 'expend'
+        ms[type] = getters.fixTwo(ms[type] + bill.count)
+      }
+      ms.rest = getters.fixTwo(ms.income - ms.expend)
+      const days = dayjs(now).endOf('month').date()
+      ms.averageExpend = getters.fixTwo(ms.expend / days)
+      ms.averageIncome = getters.fixTwo(ms.income / days)
+      return ms
     },
     getBillsByTag: (state, getters) => (now: Date) => {
       const bills: BillsGroupByTag = {}
@@ -88,8 +100,7 @@ const store = new Vuex.Store({
       if (state.tags.length === 0) state.tags = JSON.parse(JSON.stringify(state.initTags))
       state.budget = JSON.parse(window.localStorage.getItem("budget") || "0")
       state.bills = JSON.parse(window.localStorage.getItem("billList") || "[]")
-      state.monthSum = JSON.parse(window.localStorage.getItem("monthSum") || "[]")
-      if (state.monthSum.length === 0) state.monthSum = [JSON.parse(JSON.stringify(state.initOneMonthSum))]
+      state.bills.sort((a, b) => b.time - a.time)
     },
     saveTags(state) {
       window.localStorage.setItem("tags", JSON.stringify(state.tags));
@@ -126,45 +137,19 @@ const store = new Vuex.Store({
     createBill(state, newBill: Bill) {
       const bill = JSON.parse(JSON.stringify(newBill));
       state.bills.unshift(bill);
-      store.commit("updateMonthSum", bill)
       store.commit('saveBills')
     },
     saveBills(state) {
       window.localStorage.setItem("billList", JSON.stringify(state.bills));
-      window.localStorage.setItem("monthSum", JSON.stringify(state.monthSum));
     },
     deleteBill(state, id: number) {
       const index = state.bills.findIndex(i => i.id === id);
-      const bill = state.bills[index]
       state.bills.splice(index, 1);
-      store.commit("updateMonthSum", bill)
       store.commit('saveBills')
     },
     editBill(state, bill: Bill) {
-      bill && store.commit("updateMonthSum", bill)
       store.commit('saveBills')
     },
-    updateMonthSum(state, bill: Bill) {
-      const billTime = dayjs(bill.time)
-      const oneMonthBills = store.getters.oneMonthBills(billTime)
-      let ms = state.monthSum.find(i => dayjs(new Date(i.year, i.month)).isSame(billTime, 'month')) as MonthSum
-      if (!ms) {
-        ms = JSON.parse(JSON.stringify(state.initOneMonthSum))
-        ms.year = billTime.year()
-        ms.year = billTime.month()
-        state.monthSum = [...state.monthSum, ms]
-      }
-      ms.expend = 0
-      ms.income = 0
-      for (let bill of oneMonthBills) {
-        const type = bill.type as 'income' | 'expend'
-        ms[type] = store.getters.fixTwo(ms[type] + bill.count)
-      }
-      ms.rest = store.getters.fixTwo(ms.income - ms.expend)
-      const days = store.getters.dayOfMonth(ms.year, ms.month)
-      ms.averageExpend = store.getters.fixTwo(ms.expend / days)
-      ms.averageIncome = store.getters.fixTwo(ms.income / days)
-    }
   },
   actions: {
   },

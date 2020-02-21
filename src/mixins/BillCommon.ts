@@ -6,21 +6,16 @@ export default class BillCommon extends Vue {
     fixTwo(n: number) {
         return Number(n.toFixed(2))
     }
+    createId() {
+        let id = Number(window.localStorage.getItem("billId") || '0') || 0
+        id += 1
+        window.localStorage.setItem('billId', id.toString())
+        return id
+    }
     dayOfMonth(year: number, month: number) {
         return new Date(year, month + 1, 0).getDate()
     }
-    initMonthSum(year?: number, month?: number) {
-        return {
-            year: year ? year : new Date().getFullYear(),
-            month: month ? month : new Date().getMonth(),
-            income: 0,
-            expend: 0,
-            rest: 0,
-            averageExpend: 0,
-            averageIncome: 0
-        }
-    }
-    getHeaderTitle(oneMonthSum: MonthSum | undefined, selected: string, type: string) {
+    getHeaderTitle(oneMonthSum: MonthStats, selected: string, type: string) {
         if (selected === 'detail') {
             const e = oneMonthSum ? oneMonthSum.expend : 0;
             const i = oneMonthSum ? oneMonthSum.income : 0;

@@ -6,7 +6,7 @@
         <Icon name="right" />
       </div>
       <div class="content">
-        <div class="item month">{{monthText}}月</div>
+        <div class="item month">{{monthText}}</div>
         <div class="dotLine"></div>
         <div class="item" v-for="title in headerTitle" :key="title.text">
           <div class="text">{{title.text}}</div>
@@ -18,6 +18,7 @@
 </template>
 
 <script lang="ts">
+import dayjs from "dayjs";
 import Vue from "vue";
 import { Component, Prop, Watch, PropSync } from "vue-property-decorator";
 
@@ -26,16 +27,13 @@ import { Component, Prop, Watch, PropSync } from "vue-property-decorator";
 })
 export default class Into extends Vue {
   now = new Date();
-  monthSum = this.$store.getters.oneMonthSum(this.now);
+  monthStats = this.$store.getters.getMonthStats(this.now);
   headerTitle = [
-    { text: "支出", count: this.monthSum ? this.monthSum.expend : 0 },
-    { text: "收入", count: this.monthSum ? this.monthSum.income : 0 },
-    { text: "结余", count: this.monthSum ? this.monthSum.rest : 0 }
+    { text: "支出", count: this.monthStats.expend || 0 },
+    { text: "收入", count: this.monthStats.income || 0 },
+    { text: "结余", count: this.monthStats.rest || 0 }
   ];
-  monthText =
-    this.now.getMonth() < 9
-      ? "0" + (this.now.getMonth() + 1)
-      : this.now.getMonth() + 1;
+  monthText = dayjs(this.monthStats.date).format("MM月");
 }
 </script>
 

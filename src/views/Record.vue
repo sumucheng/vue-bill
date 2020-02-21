@@ -21,13 +21,15 @@ import Back from "@/components/common/Back.vue";
 
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
+import { mixins } from "vue-class-component";
+import BillCommon from "../mixins/BillCommon";
 
 @Component({
   components: { Tags, Notes, Computer, Back, Tabs }
 })
-export default class Record extends Vue {
+export default class Record extends mixins(BillCommon) {
   newBill = {
-    id: this.$store.state.bills[0] ? this.$store.state.bills[0].id + 1 : 0,
+    id: this.createId(),
     type: "expend",
     tag: "一般",
     note: "",
@@ -54,10 +56,12 @@ export default class Record extends Vue {
     this.$store.commit("createTag", { type: this.newBill.type, name: tagName });
   }
   handleSubmit() {
-    this.newBill.time = Date.now();
     if (this.$store.getters.findBill(this.newBill.id))
       this.$store.commit("editBill", this.newBill);
-    else this.$store.commit("createBill", this.newBill);
+    else {
+      this.newBill.time = Date.now();
+      this.$store.commit("createBill", this.newBill);
+    }
     this.$router.back();
   }
   @Watch("newBill.type")

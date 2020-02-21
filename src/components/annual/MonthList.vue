@@ -6,8 +6,8 @@
       <div class="item">收入</div>
       <div class="item">结余</div>
     </div>
-    <div class="row" v-for="month in monthSum" :key="month.month">
-      <div class="month item">{{monthText(month.month)}}</div>
+    <div class="row" v-for="month in msList" :key="month.date.toString()">
+      <div class="month item">{{monthText(month.date)}}</div>
       <div class="item sum">{{month.expend}}</div>
       <div class="item sum">{{month.income}}</div>
       <div class="item sum">{{month.rest}}</div>
@@ -18,14 +18,12 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop, Watch, PropSync } from "vue-property-decorator";
+import dayjs from "dayjs";
 @Component
 export default class MonthList extends Vue {
-  @Prop({ default: new Date() }) now!: Date;
-  get monthSum() {
-    return this.$store.getters.getMonthSumByYear(this.now);
-  }
-  monthText(month: number) {
-    return (month < 9 ? "0" + (month + 1) : month + 1) + "月";
+  @Prop() msList!: MonthStats[];
+  monthText(date: Date) {
+    return dayjs(date).format("M月");
   }
 }
 </script>
@@ -38,6 +36,7 @@ export default class MonthList extends Vue {
   position: fixed;
   top: 205px;
   bottom: 0;
+  overflow: auto;
   .item {
     width: 28%;
     padding-left: 20px;
@@ -48,7 +47,7 @@ export default class MonthList extends Vue {
   .row {
     display: flex;
     background-color: white;
-    > .item {
+    .item {
       height: 50px;
       &.sum {
         font-size: $font-size-m;
@@ -61,7 +60,7 @@ export default class MonthList extends Vue {
   }
   .row.header {
     margin-top: 10px;
-    > .item {
+    .item {
       height: 35px;
       color: $grey;
       font-size: $font-size-s;

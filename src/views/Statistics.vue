@@ -40,11 +40,9 @@ export default class Statistics extends mixins(BillCommon) {
   created() {
     this.$store.commit("fetch");
   }
-  get oneMonthSum() {
-    return this.$store.getters.oneMonthSum(this.now);
-  }
   get headerTitle() {
-    return this.getHeaderTitle(this.oneMonthSum, this.selected, this.type);
+    const oneMonthStats=this.$store.getters.getMonthStats(this.now);
+    return this.getHeaderTitle(oneMonthStats, this.selected, this.type);
   }
   beforeRouteEnter(to: Route, from: Route, next: Function) {
     if (from.path.match("statistics/")) {

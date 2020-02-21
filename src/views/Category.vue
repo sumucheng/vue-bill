@@ -2,7 +2,12 @@
   <div class="category">
     <SwitchType :text="switchText" :selected.sync="syncedType" />
     <Chart :billsGroupByDay="billsGroupByDay" :type="type" />
-    <List :billsGroupByTag="billsGroupByTag" :oneMonthSum="oneMonthSum" :type="type" :now="now" />
+    <List
+      :billsGroupByTag="billsGroupByTag"
+      :oneMonthStats="oneMonthStats"
+      :type="type"
+      :now="now"
+    />
   </div>
 </template>
  
@@ -29,8 +34,8 @@ export default class Statistics extends Vue {
   get billsGroupByDay() {
     return this.$store.getters.getBillsByDay(this.now);
   }
-  get oneMonthSum() {
-    return this.$store.getters.oneMonthSum(this.now);
+  get oneMonthStats() {
+    return this.$store.getters.getMonthStats(this.now);
   }
   created() {
     this.$store.commit("fetch");
