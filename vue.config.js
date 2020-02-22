@@ -1,7 +1,7 @@
 const path = require('path')
 
 module.exports = {
-    publicPath: process.env.NODE_ENV === "production" ? "/vue-bill/dist/" : "/",
+    publicPath: process.env.NODE_ENV === "production" ? "/account-book/" : "/",
     lintOnSave: false,
     chainWebpack: config => {
         const dir = path.resolve(__dirname, 'src/assets/icons')
