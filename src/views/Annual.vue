@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img src="@/assets/background.png" class="background" />
+    <Background />
     <Back titleText="年账单" color="white" />
     <div class="annual">
       <div class="header">
@@ -17,11 +17,13 @@ import Back from "@/components/common/Back.vue";
 import Year from "@/components/annual/Year.vue";
 import Title from "@/components/annual/Title.vue";
 import MonthList from "@/components/annual/MonthList.vue";
+import Background from "@/components/common/Background.vue";
+
 import Vue from "vue";
 import { Component, Prop, Watch, PropSync } from "vue-property-decorator";
 
 @Component({
-  components: { Back, MonthList, Title, Year }
+  components: { Back, MonthList, Title, Year, Background }
 })
 export default class Annual extends Vue {
   now = new Date();
@@ -47,12 +49,7 @@ export default class Annual extends Vue {
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
-.background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 205px;
-}
+
 .annual {
   position: fixed;
   top: 98px;

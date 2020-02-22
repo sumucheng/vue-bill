@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img src="@/assets/background.png" class="background" />
+    <Background />
     <div class="type">
       <div class="wrapper" :class="{active:type==='expend'}" @click="$emit('update:type','expend')">
         <a>支出</a>
@@ -15,10 +15,13 @@
 </template>
 
 <script lang="ts">
+import Background from "@/components/common/Background.vue";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 
-@Component
+@Component({
+  components: { Background }
+})
 export default class Header extends Vue {
   @Prop(String) type: string | undefined;
 }
@@ -26,12 +29,6 @@ export default class Header extends Vue {
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
-.background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-}
 .type {
   position: absolute;
   display: flex;

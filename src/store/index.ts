@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex, { mapState } from 'vuex'
 import dayjs from 'dayjs'
+import TagCommon from '@/mixins/TagCommon'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -8,18 +9,6 @@ const store = new Vuex.Store({
     tags: [] as Tag[],
     budget: 0,
     bills: [] as Bill[],
-    initTags: [
-      { type: "expend", name: "一般" },
-      { type: "expend", name: "餐饮" },
-      { type: "expend", name: "娱乐" },
-      { type: "expend", name: "服饰" },
-      { type: "expend", name: "交通" },
-      { type: "expend", name: "通讯" },
-      { type: "income", name: "工资" },
-      { type: "income", name: "理财" },
-      { type: "income", name: "礼金" },
-      { type: "income", name: "其他" }
-    ]
   },
   getters: {
     fixTwo: (state) => (n: number) => {
@@ -96,11 +85,21 @@ const store = new Vuex.Store({
   },
   mutations: {
     fetch(state) {
-      state.tags = JSON.parse(window.localStorage.getItem("tags") || "[]")
-      if (state.tags.length === 0) state.tags = JSON.parse(JSON.stringify(state.initTags))
       state.budget = JSON.parse(window.localStorage.getItem("budget") || "0")
       state.bills = JSON.parse(window.localStorage.getItem("billList") || "[]")
       state.bills.sort((a, b) => b.time - a.time)
+      state.tags = JSON.parse(window.localStorage.getItem("tags") || "[]")
+      if (state.tags.length === 0) state.tags =  [
+        { type: "expend", name: "一般" },
+        { type: "expend", name: "餐饮" },
+        { type: "expend", name: "娱乐" },
+        { type: "expend", name: "服饰" },
+        { type: "expend", name: "交通" },
+        { type: "income", name: "工资" },
+        { type: "income", name: "理财" },
+        { type: "income", name: "礼金" },
+        { type: "income", name: "其他" }
+      ]
     },
     saveTags(state) {
       window.localStorage.setItem("tags", JSON.stringify(state.tags));
@@ -135,8 +134,7 @@ const store = new Vuex.Store({
       store.commit("saveBudget")
     },
     createBill(state, newBill: Bill) {
-      const bill = JSON.parse(JSON.stringify(newBill));
-      state.bills.unshift(bill);
+      state.bills.unshift(JSON.parse(JSON.stringify(newBill)));
       store.commit('saveBills')
     },
     saveBills(state) {
@@ -147,14 +145,12 @@ const store = new Vuex.Store({
       state.bills.splice(index, 1);
       store.commit('saveBills')
     },
-    editBill(state, bill: Bill) {
+    editBill(state) {
       store.commit('saveBills')
     },
   },
-  actions: {
-  },
-  modules: {
-  }
+  actions: {},
+  modules: {}
 })
 
 export default store

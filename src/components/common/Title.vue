@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img src="@/assets/background.png" class="background" />
+    <Background />
     <div class="title">
       <div class="wrapper yearAndMonth">
         <div class="year text">{{dateText.year}}年</div>
@@ -24,7 +24,11 @@ import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import dayjs from "dayjs";
 
-@Component
+import Background from "@/components/common/Background.vue";
+
+@Component({
+  components: { Background }
+})
 export default class Header extends Vue {
   @Prop() now!: Date;
   @Prop() headerTitle!: { text: string; count: number }[];
@@ -45,12 +49,7 @@ export default class Header extends Vue {
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
-.background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-}
+
 .title {
   position: absolute;
   display: flex;
