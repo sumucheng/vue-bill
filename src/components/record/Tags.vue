@@ -21,9 +21,9 @@ export default class Tags extends Vue {
   }
   addTag() {
     const name = window.prompt("请输入标签名称（不超过四个字）");
-    if (name && name != "") {
-      this.$emit("newTag", name.substr(0, 4));
-      this.$emit("update:tag", name.substr(0, 4));
+    if (name && name.trim() !== "") {
+      this.$emit("newTag", name.trim().substr(0, 4));
+      this.$emit("update:tag", name.trim().substr(0, 4));
     }
   }
 }

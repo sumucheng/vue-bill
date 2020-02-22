@@ -68,9 +68,6 @@ export default class Record extends mixins(BillCommon) {
   onTypeChange() {
     this.newBill.tag = this.newBill.type === "expend" ? "一般" : "工资";
   }
-  back() {
-    this.$router.back();
-  }
 }
 </script>  
 

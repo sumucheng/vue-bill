@@ -1,6 +1,6 @@
 <template>
   <div class="back">
-    <div class="link" @click="back">
+    <div class="link" @click="$router.back()">
       <Icon :name="`left-${color}`" />
       <div class="text" :class="color">返回</div>
     </div>
@@ -16,9 +16,6 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 export default class Back extends Vue {
   @Prop({ default: "" }) titleText!: String;
   @Prop({ default: "orange" }) color!: String;
-  back() {
-    this.$router.back();
-  }
 }
 </script>
 

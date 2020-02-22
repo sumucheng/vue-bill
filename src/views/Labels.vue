@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="link" @click="back">
+    <div class="link" @click="$router.back()">
       <Icon name="left-white" />
     </div>
     <Header :type.sync="type" />
     <div class="panel">
       <div class="labels">
-        <Label v-for="label in displayTags" :key="label.name" :tagName="label.name"></Label>
+        <Label v-for="tag in displayTags" :key="tag.name" :tagName="tag.name"></Label>
       </div>
       <div class="add">
         <Button text="新建标签" type="primary" @click.native="addTag(type)"></Button>
@@ -35,9 +35,6 @@ export default class Labels extends mixins(TagCommon) {
   }
   created() {
     this.$store.commit("fetch");
-  }
-  back() {
-    this.$router.back();
   }
 }
 </script>
