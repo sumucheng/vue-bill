@@ -28,15 +28,13 @@
 
 <script lang="ts">
 import BillCommon from "@/mixins/BillCommon";
-import Button from "@/components/labels/Button.vue";
-import Back from "@/components/common/Back.vue";
 import Lists from "@/components/budget/Lists.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import { mixins } from "vue-class-component";
 
 @Component({
-  components: { Button, Back, Lists }
+  components: {  Lists }
 })
 export default class Budget extends mixins(BillCommon) {
   now = new Date();

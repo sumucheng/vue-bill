@@ -24,9 +24,7 @@
 import Vue from "vue";
 import { Component, Prop, Watch, PropSync } from "vue-property-decorator";
 
-@Component({
-  components: {}
-})
+@Component
 export default class TotalBill extends Vue {
   now = new Date();
   monthStats = this.$store.getters.getMonthStats(this.now);

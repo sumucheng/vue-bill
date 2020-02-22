@@ -4,12 +4,13 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import Icon from '@/components/common/Icon.vue'
-import Layout from '@/components/common/Layout.vue'
-
+import Back from "@/components/common/Back.vue";
+import Button from '@/components/common/Button.vue'
 Vue.config.productionTip = false
 
-Vue.component('Layout', Layout)
 Vue.component('Icon', Icon)
+Vue.component('Back', Back)
+Vue.component('Button', Button)
 
 new Vue({
   router,

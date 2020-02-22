@@ -15,6 +15,7 @@ import Title from "@/components/common/Title.vue";
 import Tabs from "@/components/common/Tabs.vue";
 import Category from "./Category.vue";
 import Detail from "./Detail.vue";
+import Layout from "@/components/common/Layout.vue";
 
 import Vue from "vue";
 import { Component, Prop, Watch, PropSync } from "vue-property-decorator";
@@ -27,7 +28,7 @@ Component.registerHooks([
 ]);
 
 @Component({
-  components: { Category, Detail, Title, Tabs }
+  components: { Category, Detail, Title, Tabs, Layout }
 })
 export default class Statistics extends mixins(BillCommon) {
   now: Date = new Date();
@@ -41,7 +42,7 @@ export default class Statistics extends mixins(BillCommon) {
     this.$store.commit("fetch");
   }
   get headerTitle() {
-    const oneMonthStats=this.$store.getters.getMonthStats(this.now);
+    const oneMonthStats = this.$store.getters.getMonthStats(this.now);
     return this.getHeaderTitle(oneMonthStats, this.selected, this.type);
   }
   beforeRouteEnter(to: Route, from: Route, next: Function) {

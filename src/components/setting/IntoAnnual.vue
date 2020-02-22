@@ -22,9 +22,7 @@ import dayjs from "dayjs";
 import Vue from "vue";
 import { Component, Prop, Watch, PropSync } from "vue-property-decorator";
 
-@Component({
-  components: {}
-})
+@Component
 export default class Into extends Vue {
   now = new Date();
   monthStats = this.$store.getters.getMonthStats(this.now);

@@ -8,15 +8,12 @@
 </template>
 
 <script lang="ts">
-import Button from "@/components/labels/Button.vue";
-import Back from "@/components/common/Back.vue";
 import Computer from "@/components/record/Computer.vue";
-
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 
 @Component({
-  components: { Button, Back, Computer }
+  components: { Computer }
 })
 export default class Budget extends Vue {
   count = this.$store.state.budget.sum > 0 ? this.$store.state.budget.sum : 0;

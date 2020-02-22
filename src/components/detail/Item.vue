@@ -6,15 +6,10 @@
 </template>
 
 <script lang="ts">
-import Button from "@/components/labels/Button.vue";
-import Back from "@/components/common/Back.vue";
-
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 
-@Component({
-  components: { Button, Back }
-})
+@Component
 export default class Item extends Vue {
   @Prop() text!: string;
   @Prop() content!: string;

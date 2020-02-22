@@ -8,12 +8,9 @@
 </template>
 
 <script lang="ts">
-import Button from "@/components/labels/Button.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
-@Component({
-  components: { Button }
-})
+@Component
 export default class NotFount extends Vue {}
 </script>
 

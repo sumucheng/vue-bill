@@ -17,7 +17,6 @@ import Tags from "@/components/record/Tags.vue";
 import Notes from "@/components/record/Notes.vue";
 import Computer from "@/components/record/Computer.vue";
 import Tabs from "@/components/common/Tabs.vue";
-import Back from "@/components/common/Back.vue";
 
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
@@ -25,7 +24,7 @@ import { mixins } from "vue-class-component";
 import BillCommon from "../mixins/BillCommon";
 
 @Component({
-  components: { Tags, Notes, Computer, Back, Tabs }
+  components: { Tags, Notes, Computer, Tabs }
 })
 export default class Record extends mixins(BillCommon) {
   newBill = {

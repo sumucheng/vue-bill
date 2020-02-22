@@ -12,11 +12,12 @@
 <script lang="ts">
 import IntoAnnual from "@/components/setting/IntoAnnual.vue";
 import IntoBudget from "@/components/setting/IntoBudget.vue";
+import Layout from '@/components/common/Layout.vue'
 import Vue from "vue";
 import { Component, Prop, Watch, PropSync } from "vue-property-decorator";
 
 @Component({
-  components: { IntoAnnual, IntoBudget }
+  components: { IntoAnnual, IntoBudget,Layout }
 })
 export default class Setting extends Vue {}
 </script>

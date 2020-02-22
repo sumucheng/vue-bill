@@ -14,10 +14,7 @@
 </template>
 
 <script lang="ts">
-import Button from "@/components/labels/Button.vue";
 import Label from "@/components/labels/Label.vue";
-import Header from "@/components/common/Header.vue";
-import Back from "@/components/common/Back.vue";
 import Tabs from "@/components/common/Tabs.vue";
 import TagCommon from "@/mixins/TagCommon";
 import Vue from "vue";
@@ -25,7 +22,7 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 import { mixins } from "vue-class-component";
 
 @Component({
-  components: { Button, Label, Header, Back, Tabs }
+  components: { Label, Tabs }
 })
 export default class Labels extends mixins(TagCommon) {
   type = "expend";

@@ -8,13 +8,12 @@
 </template>
 
 <script lang="ts">
-import Header from "@/components/common/Header.vue";
 import Title from "@/components/common/Title.vue";
 import Nav from "@/components/common/Nav.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 @Component({
-  components: { Header, Nav, Title }
+  components: { Nav, Title }
 })
 export default class Layout extends Vue {
   @Prop({ default: true }) hasNav!: boolean;

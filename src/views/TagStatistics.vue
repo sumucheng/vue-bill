@@ -15,12 +15,11 @@
 <script lang="ts">
 import dayjs from "dayjs";
 import BillItem from "@/components/category/Bill.vue";
-import Back from "@/components/common/Back.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 
 @Component({
-  components: { BillItem, Back }
+  components: { BillItem }
 })
 export default class TagStatistics extends Vue {
   tag: Tag | undefined;
