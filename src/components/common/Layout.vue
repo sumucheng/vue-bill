@@ -3,20 +3,32 @@
     <div class="main">
       <slot />
     </div>
-    <Nav v-if="hasNav" />
+    <nav>
+      <router-link
+        v-for="link in links"
+        :key="link.name"
+        :to="`/${link.name}`"
+        class="routerLink"
+        :class="{selected:$route.path.match(link.name)}"
+      >
+        <Icon v-if="$route.path.match(link.name)" :name="`${link.name}-selected`" />
+        <Icon v-else :name="link.name" :class="link.name" />
+        <p>{{link.text}}</p>
+      </router-link>
+    </nav>
   </div>
 </template>
 
 <script lang="ts">
-import Title from "@/components/common/Title.vue";
-import Nav from "@/components/common/Nav.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
-@Component({
-  components: { Nav, Title }
-})
+@Component
 export default class Layout extends Vue {
-  @Prop({ default: true }) hasNav!: boolean;
+  links = [
+    { name: "statistics", text: "统计" },
+    { name: "record", text: "" },
+    { name: "setting", text: "设置" }
+  ];
 }
 </script>
 
@@ -24,8 +36,6 @@ export default class Layout extends Vue {
 @import "~@/assets/style/normal.scss";
 
 .wrapper {
-  display: flex;
-  flex-direction: column;
   height: 100vh;
   .main {
     position: fixed;
@@ -34,6 +44,41 @@ export default class Layout extends Vue {
     bottom: 81px;
     background-color: $light-grey;
     width: 100%;
+  }
+  nav {
+    border-top: 1px solid $border-grey;
+    padding-top: 8px;
+    padding-bottom: 20px;
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    z-index: 5;
+    width: 100%;
+    > .routerLink {
+      width: 33.33333%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      > .icon {
+        width: 32px;
+        height: 32px;
+        margin-bottom: 3px;
+      }
+      > .record {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        top: -10px;
+      }
+      > p {
+        color: $grey;
+        margin: 0;
+      }
+      &.selected > p {
+        color: $blue;
+      }
+    }
   }
 }
 </style>
