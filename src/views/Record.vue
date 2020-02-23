@@ -41,6 +41,7 @@ export default class Record extends mixins(BillCommon) {
     return this.$store.getters.filterTags(this.newBill.type);
   }
   created() {
+    this.$store.commit("fecth");
     const id = this.$route.params.id;
     if (id) {
       const bill = this.$store.getters.findBill(Number(id));
@@ -70,10 +71,11 @@ export default class Record extends mixins(BillCommon) {
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
 .tagsAndNotes {
-  margin: 20px;
+  padding: 13px;
   display: flex;
   flex-direction: column;
   position: absolute;
+  width: 100%;
   top: 40px;
   bottom: 367px;
 }

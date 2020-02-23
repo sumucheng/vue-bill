@@ -24,7 +24,7 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 @Component({
   components: { BillItem, Time, Sum, NoData }
 })
-export default class Statistics extends Vue {
+export default class Detail extends Vue {
   @Prop() now!: Date;
   get billsGroupByDay() {
     return this.$store.getters.getBillsByDay(this.now);
@@ -34,15 +34,14 @@ export default class Statistics extends Vue {
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
-
 .billList {
-  max-height: 100%;
+  position: absolute;
+  top: 41px;
+  bottom: 0;
   overflow: auto;
+  width: 100%;
   .oneDay {
-    margin-top: 10px;
-    &:last-child {
-      padding-bottom: 40px;
-    }
+    margin: 10px 0;
     .timeAndSum {
       margin: 5px 20px;
       display: flex;

@@ -125,27 +125,4 @@ export default class Computer extends Vue {
     }
   }
 }
-@media (max-height: 735px) {
-  .computer {
-    > .display {
-      height: 60px;
-    }
-    > .board > .board-row > button {
-      height: 40px;
-    }
-  }
-}
-@media (min-width: 500px) {
-  .computer {
-    > .display {
-      height: 120px;
-    }
-    > .board > .board-row {
-      margin-top: 20px;
-      > button {
-        height: 80px;
-      }
-    }
-  }
-}
 </style>

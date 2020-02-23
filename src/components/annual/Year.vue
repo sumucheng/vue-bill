@@ -35,7 +35,7 @@ export default class Year extends Vue {
   justify-content: center;
   align-items: center;
   .line {
-    width: 130px;
+    width: 35%;
     border-bottom: 1px dotted rgba($color: white, $alpha: 0.6);
   }
   .icon {

@@ -6,7 +6,6 @@
 
 <script lang="ts">
 import Computer from "@/components/record/Computer.vue";
-
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 
@@ -24,19 +23,4 @@ export default class Budget extends Vue {
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
-.budget {
-  .main {
-    position: fixed;
-    top: 88px;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-
-    .line {
-      height: 10px;
-      width: 100vw;
-      background-color: $light-grey;
-    }
-  }
-}
 </style>

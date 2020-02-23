@@ -22,8 +22,9 @@ export default class Notes extends Vue {
 @import "~@/assets/style/normal.scss";
 .note {
   position: absolute;
-  bottom: 0;
-  width: 100%;
+  bottom: 15px;
+  right: 20px;
+  left: 20px;
   > input {
     width: 100%;
     height: 50px;

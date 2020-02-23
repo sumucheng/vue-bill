@@ -24,7 +24,7 @@ export default class EditLabel extends Vue {
     else this.$router.replace("/404");
   }
   editLabel() {
-    if (this.newName && this.newName !== "") {
+    if (this.newName && this.newName.trim() !== "") {
       if (this.tag!.name === this.newName) this.$router.back();
       else if (this.$store.getters.findTag(this.newName))
         window.alert("标签名重复");
