@@ -1,13 +1,6 @@
 <template>
   <HeaderLayout titleText="详情">
-    <div class="detail">
-      <div class="title">
-        <div>{{bill.tag}}</div>
-        <div class="count">{{(bill.type==='expend'?'-':'+')+bill.count}}</div>
-      </div>
-      <Item text="时间" :content="getDate(bill.time)" />
-      <Item text="备注" :content="bill.note" />
-    </div>
+    <Card :bill="bill" />
     <div class="buttons">
       <router-link :to="`/record/${bill.id}`">
         <Button text="编 辑" type="primary" />
@@ -18,25 +11,20 @@
 </template>
 
 <script lang="ts">
-import BillCommon from "@/mixins/BillCommon";
-import Item from "@/components/detail/Item.vue";
+import Card from "@/components/billDetail/Card.vue";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
-import { mixins } from "vue-class-component";
 import dayjs from "dayjs";
 @Component({
-  components: { Item }
+  components: { Card }
 })
-export default class EditLabel extends mixins(BillCommon) {
+export default class BillDetail extends Vue {
   bill: Bill | undefined;
   id!: number;
   created() {
     this.id = Number(this.$route.params.id);
     this.bill = this.$store.getters.findBill(this.id);
     if (!this.bill) this.$router.replace("/404");
-  }
-  getDate(n: number) {
-    return dayjs(n).format("YYYY-MM-DD");
   }
   deleteBill() {
     this.$store.commit("deleteBill", this.id);
@@ -47,26 +35,6 @@ export default class EditLabel extends mixins(BillCommon) {
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
-
-.detail {
-  margin: 20px;
-  display: flex;
-  flex-direction: column;
-  border-radius: $border-radius-m;
-  background-color: $light-grey;
-  .title {
-    font-size: $font-size-l;
-    height: 55px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 25px;
-    font-weight: bold;
-    .count {
-      font-family: $font-number;
-    }
-  }
-}
 .buttons {
   margin: 20px;
   margin-top: 40px;

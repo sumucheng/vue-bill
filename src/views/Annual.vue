@@ -49,7 +49,6 @@ export default class Annual extends Vue {
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
-
 .annual {
   position: fixed;
   top: 58px;
