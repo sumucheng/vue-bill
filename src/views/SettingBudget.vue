@@ -1,14 +1,12 @@
 <template>
-  <div class="budget">
-    <Back titleText="设置预算" />
-    <div class="main">
-      <Computer :handleSubmit="handleSubmit" :count.sync="count" />
-    </div>
-  </div>
+  <HeaderLayout titleText="设置预算">
+    <Computer :handleSubmit="handleSubmit" :count.sync="count" />
+  </HeaderLayout>
 </template>
 
 <script lang="ts">
 import Computer from "@/components/record/Computer.vue";
+
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 

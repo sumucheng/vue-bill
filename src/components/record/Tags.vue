@@ -32,9 +32,9 @@ export default class Tags extends Vue {
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
 .tags {
-  margin: 15px;
   display: flex;
   align-content: flex-start;
+  max-height: 70%;
   flex-wrap: wrap;
   overflow: auto;
   flex-grow: 1;

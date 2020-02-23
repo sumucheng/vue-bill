@@ -34,7 +34,7 @@ export default class MonthList extends Vue {
   width: 100vw;
   background-color: $light-grey;
   position: fixed;
-  top: 205px;
+  top: 165px;
   bottom: 0;
   overflow: auto;
   .item {

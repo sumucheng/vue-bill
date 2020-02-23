@@ -1,7 +1,7 @@
 <template>
   <div>
     <Background />
-    <Back titleText="年账单" color="white" />
+    <Back titleText="年账单" color="white" opacity="opacity" />
     <div class="annual">
       <div class="header">
         <Year :now.sync="now" />
@@ -17,12 +17,13 @@ import Year from "@/components/annual/Year.vue";
 import Title from "@/components/annual/Title.vue";
 import MonthList from "@/components/annual/MonthList.vue";
 import Background from "@/components/common/Background.vue";
+import Back from "@/components/common/Back.vue";
 
 import Vue from "vue";
 import { Component, Prop, Watch, PropSync } from "vue-property-decorator";
 
 @Component({
-  components: {  MonthList, Title, Year, Background }
+  components: { MonthList, Title, Year, Background, Back }
 })
 export default class Annual extends Vue {
   now = new Date();
@@ -51,7 +52,7 @@ export default class Annual extends Vue {
 
 .annual {
   position: fixed;
-  top: 98px;
+  top: 58px;
   bottom: 0;
   width: 100%;
   .link {

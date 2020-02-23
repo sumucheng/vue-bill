@@ -1,15 +1,11 @@
 <template>
-  <div class="tagStatistics">
-    <Back :titleText="tag.name" />
-    <div class="main">
+  <HeaderLayout :titleText="tag.name">
+    <div class="bills">
+      <div class="yearAndMonth">{{yearAndMonth}}</div>
+      <BillItem v-for="bill in data" :key="bill.time" :bill="bill" />
       <div class="line"></div>
-      <div class="bills">
-        <div class="yearAndMonth">{{yearAndMonth}}</div>
-        <BillItem v-for="bill in data" :key="bill.time" :bill="bill" />
-        <div class="line"></div>
-      </div>
     </div>
-  </div>
+  </HeaderLayout>
 </template>
 
 <script lang="ts">
@@ -42,35 +38,16 @@ export default class TagStatistics extends Vue {
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
-.tagStatistics {
-  .main {
-    position: fixed;
-    top: 88px;
-    bottom: 0;
-    width: 100%;
-    overflow: auto;
-    background-color: $light-grey;
-    .line {
-      height: 10px;
-      width: 100vw;
-      background-color: $light-grey;
-    }
-    .bills {
-      background-color: white;
-      .yearAndMonth {
-        font-size: $font-size-m;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        padding-left: 25px;
-        font-family: $font-number;
-      }
-      .line {
-        height: 50px;
-        width: 100vw;
-        background-color: $light-grey;
-      }
-    }
+.bills {
+  background-color: white;
+  height: 100%;
+  .yearAndMonth {
+    font-size: $font-size-m;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding-left: 25px;
+    font-family: $font-number;
   }
 }
 </style>

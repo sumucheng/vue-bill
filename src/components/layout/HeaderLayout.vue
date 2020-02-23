@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <Back :titleText="titleText" />
+    <Back :titleText="titleText" :color="color" />
     <div class="main">
       <slot />
     </div>
@@ -10,9 +10,13 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
-@Component
-export default class NavLayout extends Vue {
-  @Prop({ default: "" }) titleText!: string;
+import Back from "@/components/common/Back.vue";
+@Component({
+  components: { Back }
+})
+export default class HeaderLayout extends Vue {
+  @Prop({ default: "" }) titleText!: String;
+  @Prop({ default: "orange" }) color!: String;
 }
 </script>
 

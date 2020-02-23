@@ -1,15 +1,12 @@
 <template>
-  <div class="record">
-    <Back color="orange" titleText="记一笔" />
-    <div class="panel">
-      <Tabs :selected.sync="newBill.type" :options="options" />
-      <div class="tagsAndNotes">
-        <Tags :tags.sync="displayTags" :tag.sync="newBill.tag" @newTag="addTag" />
-        <Notes v-model="newBill.note" />
-      </div>
-      <Computer :count.sync="newBill.count" :handleSubmit="handleSubmit" />
+  <HeaderLayout color="orange" titleText="记一笔">
+    <Tabs :selected.sync="newBill.type" :options="options" />
+    <div class="tagsAndNotes">
+      <Tags :tags.sync="displayTags" :tag.sync="newBill.tag" @newTag="addTag" />
+      <Notes v-model="newBill.note" />
     </div>
-  </div>
+    <Computer :count.sync="newBill.count" :handleSubmit="handleSubmit" />
+  </HeaderLayout>
 </template>
 
 <script lang="ts">
@@ -72,26 +69,12 @@ export default class Record extends mixins(BillCommon) {
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
-.record {
-  background-color: $light-grey;
-  height: 100vh;
-  .back {
-    background-color: white;
-  }
-  .panel {
-    position: fixed;
-    z-index: 2;
-    top: 98px;
-    bottom: 367px;
-    background-color: white;
-    width: 100%;
-    .tagsAndNotes {
-      display: flex;
-      flex-direction: column;
-      position: absolute;
-      top: 40px;
-      bottom: 0;
-    }
-  }
+.tagsAndNotes {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 40px;
+  bottom: 367px;
 }
 </style>

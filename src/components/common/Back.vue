@@ -1,5 +1,5 @@
 <template>
-  <div class="back">
+  <div class="back" :class="opacity">
     <div class="link" @click="$router.back()">
       <Icon :name="`left-${color}`" />
       <div class="text" :class="color">返回</div>
@@ -16,6 +16,7 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 export default class Back extends Vue {
   @Prop({ default: "" }) titleText!: String;
   @Prop({ default: "orange" }) color!: String;
+  @Prop({ default: "" }) opacity!: String;
 }
 </script>
 
@@ -26,6 +27,9 @@ export default class Back extends Vue {
   z-index: 20;
   position: fixed;
   background-color: white;
+  &.opacity {
+    background-color: rgba($color: white, $alpha: 0);
+  }
   .link {
     position: fixed;
     left: 20px;

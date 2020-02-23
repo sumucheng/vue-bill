@@ -1,24 +1,20 @@
 <template>
-  <div class="billDetail">
-    <Back titleText="详情" />
-    <div class="main">
-      <div class="line"></div>
-      <div class="detail">
-        <div class="title">
-          <div>{{bill.tag}}</div>
-          <div class="count">{{(bill.type==='expend'?'-':'+')+bill.count}}</div>
-        </div>
-        <Item text="时间" :content="getDate(bill.time)" />
-        <Item text="备注" :content="bill.note" />
+  <HeaderLayout titleText="详情">
+    <div class="detail">
+      <div class="title">
+        <div>{{bill.tag}}</div>
+        <div class="count">{{(bill.type==='expend'?'-':'+')+bill.count}}</div>
       </div>
-      <div class="buttons">
-        <router-link :to="`/record/${bill.id}`">
-          <Button text="编 辑" type="primary" />
-        </router-link>
-        <Button text="删 除" type="normal" @click.native="deleteBill" />
-      </div>
+      <Item text="时间" :content="getDate(bill.time)" />
+      <Item text="备注" :content="bill.note" />
     </div>
-  </div>
+    <div class="buttons">
+      <router-link :to="`/record/${bill.id}`">
+        <Button text="编 辑" type="primary" />
+      </router-link>
+      <Button text="删 除" type="normal" @click.native="deleteBill" />
+    </div>
+  </HeaderLayout>
 </template>
 
 <script lang="ts">
@@ -29,7 +25,7 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 import { mixins } from "vue-class-component";
 import dayjs from "dayjs";
 @Component({
-  components: {  Item }
+  components: { Item }
 })
 export default class EditLabel extends mixins(BillCommon) {
   bill: Bill | undefined;
@@ -51,42 +47,31 @@ export default class EditLabel extends mixins(BillCommon) {
 
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
-.billDetail {
-  .main {
-    position: fixed;
-    top: 88px;
-    width: 100vw;
-    .line {
-      height: 10px;
-      width: 100vw;
-      background-color: $light-grey;
+
+.detail {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  border-radius: $border-radius-m;
+  background-color: $light-grey;
+  .title {
+    font-size: $font-size-l;
+    height: 55px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 25px;
+    font-weight: bold;
+    .count {
+      font-family: $font-number;
     }
-    .detail {
-      margin: 20px;
-      display: flex;
-      flex-direction: column;
-      border-radius: $border-radius-m;
-      background-color: $light-grey;
-      .title {
-        font-size: $font-size-l;
-        height: 55px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 25px;
-        font-weight: bold;
-        .count {
-          font-family: $font-number;
-        }
-      }
-    }
-    .buttons {
-      margin: 20px;
-      margin-top: 40px;
-      button {
-        margin-bottom: 10px;
-      }
-    }
+  }
+}
+.buttons {
+  margin: 20px;
+  margin-top: 40px;
+  button {
+    margin-bottom: 10px;
   }
 }
 </style>

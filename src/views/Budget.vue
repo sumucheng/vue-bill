@@ -18,13 +18,13 @@
 import BillCommon from "@/mixins/BillCommon";
 import Lists from "@/components/budget/Lists.vue";
 import ProgressBar from "@/components/budget/ProgressBar.vue";
-import HeaderLayout from "@/components/layout/HeaderLayout.vue";
+
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import { mixins } from "vue-class-component";
 
 @Component({
-  components: { Lists, HeaderLayout, ProgressBar }
+  components: { Lists, ProgressBar }
 })
 export default class Budget extends mixins(BillCommon) {
   now = new Date();
