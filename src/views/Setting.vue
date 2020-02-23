@@ -17,7 +17,7 @@ import Vue from "vue";
 import { Component, Prop, Watch, PropSync } from "vue-property-decorator";
 
 @Component({
-  components: { IntoAnnual, IntoBudget, Layout }
+  components: { IntoAnnual, IntoBudget, NavLayout }
 })
 export default class Setting extends Vue {}
 </script>

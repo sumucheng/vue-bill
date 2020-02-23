@@ -22,13 +22,12 @@ export default class Back extends Vue {
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
 .back {
-  padding-top: 44px;
-  height: 88px;
+  height: 44px;
   z-index: 20;
   position: fixed;
+  background-color: white;
   .link {
     position: fixed;
-    top: 44px;
     left: 20px;
     height: 44px;
     font-size: $font-size-m;

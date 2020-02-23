@@ -15,7 +15,7 @@ import Title from "@/components/common/Title.vue";
 import Tabs from "@/components/common/Tabs.vue";
 import Category from "./Category.vue";
 import Detail from "./Detail.vue";
-import NavLayout from "@/components/common/NavLayout.vue";
+import NavLayout from "@/components/layout/NavLayout.vue";
 
 import Vue from "vue";
 import { Component, Prop, Watch, PropSync } from "vue-property-decorator";
@@ -28,7 +28,7 @@ Component.registerHooks([
 ]);
 
 @Component({
-  components: { Category, Detail, Title, Tabs, Layout }
+  components: { Category, Detail, Title, Tabs, NavLayout }
 })
 export default class Statistics extends mixins(BillCommon) {
   now: Date = new Date();
