@@ -1,12 +1,12 @@
 <template>
-  <Layout>
+  <NavLayout>
     <Title :now.sync="now" :headerTitle="headerTitle" />
     <div class="panel">
       <Tabs :selected.sync="selected" :options="options" />
       <Detail v-if="selected==='detail'" :selected.sync="selected" :now="now" />
       <Category v-else :selected.sync="selected" :now="now" :type.sync="type" />
     </div>
-  </Layout>
+  </NavLayout>
 </template>
 
 <script lang="ts">
@@ -15,7 +15,7 @@ import Title from "@/components/common/Title.vue";
 import Tabs from "@/components/common/Tabs.vue";
 import Category from "./Category.vue";
 import Detail from "./Detail.vue";
-import Layout from "@/components/common/Layout.vue";
+import NavLayout from "@/components/common/NavLayout.vue";
 
 import Vue from "vue";
 import { Component, Prop, Watch, PropSync } from "vue-property-decorator";

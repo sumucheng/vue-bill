@@ -1,23 +1,23 @@
 <template>
-  <Layout>
+  <NavLayout>
     <IntoAnnual />
     <IntoBudget />
     <router-link to="/labels" class="tags">
       <div class="title">标签管理</div>
       <Icon name="right" />
     </router-link>
-  </Layout>
+  </NavLayout>
 </template>
 
 <script lang="ts">
 import IntoAnnual from "@/components/setting/IntoAnnual.vue";
 import IntoBudget from "@/components/setting/IntoBudget.vue";
-import Layout from '@/components/common/Layout.vue'
+import NavLayout from "@/components/layout/NavLayout.vue";
 import Vue from "vue";
 import { Component, Prop, Watch, PropSync } from "vue-property-decorator";
 
 @Component({
-  components: { IntoAnnual, IntoBudget,Layout }
+  components: { IntoAnnual, IntoBudget, Layout }
 })
 export default class Setting extends Vue {}
 </script>

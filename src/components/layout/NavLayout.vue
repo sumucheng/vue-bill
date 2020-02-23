@@ -23,7 +23,7 @@
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 @Component
-export default class Layout extends Vue {
+export default class NavLayout extends Vue {
   links = [
     { name: "statistics", text: "统计" },
     { name: "record", text: "" },
@@ -64,12 +64,12 @@ export default class Layout extends Vue {
         width: 32px;
         height: 32px;
         margin-bottom: 3px;
-      }
-      > .record {
-        position: absolute;
-        width: 80px;
-        height: 80px;
-        top: -10px;
+        &.record {
+          position: absolute;
+          width: 80px;
+          height: 80px;
+          top: -10px;
+        }
       }
       > p {
         color: $grey;
