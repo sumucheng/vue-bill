@@ -1,6 +1,6 @@
 <template>
   <div class="billList">
-    <NoData v-if="billsGroupByDay.length===0" />
+    <NoData v-if="Object.keys(billsGroupByDay).length===0" />
     <div v-else>
       <div v-for="bills in billsGroupByDay" :key="bills.data[0].time" class="oneDay">
         <div class="timeAndSum">
