@@ -52,8 +52,10 @@ export default class NavLayout extends Vue {
     display: flex;
     position: absolute;
     bottom: 0;
+    left: 0;
     z-index: 5;
     width: 100%;
+    height: 80px;
     > .routerLink {
       width: 33.33333%;
       display: flex;
