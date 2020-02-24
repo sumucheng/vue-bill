@@ -50,7 +50,7 @@ export default class NavLayout extends Vue {
     padding-top: 8px;
     padding-bottom: 20px;
     display: flex;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     z-index: 5;
