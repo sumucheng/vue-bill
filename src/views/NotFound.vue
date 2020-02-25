@@ -17,7 +17,7 @@ export default class NotFount extends Vue {}
 <style lang="scss" scoped>
 .panel {
   height: 80vh;
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

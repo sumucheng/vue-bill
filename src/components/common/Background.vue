@@ -17,4 +17,10 @@ export default class Background extends Vue {}
   left: 0;
   min-width: 100%;
 }
+@media (min-width: 500px) {
+  .background {
+    width: 500px;
+    min-width: 500px;
+  }
+}
 </style>

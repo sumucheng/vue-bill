@@ -23,6 +23,7 @@ export default class Back extends Vue {
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
 .back {
+  width: 100%;
   height: 44px;
   z-index: 20;
   position: fixed;
@@ -51,7 +52,7 @@ export default class Back extends Vue {
     }
   }
   .titleText {
-    width: 100vw;
+    width: 100%;
     font-size: $font-size-m;
     height: 44px;
     display: flex;
@@ -60,6 +61,11 @@ export default class Back extends Vue {
     &.white {
       color: white;
     }
+  }
+}
+@media (min-width: 500px) {
+  .back {
+    width: 500px;
   }
 }
 </style>

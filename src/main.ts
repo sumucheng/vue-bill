@@ -3,11 +3,12 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
+
+Vue.config.productionTip = false
+
 import Icon from '@/components/common/Icon.vue'
 import HeaderLayout from "@/components/layout/HeaderLayout.vue";
 import Button from '@/components/common/Button.vue'
-Vue.config.productionTip = false
-
 Vue.component('Icon', Icon)
 Vue.component('HeaderLayout', HeaderLayout)
 Vue.component('Button', Button)
@@ -21,7 +22,7 @@ window.onload = function () {
   var lastTouchEnd = 0;
   document.addEventListener('touchend', function (event) {
     var now = (new Date()).getTime();
-    if (now - lastTouchEnd <= 100) {
+    if (now - lastTouchEnd <= 200) {
       event.preventDefault();
     }
     lastTouchEnd = now;
@@ -30,7 +31,6 @@ window.onload = function () {
     event.preventDefault();
   });
 }
-
 
 new Vue({
   router,

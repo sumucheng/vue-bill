@@ -31,7 +31,7 @@ export default class MonthList extends Vue {
 <style lang="scss" scoped>
 @import "~@/assets/style/normal.scss";
 .monthList {
-  width: 100vw;
+  width: 100%;
   background-color: $light-grey;
   position: fixed;
   top: 165px;
@@ -65,6 +65,11 @@ export default class MonthList extends Vue {
       color: $grey;
       font-size: $font-size-s;
     }
+  }
+}
+@media (min-width: 500px) {
+  .monthList {
+    width: 500px;
   }
 }
 </style>

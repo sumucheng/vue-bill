@@ -4,13 +4,7 @@
       <slot />
     </div>
     <nav>
-      <router-link
-        v-for="link in links"
-        :key="link.name"
-        :to="`/${link.name}`"
-        class="routerLink"
-        :class="{selected:$route.path.match(link.name)}"
-      >
+      <router-link v-for="link in links" :key="link.name" :to="`/${link.name}`" class="routerLink">
         <Icon v-if="$route.path.match(link.name)" :name="`${link.name}-selected`" />
         <Icon v-else :name="link.name" :class="link.name" />
         <p>{{link.text}}</p>
@@ -77,9 +71,17 @@ export default class NavLayout extends Vue {
         color: $grey;
         margin: 0;
       }
-      &.selected > p {
+      &.router-link-active > p {
         color: $blue;
       }
+    }
+  }
+}
+@media (min-width: 500px) {
+  .wrapper {
+    nav,
+    .main {
+      width: 500px;
     }
   }
 }

@@ -125,4 +125,9 @@ export default class Computer extends Vue {
     }
   }
 }
+@media (min-width: 500px) {
+  .computer {
+    width: 500px;
+  }
+}
 </style>

@@ -22,4 +22,12 @@ export default class App extends Vue {}
   color: $black;
   font-size: $font-size-s;
 }
+@media (min-width: 500px) {
+  body {
+    #app {
+      box-shadow: 0 4px 8px 0 rgba(9, 17, 71, 0.3);
+      width: 500px;
+    }
+  }
+}
 </style>

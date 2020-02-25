@@ -67,4 +67,9 @@ export default class Annual extends Vue {
     color: white;
   }
 }
+@media (min-width: 500px) {
+  .annual {
+    width: 500px;
+  }
+}
 </style>

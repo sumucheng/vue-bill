@@ -65,4 +65,9 @@ export default class Statistics extends mixins(BillCommon) {
   border-top-left-radius: $border-radius-l;
   border-top-right-radius: $border-radius-l;
 }
+@media (min-width: 500px) {
+  .panel {
+    width: 500px;
+  }
+}
 </style>

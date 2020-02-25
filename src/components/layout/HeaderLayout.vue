@@ -33,7 +33,14 @@ export default class HeaderLayout extends Vue {
     z-index: 10;
     top: 54px;
     bottom: 0;
-    width: 100vw;
+    width: 100%;
+  }
+}
+@media (min-width: 500px) {
+  .wrapper {
+    .main {
+      width: 500px;
+    }
   }
 }
 </style>
